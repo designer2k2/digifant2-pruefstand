@@ -1,0 +1,23 @@
+# stock KiCad libraries — run ./fetch_libs.sh to populate
+/kicad-symbols/*
+!/kicad-symbols/Custom_Digifant2.kicad_sym
+!/kicad-symbols/MCU_RaspberryPi_and_Boards.kicad_sym
+/kicad-footprints/*
+!/kicad-footprints/RPi_Pico.pretty/
+
+# tooling
+/tools/
+freerouting.jar
+
+# generation / routing intermediates
+*.dsn
+*.ses
+*.rpt
+*-backups/
+fp-info-cache
+__pycache__/
+*.pyc
+logs/
+
+# superseded version dirs from gen_project.py
+/digifant2_pruefstand_cs_v*/

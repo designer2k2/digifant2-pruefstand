@@ -1,0 +1,42 @@
+# Digifant-2 Prüfstand
+
+Hardware for a fully-automated test bench for the VW Golf 1 Cabrio **Digifant-2** ECU:
+signal simulator + capture front-end, driven by a Raspberry Pi Pico, with a
+high-side load switch so the bench can cold-boot the ECU and cut power on
+overcurrent. Scope here is the **Signal-Simulator + Erfassungseinheit** only — the
+EPROM emulator is a separate future board.
+
+The schematic is generated from Python with
+[circuit-synth](https://github.com/circuit-synth/circuit-synth); the PCB is placed
+and autorouted headless (`pcbnew` + Freerouting). See `article-draft.md` for the
+project background.
+
+## Layout
+
+| path | what |
+|------|------|
+| `digifant2_pruefstand.py` | the circuit — one `@circuit` function, flat single sheet |
+| `gen_custom_symbols.py` | builds `kicad-symbols/Custom_Digifant2.kicad_sym` (INA226, AD9833, 2N7002, DPAK P-FET, VW connector — pinouts verified against datasheets) |
+| `gen_project.py` | `python3 gen_project.py <name>` → full KiCad project + netlist + lib tables, runs ERC/DRC via `kicad-cli`, auto-applies no-connect flags |
+| `place_and_route.py` | `pcbnew` functional-zone placement → Specctra DSN → Freerouting → SES import (run inside the KiCad flatpak; `java` runs outside it) |
+| `add_nc_flags.py` | stamps `no_connect` flags from an ERC report (circuit-synth has no NC API) |
+| `board/` | the current KiCad project (144×114 mm, 2-layer, 4× M3 corner holes) |
+| `UPSTREAM_BUGS.md` | circuit-synth bugs found, drafted for upstream filing |
+| `kicad-symbols/`, `kicad-footprints/` | libraries — custom/community committed, stock via `./fetch_libs.sh` |
+
+## Build
+
+```sh
+./fetch_libs.sh                        # one-time: pull stock KiCad 9.0 libs
+python3 gen_custom_symbols.py          # if the custom symbols changed
+python3 gen_project.py digifant2_pruefstand_cs_v1
+```
+
+Placement + routing needs KiCad's `pcbnew` Python API (KiCad ≥ 10) and a
+non-headless JRE for Freerouting — see the header of `place_and_route.py`.
+
+## Status
+
+Schematic ERC-clean. Board placed + autorouted, DRC-clean except a handful of
+connections in the INA226 / shunt 0.5 mm-pitch fanout left for KiCad's interactive
+router. Not yet fabbed.
