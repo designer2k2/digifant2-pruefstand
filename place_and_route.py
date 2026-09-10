@@ -2,7 +2,7 @@
 Headless placement + autoroute for the Digifant-2 board.
 
 Full pipeline (java freerouting must run OUTSIDE the flatpak; needs a DISPLAY):
-  FP="flatpak run --filesystem=/workspace --command=python3 org.kicad.KiCad"
+  FP="flatpak run --filesystem=host --command=python3 org.kicad.KiCad"
   D=digifant2_pruefstand_cs_v26
   $FP place_and_route.py $D            # functional placement + outline + M3 holes
   $FP place_and_route.py $D --dsn      # export Specctra .dsn + inject power class
@@ -68,9 +68,10 @@ def place():
     flow(["F1", "D1", "RS1", "C1", "Q2", "R13", "C3", "R14", "Q3", "R15", "R16"],
          14, 6, W - 14)                          # power chain
     flow(["RS2", "U1", "U3", "R6", "R7"], 40, 26, W - 14)          # current sense
-    flow(["U2", "R2", "R3", "R4", "R5"], 40, 40, W - 14)          # DAC
+    flow(["U2", "R2", "R3", "R4", "R5", "R20", "R21", "C5"], 40, 40, W - 14)  # DAC + AFM sense
     flow(["U4", "Y1", "R12", "C2", "TP1"], 40, 54, W - 14)        # DDS / knock
-    flow(["R8", "R9", "R10", "R11", "RG1", "Q1", "RPU1"], 40, 68, W - 14)
+    flow(["R8", "R9", "R10", "R11", "RG1", "Q1", "RPU1",
+          "Q4", "R18", "Q5", "R19"], 40, 68, W - 14)             # edge capture + crank + throttle sw
     flow(["SW1", "SW2", "SW3", "R17", "C4", "D2", "J3", "J2"], 6, H - 16, W - 6)
 
     for d in list(b.GetDrawings()):
@@ -92,6 +93,7 @@ def place():
         mh = pcbnew.FootprintLoad(lib, "MountingHole_3.2mm_M3")
         mh.SetReference(f"H{i + 1}")
         mh.SetPosition(pcbnew.VECTOR2I(MM(hx), MM(hy)))
+        mh.SetBoardOnly(True)   # not in the schematic -> don't flag as "extra footprint"
         b.Add(mh)
 
     b.Save(pcb_path)

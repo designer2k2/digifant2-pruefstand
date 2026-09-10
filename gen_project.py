@@ -94,7 +94,7 @@ print(f"regenerated {out_dir}")
 # --- ERC/DRC via the KiCad 10 flatpak (headless) --------------------------------
 import subprocess  # noqa: E402
 
-KCLI = ["flatpak", "run", "--filesystem=/workspace",
+KCLI = ["flatpak", "run", "--filesystem=host",
         "--command=kicad-cli", "org.kicad.KiCad"]
 
 

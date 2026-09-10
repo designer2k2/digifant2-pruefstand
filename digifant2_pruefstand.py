@@ -112,12 +112,18 @@ def status_led(vcc_3v3, gnd, gp_data):
 
 
 def ecu_current_sense(post_shunt_hi, post_shunt_lo, gnd, vcc_3v3, sda, scl):
-    """INA226 U1 measuring total ECU current across RS1. addr A0=GND,A1=GND -> 0x40."""
+    """INA226 U1: total ECU current across RS1 AND the ECU supply voltage.
+    addr A0=GND, A1=GND -> 0x40. VBUS is tied to IN- (the load side of the shunt,
+    = +12V_ECU) so the bus-voltage channel reads the ECU's actual rail and
+    bus*current gives real load power. There is still a small (~0.1V @ 2A) drop
+    across the Q2 load switch between here and VW-14 -- account for it in firmware
+    or, if you want the exact pin-14 voltage, move VBUS to +12V_ECU_SW (reads 0
+    when the switch is open)."""
     u1 = Component("Custom_Digifant2:INA226", ref="U1", value="INA226 (0x40)",
                     footprint="Package_SO:MSOP-10_3x3mm_P0.5mm")
     u1["IN+"] += post_shunt_hi
     u1["IN-"] += post_shunt_lo
-    u1["VBUS"] += post_shunt_hi
+    u1["VBUS"] += post_shunt_lo
     u1["VS"] += vcc_3v3
     u1["GND"] += gnd
     u1["A0"] += gnd
@@ -150,7 +156,10 @@ def idle_valve(drive_12v, valve_return, gnd, vcc_3v3, sda, scl):
 
     u3["IN+"] += valve_return
     u3["IN-"] += gnd
-    u3["VBUS"] += valve_return
+    # VBUS on the valve *supply* (switched rail) so U3 also reports the voltage the
+    # valve is actually fed -- valve_return itself is a PWM node and not useful as
+    # a bus-voltage reading.
+    u3["VBUS"] += drive_12v
     u3["VS"] += vcc_3v3
     u3["GND"] += gnd
     u3["A0"] += vcc_3v3
@@ -158,6 +167,49 @@ def idle_valve(drive_12v, valve_return, gnd, vcc_3v3, sda, scl):
     u3["SDA"] += sda
     u3["SCL"] += scl
     # ALERT intentionally unused, same as U1 -- see note there.
+
+
+def afm_ref_sense(vw_pin17, gnd, adc):
+    """The airflow-meter potentiometer is read ratiometrically: the ECU sources a
+    reference on VW-17 and reads the wiper on VW-21. We inject the wiper voltage
+    with the DAC, so firmware needs to know VW-17's actual level to scale it (and
+    a drooping VW-17 is itself a useful fault indicator). R20/R21 divide VW-17
+    (~5V nominal, up to ~9V worst case) into the Pico's 0-3.3V ADC; C5 filters."""
+    r20 = Component("Device:R", ref="R20", value="15k", footprint="Resistor_SMD:R_0805_2012Metric")
+    r21 = Component("Device:R", ref="R21", value="10k", footprint="Resistor_SMD:R_0805_2012Metric")
+    c5 = Component("Device:C", ref="C5", value="100nF", footprint="Capacitor_SMD:C_0805_2012Metric")
+    r20[1] += vw_pin17
+    r20[2] += adc
+    r21[1] += adc
+    r21[2] += gnd
+    c5[1] += adc
+    c5[2] += gnd
+
+
+def throttle_switches(gnd, gp_idle, gp_wot, vw_pin6, vw_pin11):
+    """Digifant II uses two throttle micro-switches (idle + full-throttle) that
+    pull an ECU input to ground when closed. Q4/Q5 (2N7002, open-drain) emulate
+    the contacts under Pico control; R18/R19 hold the gates low so both switches
+    read 'open' (part throttle) when the Pico is unpowered. The ECU has its own
+    pull-ups on VW-6/VW-11, so no external pull-up here.
+    VW-6 vs VW-11 = idle vs full-throttle is not settled -- confirm which is which
+    against the Bentley diagram; firmware can also just swap them."""
+    q4 = Component("Custom_Digifant2:Q_NMOS_2N7002", ref="Q4", value="2N7002",
+                    footprint="Package_TO_SOT_SMD:SOT-23")
+    q5 = Component("Custom_Digifant2:Q_NMOS_2N7002", ref="Q5", value="2N7002",
+                    footprint="Package_TO_SOT_SMD:SOT-23")
+    r18 = Component("Device:R", ref="R18", value="100k", footprint="Resistor_SMD:R_0805_2012Metric")
+    r19 = Component("Device:R", ref="R19", value="100k", footprint="Resistor_SMD:R_0805_2012Metric")
+    q4["G"] += gp_idle
+    r18[1] += gp_idle
+    r18[2] += gnd
+    q4["S"] += gnd
+    q4["D"] += vw_pin6
+    q5["G"] += gp_wot
+    r19[1] += gp_wot
+    r19[2] += gnd
+    q5["S"] += gnd
+    q5["D"] += vw_pin11
 
 
 def dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2):
@@ -307,19 +359,27 @@ def main_circuit():
     gp_btn_plus = Net("GP22_BTN_PLUS")
     gp_led_data = Net("GP10_LED_DATA")
     gp_ecu_en = Net("GP13_ECU_PWR_EN")
+    gp_thr_idle = Net("GP6_THROTTLE_IDLE_SW")
+    gp_thr_wot = Net("GP7_THROTTLE_WOT_SW")
+    afm_ref_adc = Net("GP26_AFM_REF_ADC")
+    vw_pin6 = Net("VW_PIN6")
+    vw_pin11 = Net("VW_PIN11")
+    vw_pin17 = Net("VW_PIN17")
 
-    # CONN_VW is now a 10A/pin 5mm screw terminal block (was a 2.54mm pin header --
-    # its ~3A/pin rating left almost no margin on the idle-valve legs, pins 22/23).
-    # Pins are addressed by harness name (VW-2, VW-9, ...); the symbol numbers its
-    # terminals 1-12 to match the footprint pads.
+    # CONN_VW: 15-pos 10A/pin 5mm screw terminal block, one terminal per VW harness
+    # pin the bench touches. Addressed by harness name; the symbol numbers its pads
+    # 1..15 to match the footprint.
     j0 = Component("Custom_Digifant2:CONN_VW", ref="J0", value="VW ECU HARNESS",
-                    footprint="TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-12P_1x12_P5.00mm")
+                    footprint="TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-15P_1x15_P5.00mm")
     j0["VW-2"] += vw_pin2
+    j0["VW-6"] += vw_pin6      # throttle switch (idle or WOT -- confirm)
     j0["VW-9"] += vw_pin9
     j0["VW-10"] += vw_pin10
+    j0["VW-11"] += vw_pin11    # throttle switch (the other one)
     j0["VW-12"] += vw_pin12
     j0["VW-13"] += gnd
     j0["VW-14"] += ecu_sw
+    j0["VW-17"] += vw_pin17    # airflow-pot reference (sensed only)
     j0["VW-18"] += vw_pin18
     j0["VW-19"] += gnd
     j0["VW-21"] += vw_pin21
@@ -333,6 +393,8 @@ def main_circuit():
     ecu_current_sense(Net("+12V_POST_D1"), ecu_12v, gnd, vcc_3v3, sda, scl)
     idle_valve(ecu_sw, vw_pin23_valve_return, gnd, vcc_3v3, sda, scl)
     dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2)
+    afm_ref_sense(vw_pin17, gnd, afm_ref_adc)
+    throttle_switches(gnd, gp_thr_idle, gp_thr_wot, vw_pin6, vw_pin11)
     crank_driver(gp_crank, gnd, ecu_sw, vw_pin18)
     edge_capture(vcc_3v3, gp_ignition, gp_injector, vw_pin25, vw_pin12)
     knock_sim(vcc_3v3, gnd, gp_spi_sck, gp_spi_mosi, gp_spi_cs)
@@ -375,19 +437,19 @@ def main_circuit():
         u5[gnd_pin] += gnd
     # RUN: active-high enable, no reset button in this design -> tie straight to 3V3.
     u5["RUN"] += vcc_3v3
-    # ADC_VREF: no analog inputs used on the Pico itself (sensing is all external
-    # DAC/ADC via I2C) -- tie to 3V3 per Raspberry Pi's own reference-design guidance
-    # for an unused ADC.
+    # ADC_VREF: GP26/ADC0 reads the divided AFM reference -- no precision needed, so
+    # tie VREF to 3V3 (a dedicated LDO/filter would only matter for accurate ADC).
     u5["ADC_VREF"] += vcc_3v3
-    # AGND: no analog precision requirement here (ADC unused) -- tie to the common
-    # ground plane per Raspberry Pi's own guidance for this case.
     u5["AGND"] += gnd
     # 3V3_EN (weak internal pull-up per datasheet), VBUS/VSYS (module is powered via
     # its own USB connection to the PC, not from this board), SWCLK/SWDIO (no SWD
     # debug probe planned) are all intentionally left NC, same convention as above.
     u5["GPIO2"] += gp_crank
+    u5["GPIO6"] += gp_thr_idle
+    u5["GPIO7"] += gp_thr_wot
     u5["GPIO10"] += gp_led_data   # SK6812 (GP11/GP12 freed vs the old 3-pin RGB LED)
     u5["GPIO13"] += gp_ecu_en
+    u5["GPIO26_ADC0"] += afm_ref_adc
     u5["GPIO4"] += sda
     u5["GPIO5"] += scl
     u5["GPIO14"] += gp_ignition

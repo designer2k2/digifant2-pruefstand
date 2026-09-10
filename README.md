@@ -39,9 +39,11 @@ non-headless JRE for Freerouting — see the header of `place_and_route.py`.
 
 ## Status
 
-Schematic ERC-clean. Board placed + autorouted, DRC-clean except a handful of
-connections in the INA226 / shunt 0.5 mm-pitch fanout left for KiCad's interactive
-router. Not yet fabbed.
+Schematic ERC-clean; VW harness pinout verified against the cabby-info.com
+Digifant II reference (two pins flagged — see `DESIGN.md`). Board placed +
+autorouted (144 × 114 mm, 2-layer, 4 × M3 holes), DRC-clean except ~4 connections
+in the INA226 / shunt 0.5 mm-pitch fanout left for KiCad's interactive router.
+Not yet fabbed.
 
 ## License
 

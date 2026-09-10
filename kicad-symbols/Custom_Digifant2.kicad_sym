@@ -428,40 +428,40 @@
 		(in_bom yes)
 		(on_board yes)
 		(property "Reference" "J"
-			(at -15.24 10.16 0)
+			(at -15.24 12.7 0)
 			(effects (font (size 1.27 1.27)) (justify left))
 		)
 		(property "Value" "CONN_VW"
-			(at 15.24 10.16 0)
+			(at 15.24 12.7 0)
 			(effects (font (size 1.27 1.27)) (justify right))
 		)
-		(property "Footprint" "TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-12P_1x12_P5.00mm"
-			(at 0 -11.43 0)
+		(property "Footprint" "TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-15P_1x15_P5.00mm"
+			(at 0 -13.969999999999999 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(property "Description" "VW 155906373 12-pin ECU connector on a 10A/pin 5mm screw terminal block, pins named by real harness pin number"
+		(property "Description" "VW Digifant II ECU harness (25-pin) broken out to the 15 pins the bench uses, on a 10A/pin 5mm screw terminal block"
 			(at 0 0 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
-		(property "ki_keywords" "vw connector ecu harness terminal block"
+		(property "ki_keywords" "vw connector ecu harness terminal block digifant"
 			(at 0 0 0)
 			(effects (font (size 1.27 1.27)) (hide yes))
 		)
 		(symbol "CONN_VW_0_1"
 			(rectangle
-				(start -15.24 8.89)
-				(end 15.24 -8.89)
+				(start -15.24 11.43)
+				(end 15.24 -11.43)
 				(stroke (width 0.254) (type default))
 				(fill (type background))
 			)
 		)
 		(symbol "CONN_VW_1_1"
 			(pin passive line
-				(at -17.78 6.3500000000000005 0)
+				(at -17.78 8.89 0)
 				(length 2.54)
 				(name "VW-2"
 					(effects (font (size 1.27 1.27)))
@@ -471,12 +471,22 @@
 				)
 			)
 			(pin passive line
+				(at -17.78 6.3500000000000005 0)
+				(length 2.54)
+				(name "VW-6"
+					(effects (font (size 1.27 1.27)))
+				)
+				(number "2"
+					(effects (font (size 1.27 1.27)))
+				)
+			)
+			(pin passive line
 				(at -17.78 3.8100000000000005 0)
 				(length 2.54)
 				(name "VW-9"
 					(effects (font (size 1.27 1.27)))
 				)
-				(number "2"
+				(number "3"
 					(effects (font (size 1.27 1.27)))
 				)
 			)
@@ -486,24 +496,14 @@
 				(name "VW-10"
 					(effects (font (size 1.27 1.27)))
 				)
-				(number "3"
+				(number "4"
 					(effects (font (size 1.27 1.27)))
 				)
 			)
 			(pin passive line
 				(at -17.78 -1.2699999999999996 0)
 				(length 2.54)
-				(name "VW-12"
-					(effects (font (size 1.27 1.27)))
-				)
-				(number "4"
-					(effects (font (size 1.27 1.27)))
-				)
-			)
-			(pin passive line
-				(at -17.78 -3.8099999999999996 0)
-				(length 2.54)
-				(name "VW-13"
+				(name "VW-11"
 					(effects (font (size 1.27 1.27)))
 				)
 				(number "5"
@@ -511,12 +511,42 @@
 				)
 			)
 			(pin passive line
-				(at -17.78 -6.349999999999999 0)
+				(at -17.78 -3.8099999999999987 0)
+				(length 2.54)
+				(name "VW-12"
+					(effects (font (size 1.27 1.27)))
+				)
+				(number "6"
+					(effects (font (size 1.27 1.27)))
+				)
+			)
+			(pin passive line
+				(at -17.78 -6.35 0)
+				(length 2.54)
+				(name "VW-13"
+					(effects (font (size 1.27 1.27)))
+				)
+				(number "7"
+					(effects (font (size 1.27 1.27)))
+				)
+			)
+			(pin passive line
+				(at -17.78 -8.89 0)
 				(length 2.54)
 				(name "VW-14"
 					(effects (font (size 1.27 1.27)))
 				)
-				(number "6"
+				(number "8"
+					(effects (font (size 1.27 1.27)))
+				)
+			)
+			(pin passive line
+				(at 17.78 8.89 180)
+				(length 2.54)
+				(name "VW-17"
+					(effects (font (size 1.27 1.27)))
+				)
+				(number "9"
 					(effects (font (size 1.27 1.27)))
 				)
 			)
@@ -526,7 +556,7 @@
 				(name "VW-18"
 					(effects (font (size 1.27 1.27)))
 				)
-				(number "7"
+				(number "10"
 					(effects (font (size 1.27 1.27)))
 				)
 			)
@@ -536,7 +566,7 @@
 				(name "VW-19"
 					(effects (font (size 1.27 1.27)))
 				)
-				(number "8"
+				(number "11"
 					(effects (font (size 1.27 1.27)))
 				)
 			)
@@ -546,7 +576,7 @@
 				(name "VW-21"
 					(effects (font (size 1.27 1.27)))
 				)
-				(number "9"
+				(number "12"
 					(effects (font (size 1.27 1.27)))
 				)
 			)
@@ -556,27 +586,27 @@
 				(name "VW-22"
 					(effects (font (size 1.27 1.27)))
 				)
-				(number "10"
+				(number "13"
 					(effects (font (size 1.27 1.27)))
 				)
 			)
 			(pin passive line
-				(at 17.78 -3.8099999999999996 180)
+				(at 17.78 -3.8099999999999987 180)
 				(length 2.54)
 				(name "VW-23"
 					(effects (font (size 1.27 1.27)))
 				)
-				(number "11"
+				(number "14"
 					(effects (font (size 1.27 1.27)))
 				)
 			)
 			(pin passive line
-				(at 17.78 -6.349999999999999 180)
+				(at 17.78 -6.35 180)
 				(length 2.54)
 				(name "VW-25"
 					(effects (font (size 1.27 1.27)))
 				)
-				(number "12"
+				(number "15"
 					(effects (font (size 1.27 1.27)))
 				)
 			)

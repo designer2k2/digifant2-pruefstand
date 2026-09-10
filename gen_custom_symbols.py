@@ -156,24 +156,26 @@ q_pmos_dpak = make_symbol(
     right_pins=[("2", "D", "passive"), ("3", "S", "passive")],
 )
 
-# 12-position terminal block for the VW-155906373 ECU harness. Pin *numbers* MUST be
-# sequential 1-12 to match real footprint pads (a generic header/terminal-block
-# footprint numbers its pads 1..12) -- the earlier version set the pin numbers to the
-# VW harness numbers (2,9,10,12,...25), which silently left 8 of 12 pads with no net
-# on the PCB because pads "18".."25" don't exist. The real harness pin number is kept
-# as the pin *name* (VW-2, VW-9, ...) so the schematic and silkscreen still document
-# which physical ECU wire lands on each terminal. Access in the netlist by name.
-vw_harness_pins = [2, 9, 10, 12, 13, 14, 18, 19, 21, 22, 23, 25]
+# 15-position terminal block for the VW Digifant II 25-pin ECU harness -- only the
+# pins the bench actually uses are broken out. Pin *numbers* MUST be sequential
+# 1..15 to match the footprint pads; the real harness pin number is kept as the pin
+# *name* (VW-2, VW-6, ...) so the schematic and silkscreen document which ECU wire
+# lands on each terminal. Access in the netlist by name.
+#   2 O2 sense | 6/11 throttle idle+WOT switches | 9 intake-air NTC | 10 coolant NTC
+#   12 injector (capture) | 13 gnd | 14 +12V | 17 airflow-pot ref (ADC sense)
+#   18 hall-sender (see DESIGN.md: pin 8 vs 18 unresolved) | 19 sensor gnd
+#   21 airflow-pot wiper | 22/23 idle valve | 25 ignition (capture)
+vw_harness_pins = [2, 6, 9, 10, 11, 12, 13, 14, 17, 18, 19, 21, 22, 23, 25]
 vw_pin_defs = [(str(i + 1), f"VW-{p}", "passive") for i, p in enumerate(vw_harness_pins)]
 conn_vw = make_symbol(
     libname="CONN_VW",
     ref="J",
-    footprint="TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-12P_1x12_P5.00mm",
+    footprint="TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-15P_1x15_P5.00mm",
     datasheet="",
-    description="VW 155906373 12-pin ECU connector on a 10A/pin 5mm screw terminal block, pins named by real harness pin number",
-    keywords="vw connector ecu harness terminal block",
-    left_pins=vw_pin_defs[:6],
-    right_pins=vw_pin_defs[6:],
+    description="VW Digifant II ECU harness (25-pin) broken out to the 15 pins the bench uses, on a 10A/pin 5mm screw terminal block",
+    keywords="vw connector ecu harness terminal block digifant",
+    left_pins=vw_pin_defs[:8],
+    right_pins=vw_pin_defs[8:],
 )
 
 header = '(kicad_symbol_lib\n\t(version 20241209)\n\t(generator "custom_digifant2_prototype")\n\t(generator_version "9.0")\n'

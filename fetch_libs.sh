@@ -32,7 +32,7 @@ FP_MODS=(
   "Package_TO_SOT_SMD.pretty/TO-252-2"
   "Resistor_SMD.pretty/R_0805_2012Metric"
   "Resistor_SMD.pretty/R_2512_6332Metric"
-  "TerminalBlock.pretty/TerminalBlock_MaiXu_MX126-5.0-12P_1x12_P5.00mm"
+  "TerminalBlock.pretty/TerminalBlock_MaiXu_MX126-5.0-15P_1x15_P5.00mm"
   "TerminalBlock.pretty/TerminalBlock_bornier-2_P5.08mm"
   "TestPoint.pretty/TestPoint_Pad_D1.5mm"
 )
