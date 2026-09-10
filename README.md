@@ -8,8 +8,10 @@ EPROM emulator is a separate future board.
 
 The schematic is generated from Python with
 [circuit-synth](https://github.com/circuit-synth/circuit-synth); the PCB is placed
-and autorouted headless (`pcbnew` + Freerouting). See `article-draft.md` for the
-project background.
+and autorouted headless (`pcbnew` + Freerouting).
+
+**[`DESIGN.md`](DESIGN.md) — what every block does, part-selection rationale, the
+GPIO / I²C / VW-harness maps.** `article-draft.md` has the wider project background.
 
 ## Layout
 
