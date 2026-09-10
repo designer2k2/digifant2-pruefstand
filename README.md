@@ -40,3 +40,10 @@ non-headless JRE for Freerouting — see the header of `place_and_route.py`.
 Schematic ERC-clean. Board placed + autorouted, DRC-clean except a handful of
 connections in the INA226 / shunt 0.5 mm-pitch fanout left for KiCad's interactive
 router. Not yet fabbed.
+
+## License
+
+MIT (see `LICENSE`) for everything authored here — scripts, custom symbols, the
+board design. Bundled third-party files (the Raspberry Pi Pico symbol/footprint
+from [ncarandini/KiCad-RP-Pico](https://github.com/ncarandini/KiCad-RP-Pico),
+CC-BY-SA-4.0) keep their own licenses — see `NOTICE`.

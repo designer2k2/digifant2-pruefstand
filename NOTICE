@@ -1,0 +1,26 @@
+Digifant-2 Prüfstand
+Copyright (c) 2026 designer2k2 — MIT License (see LICENSE)
+
+This repository bundles third-party files that are NOT covered by the MIT
+license above and retain their original licenses:
+
+------------------------------------------------------------------------------
+Raspberry Pi Pico symbol and footprint
+  kicad-symbols/MCU_RaspberryPi_and_Boards.kicad_sym
+  kicad-footprints/RPi_Pico.pretty/
+Source:  https://github.com/ncarandini/KiCad-RP-Pico
+License: CC-BY-SA-4.0
+Note:    RPi_Pico.pretty/RPi_Pico_SMD_TH.kicad_mod is modified from the original
+         (removed redundant/overlapping SMD pads on the unused debug-header pins).
+
+------------------------------------------------------------------------------
+Stock KiCad libraries (NOT committed — fetched by ./fetch_libs.sh into
+kicad-symbols/ and kicad-footprints/)
+Source:  https://gitlab.com/kicad/libraries  (tag 9.0.0)
+License: CC-BY-SA-4.0 with the KiCad Library Exception — using these symbols
+         and footprints in a design does not make the design a derivative work.
+
+------------------------------------------------------------------------------
+The custom symbols in kicad-symbols/Custom_Digifant2.kicad_sym were authored
+for this project (pinouts transcribed from the respective manufacturer
+datasheets) and are covered by the MIT license.
