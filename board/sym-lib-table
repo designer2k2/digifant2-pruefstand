@@ -1,6 +1,7 @@
 (sym_lib_table
   (lib (name "Amplifier_Instrumentation")(type "KiCad")(uri "${KIPRJMOD}/../kicad-symbols/Amplifier_Instrumentation.kicad_sym")(options "")(descr ""))
   (lib (name "Analog_DAC")(type "KiCad")(uri "${KIPRJMOD}/../kicad-symbols/Analog_DAC.kicad_sym")(options "")(descr ""))
+  (lib (name "Analog_Switch")(type "KiCad")(uri "${KIPRJMOD}/../kicad-symbols/Analog_Switch.kicad_sym")(options "")(descr ""))
   (lib (name "Connector")(type "KiCad")(uri "${KIPRJMOD}/../kicad-symbols/Connector.kicad_sym")(options "")(descr ""))
   (lib (name "Connector_Generic")(type "KiCad")(uri "${KIPRJMOD}/../kicad-symbols/Connector_Generic.kicad_sym")(options "")(descr ""))
   (lib (name "Custom_Digifant2")(type "KiCad")(uri "${KIPRJMOD}/../kicad-symbols/Custom_Digifant2.kicad_sym")(options "")(descr ""))

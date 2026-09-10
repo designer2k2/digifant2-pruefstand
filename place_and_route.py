@@ -68,7 +68,8 @@ def place():
     flow(["F1", "D1", "RS1", "C1", "Q2", "R13", "C3", "R14", "Q3", "R15", "R16"],
          14, 6, W - 14)                          # power chain
     flow(["RS2", "U1", "U3", "R6", "R7"], 40, 26, W - 14)          # current sense
-    flow(["U2", "R2", "R3", "R4", "R5", "R20", "R21", "C5"], 40, 40, W - 14)  # DAC + AFM sense
+    flow(["U2", "C6", "R2", "R3", "R4", "R5", "R20", "R21", "C5",
+          "U6", "R22", "U7", "R23", "U8", "R24"], 40, 40, W - 14)  # DAC + AFM sense + sensor disconnects
     flow(["U4", "Y1", "R12", "C2", "TP1"], 40, 54, W - 14)        # DDS / knock
     flow(["R8", "R9", "R10", "R11", "RG1", "Q1", "RPU1",
           "Q4", "R18", "Q5", "R19"], 40, 68, W - 14)             # edge capture + crank + throttle sw

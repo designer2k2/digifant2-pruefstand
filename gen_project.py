@@ -81,6 +81,11 @@ fp_rows = "".join(
 
 pro = out_dir / f"{name}.kicad_pro"
 data = json.loads(pro.read_text())
+# 0.25mm hole clearance is stricter than needed and traps a via or two near the
+# Pico module's NPTH pads 0.15mm matches the track clearance and is fab-safe.
+rules = data.setdefault("board", {}).setdefault("design_settings", {}).setdefault("rules", {})
+rules["min_hole_clearance"] = 0.15
+rules["min_hole_to_hole"] = 0.15
 ns = data.setdefault("net_settings", {})
 classes = [c for c in ns.get("classes", []) if c.get("name") != "Default"]
 classes.insert(0, DEFAULT_NETCLASS)

@@ -212,8 +212,15 @@ def throttle_switches(gnd, gp_idle, gp_wot, vw_pin6, vw_pin11):
     q5["D"] += vw_pin11
 
 
-def dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2):
-    """MCP4728 U2: NTC air/water, LMM, lambda sim outputs via 220R series protection."""
+def dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2,
+                   gp_conn_air, gp_conn_water, gp_conn_lambda):
+    """MCP4728 U2 (0x60): intake-air NTC, coolant NTC, LMM and lambda sim, each via
+    a series resistor. The two NTC channels and the lambda channel additionally
+    pass a TS5A3159A SPDT analog switch (~1 ohm) so firmware can open-circuit the
+    'sensor' and test the ECU's open-sensor fault detection. IN high = connected;
+    R22-R24 pull IN up so the ECU sees valid sensors at power-on, pull IN low to
+    disconnect (COM then goes to the open NC pin). Lambda series R is 1k (not 220R)
+    to look less like an ideal voltage source to the ECU's O2 input."""
     u2 = Component("Analog_DAC:MCP4728", ref="U2", value="MCP4728 (0x60)",
                     footprint="Package_SO:MSOP-10_3x3mm_P0.5mm")
     u2["VDD"] += vcc_3v3
@@ -221,16 +228,41 @@ def dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2)
     u2["SCL"] += scl
     u2["SDA"] += sda
     u2["~{LDAC}"] += gnd
+    c6 = Component("Device:C", ref="C6", value="100nF", footprint="Capacitor_SMD:C_0805_2012Metric")
+    c6[1] += vcc_3v3
+    c6[2] += gnd
 
-    dac_outs = ["VOUTA", "VOUTB", "VOUTC", "VOUTD"]
-    targets = [(vw_pin9, "R2"), (vw_pin10, "R3"), (vw_pin21, "R4"), (vw_pin2, "R5")]
-    for pin_name, (target_net, rref) in zip(dac_outs, targets):
-        r = Component("Device:R", ref=rref, value="220R",
+    # dac pin, series R, Rref, VW target, connect-enable GPIO (None = hard-wired),
+    # switch ref, IN-pullup ref
+    chans = [
+        ("VOUTA", "220R", "R2", vw_pin9,  gp_conn_air,    "U6", "R22"),
+        ("VOUTB", "220R", "R3", vw_pin10, gp_conn_water,  "U7", "R23"),
+        ("VOUTC", "220R", "R4", vw_pin21, None,           None, None),
+        ("VOUTD", "1k",   "R5", vw_pin2,  gp_conn_lambda, "U8", "R24"),
+    ]
+    for dac_pin, rval, rref, vw_net, gp_conn, swref, rpuref in chans:
+        r = Component("Device:R", ref=rref, value=rval,
                        footprint="Resistor_SMD:R_0805_2012Metric")
         dac_net = Net(f"{rref}_DAC_SIDE")
-        u2[pin_name] += dac_net
+        u2[dac_pin] += dac_net
         r[1] += dac_net
-        r[2] += target_net
+        if gp_conn is None:
+            r[2] += vw_net
+            continue
+        mid = Net(f"{rref}_SW_IN")
+        r[2] += mid
+        sw = Component("Analog_Switch:TS5A3159ADBVR", ref=swref, value="TS5A3159A",
+                        footprint="Package_TO_SOT_SMD:SOT-23-6")
+        rpu = Component("Device:R", ref=rpuref, value="100k",
+                         footprint="Resistor_SMD:R_0805_2012Metric")
+        sw["V+"] += vcc_3v3
+        sw["GND"] += gnd
+        sw[1] += mid       # NO -- COM<->NO when IN high (sensor connected)
+        sw[3] += vw_net    # COM -> ECU pin
+        # pin 4 (NC) left open -> COM floats = "sensor disconnected" when IN low
+        sw[6] += gp_conn   # IN
+        rpu[1] += gp_conn
+        rpu[2] += vcc_3v3
 
 
 def crank_driver(gpio_crank, gnd, ecu_12v, vw_pin18):
@@ -361,6 +393,9 @@ def main_circuit():
     gp_ecu_en = Net("GP13_ECU_PWR_EN")
     gp_thr_idle = Net("GP6_THROTTLE_IDLE_SW")
     gp_thr_wot = Net("GP7_THROTTLE_WOT_SW")
+    gp_conn_air = Net("GP8_AIRTEMP_CONNECT")
+    gp_conn_water = Net("GP9_WATERTEMP_CONNECT")
+    gp_conn_lambda = Net("GP11_LAMBDA_CONNECT")
     afm_ref_adc = Net("GP26_AFM_REF_ADC")
     vw_pin6 = Net("VW_PIN6")
     vw_pin11 = Net("VW_PIN11")
@@ -392,7 +427,8 @@ def main_circuit():
     ecu_power_switch(ecu_12v, ecu_sw, gnd, gp_ecu_en)
     ecu_current_sense(Net("+12V_POST_D1"), ecu_12v, gnd, vcc_3v3, sda, scl)
     idle_valve(ecu_sw, vw_pin23_valve_return, gnd, vcc_3v3, sda, scl)
-    dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2)
+    dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2,
+                   gp_conn_air, gp_conn_water, gp_conn_lambda)
     afm_ref_sense(vw_pin17, gnd, afm_ref_adc)
     throttle_switches(gnd, gp_thr_idle, gp_thr_wot, vw_pin6, vw_pin11)
     crank_driver(gp_crank, gnd, ecu_sw, vw_pin18)
@@ -447,7 +483,10 @@ def main_circuit():
     u5["GPIO2"] += gp_crank
     u5["GPIO6"] += gp_thr_idle
     u5["GPIO7"] += gp_thr_wot
-    u5["GPIO10"] += gp_led_data   # SK6812 (GP11/GP12 freed vs the old 3-pin RGB LED)
+    u5["GPIO8"] += gp_conn_air
+    u5["GPIO9"] += gp_conn_water
+    u5["GPIO11"] += gp_conn_lambda
+    u5["GPIO10"] += gp_led_data   # SK6812 (GP12 free)
     u5["GPIO13"] += gp_ecu_en
     u5["GPIO26_ADC0"] += afm_ref_adc
     u5["GPIO4"] += sda

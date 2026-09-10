@@ -2,7 +2,7 @@
 	(version 20250114)
 	(generator "kicad_api")
 	(generator_version 9.0)
-	(uuid 99ddb54e-a4b3-4581-abe6-76b39eaa0a84)
+	(uuid db1de97c-7083-4a6f-b247-4be055c05927)
 	(paper A2)
 	(lib_symbols
 		(symbol "Analog_DAC:MCP4728"
@@ -317,6 +317,491 @@
 					)
 					(number
 						"9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
+		(symbol "Analog_Switch:TS5A3159ADBVR"
+			(pin_numbers hide)
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property
+				"Reference"
+				"U"
+				(at 0.0 0.0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide no)
+				)
+			)
+			(property
+				"Value"
+				"TS5A3159ADBVR"
+				(at 0.0 0.0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide no)
+				)
+			)
+			(property
+				"Footprint"
+				"Package_TO_SOT_SMD:SOT-23-6"
+				(at 0.0 0.0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property
+				"Datasheet"
+				"http://www.ti.com/lit/ds/symlink/ts5a3159a.pdf"
+				(at 0.0 0.0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property
+				"Description"
+				"Single SPDT Analog Switch, 1.65-V to 5.5-V Single-Supply Operation, 1Ohm Ron, SOT-23-6"
+				(at 0.0 0.0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property
+				"ki_keywords"
+				"Analog Switch"
+				(at 0.0 0.0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property
+				"ki_fp_filters"
+				"SOT?23*"
+				(at 0.0 0.0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TS5A3159ADBVR_0_1"
+				(polyline
+					(pts
+						(xy -5.08 0.0)
+						(xy -2.794 0.0)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -3.81 4.445)
+					(end 3.81 -4.445)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(circle
+					(center -2.159 0.0)
+					(radius 0.508)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.651 0.127)
+						(xy 2.54 1.905)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 0.254)
+						(xy 0.0 0.508)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 0.254)
+						(xy 0.0 0.508)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -0.254)
+						(xy 0.0 0.0)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -0.762)
+						(xy 0.0 -0.508)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -1.27)
+						(xy 0.0 -1.016)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -1.778)
+						(xy 0.0 -1.524)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -2.286)
+						(xy 0.0 -2.032)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -2.794)
+						(xy 0.0 -2.54)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -3.302)
+						(xy 0.0 -3.048)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -3.81)
+						(xy 0.0 -3.556)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -4.318)
+						(xy 0.0 -4.064)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.0 -5.08)
+						(xy 0.0 -4.572)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.159 2.54)
+					(radius 0.508)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.159 -2.54)
+					(radius 0.508)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 2.54)
+						(xy 2.794 2.54)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 -2.54)
+						(xy 2.794 -2.54)
+					)
+					(stroke
+						(width 0.0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -3.81 10.16)
+					(end 3.81 -10.16)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "TS5A3159ADBVR_1_1"
+				(pin
+					passive
+					line
+					(at -7.62 0.0 0)
+					(length 2.54)
+					(name
+						~
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number
+						"4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin
+					input
+					line
+					(at 0.0 -7.62 90)
+					(length 2.54)
+					(name
+						~
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number
+						"6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin
+					passive
+					line
+					(at 7.62 2.54 180)
+					(length 2.54)
+					(name
+						~
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number
+						"3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin
+					passive
+					line
+					(at 7.62 -2.54 180)
+					(length 2.54)
+					(name
+						~
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number
+						"1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin
+					power_in
+					line
+					(at 0.0 12.7 270)
+					(length 2.54)
+					(name
+						V+
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number
+						"5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin
+					power_in
+					line
+					(at 0.0 -12.7 90)
+					(length 2.54)
+					(name
+						GND
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number
+						"2"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -5065,7 +5550,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 7c3e64bc-8e57-4008-b81d-83fbd7ffee73)
+		(uuid fe44d81e-9b29-4cbc-8354-4f5f3d77dba4)
 		(property
 			"Reference"
 			"J0"
@@ -5107,9 +5592,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference J0)
 					(unit 1)
 				)
@@ -5122,7 +5607,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid d71f7053-0ff8-4c37-b504-979f311ef601)
+		(uuid e4113f0b-9cca-4928-b4b2-7af1a8d464fa)
 		(property
 			"Reference"
 			"J1"
@@ -5164,9 +5649,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference J1)
 					(unit 1)
 				)
@@ -5179,7 +5664,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 6734d9e6-46c7-4bfe-81d6-a83b86adfa39)
+		(uuid 28325a8b-b991-490f-a197-eea7bed043c6)
 		(property
 			"Reference"
 			"F1"
@@ -5221,9 +5706,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference F1)
 					(unit 1)
 				)
@@ -5236,7 +5721,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 5bf1164b-6e95-4908-afdb-1578cb4d07ba)
+		(uuid dbb958a7-892e-47ea-a57d-c71fb9a1d389)
 		(property
 			"Reference"
 			"D1"
@@ -5278,9 +5763,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference D1)
 					(unit 1)
 				)
@@ -5293,7 +5778,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 8763c403-dc13-4677-8e58-f43b207c6833)
+		(uuid f172cf78-900b-4780-8379-9a1f95dd83de)
 		(property
 			"Reference"
 			"RS1"
@@ -5335,9 +5820,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference RS1)
 					(unit 1)
 				)
@@ -5350,7 +5835,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid efdd3279-08d4-43c9-a4e6-add45150cfc8)
+		(uuid de791c15-f623-45f0-acda-cfe9bc801990)
 		(property
 			"Reference"
 			"C1"
@@ -5392,9 +5877,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference C1)
 					(unit 1)
 				)
@@ -5407,7 +5892,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid d9e86dd9-c6e2-4b79-a3e5-5fc3a35ecf55)
+		(uuid 3d1f7c23-d1e7-4e03-9e23-9e18c413655f)
 		(property
 			"Reference"
 			"Q2"
@@ -5449,9 +5934,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference Q2)
 					(unit 1)
 				)
@@ -5464,7 +5949,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 663ee775-c22b-41cd-8bf9-02ea34e730c4)
+		(uuid 295faee4-4e07-4ce9-9980-e8b61a2b03ba)
 		(property
 			"Reference"
 			"Q3"
@@ -5506,9 +5991,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference Q3)
 					(unit 1)
 				)
@@ -5521,7 +6006,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 10b637d4-3669-4e27-a47f-83e944f2f749)
+		(uuid 1e104c91-9504-476a-b460-4b888affe0a0)
 		(property
 			"Reference"
 			"R13"
@@ -5563,9 +6048,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference R13)
 					(unit 1)
 				)
@@ -5578,7 +6063,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 957f2c94-eb00-40ec-bf9f-1bfa4f4d429a)
+		(uuid 62d6be59-7eb1-4d7d-802f-45f42891c266)
 		(property
 			"Reference"
 			"R14"
@@ -5620,9 +6105,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference R14)
 					(unit 1)
 				)
@@ -5635,7 +6120,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 94e1b82a-091e-4a3f-9087-571b9643bf7d)
+		(uuid 81a34fd9-8aba-40e4-9b98-0e0c7691210e)
 		(property
 			"Reference"
 			"R15"
@@ -5677,9 +6162,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference R15)
 					(unit 1)
 				)
@@ -5692,7 +6177,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 88e9d7ac-0132-473c-af5e-428bee2af7e8)
+		(uuid 40afca1b-d481-43ae-b400-4d68346f0b17)
 		(property
 			"Reference"
 			"R16"
@@ -5734,9 +6219,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference R16)
 					(unit 1)
 				)
@@ -5749,7 +6234,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid f61f8961-dff4-4cc3-b8be-2777c8be569d)
+		(uuid 87d6aa99-3f6d-494b-9c16-042ea69f3f1d)
 		(property
 			"Reference"
 			"C3"
@@ -5791,9 +6276,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference C3)
 					(unit 1)
 				)
@@ -5806,7 +6291,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 8210eebf-666a-4d03-8407-ca33d3c503d3)
+		(uuid 6c79d34b-2319-4cc0-ba6e-44ce50fef7b7)
 		(property
 			"Reference"
 			"U1"
@@ -5848,9 +6333,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference U1)
 					(unit 1)
 				)
@@ -5863,7 +6348,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid a403f494-caf8-47d0-98a2-faec34ba009a)
+		(uuid aeb06b03-5ccf-466c-842e-141c7605273d)
 		(property
 			"Reference"
 			"J2"
@@ -5905,9 +6390,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference J2)
 					(unit 1)
 				)
@@ -5920,7 +6405,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 71ee9fde-303b-4433-9ec6-d23eb05fc1b0)
+		(uuid 8e5b1789-b6e3-4f84-8318-cebbd6505a3e)
 		(property
 			"Reference"
 			"RS2"
@@ -5962,9 +6447,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference RS2)
 					(unit 1)
 				)
@@ -5977,7 +6462,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid d643654f-7cc6-42de-9000-dc3717789337)
+		(uuid 5ffb2bd2-816e-45c8-b6ac-ebb996882179)
 		(property
 			"Reference"
 			"U3"
@@ -6019,9 +6504,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference U3)
 					(unit 1)
 				)
@@ -6034,7 +6519,7 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 8b39dd61-2b86-4b43-bf75-efa87bcca8fd)
+		(uuid cce6a1f8-1dc8-4106-a1c9-5ab95edd5a3b)
 		(property
 			"Reference"
 			"U2"
@@ -6076,9 +6561,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference U2)
 					(unit 1)
 				)
@@ -6086,15 +6571,15 @@
 		)
 	)
 	(symbol
-		(lib_id Device:R)
+		(lib_id Device:C)
 		(at 233.68 147.32 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid ad9c1419-0f18-4685-8b25-7c21c44842e0)
+		(uuid ca058117-7603-4423-8769-10375cb6c230)
 		(property
 			"Reference"
-			"R2"
+			"C6"
 			(at 233.68 142.32 0)
 			(effects
 				(font
@@ -6104,7 +6589,7 @@
 		)
 		(property
 			"Value"
-			"220R"
+			"100nF"
 			(at 233.68 152.32 0)
 			(effects
 				(font
@@ -6114,7 +6599,7 @@
 		)
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric"
+			"Capacitor_SMD:C_0805_2012Metric"
 			(at 233.68 157.32 0)
 			(effects
 				(font
@@ -6128,15 +6613,15 @@
 				"circuit"
 				(path
 					"/"
-					(reference R2)
+					(reference C6)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R2)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference C6)
 					(unit 1)
 				)
 			)
@@ -6148,10 +6633,10 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 82b28b4c-72ea-4817-bce8-2321deb5b017)
+		(uuid c2a690cd-d134-4261-ac90-43306e630633)
 		(property
 			"Reference"
-			"R3"
+			"R2"
 			(at 254.0 142.32 0)
 			(effects
 				(font
@@ -6185,15 +6670,72 @@
 				"circuit"
 				(path
 					"/"
-					(reference R3)
+					(reference R2)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R3)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R2)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Analog_Switch:TS5A3159ADBVR)
+		(at 45.72 198.12 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 3bcb22c0-3df6-413d-a80d-abfb78525f98)
+		(property
+			"Reference"
+			"U6"
+			(at 45.72 193.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"TS5A3159A"
+			(at 45.72 203.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Package_TO_SOT_SMD:SOT-23-6"
+			(at 45.72 208.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference U6)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference U6)
 					(unit 1)
 				)
 			)
@@ -6201,15 +6743,72 @@
 	)
 	(symbol
 		(lib_id Device:R)
-		(at 274.32 147.32 0)
+		(at 71.12 198.12 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid b17d1e95-5469-4455-835c-2e6d0ee121c0)
+		(uuid 16917607-6eee-4a8d-a53c-e82e22454be7)
 		(property
 			"Reference"
-			"R4"
-			(at 274.32 142.32 0)
+			"R22"
+			(at 71.12 193.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"100k"
+			(at 71.12 203.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 71.12 208.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference R22)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R22)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:R)
+		(at 91.44 198.12 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 5d6b7ff6-de8f-4c17-a364-fbb23745191a)
+		(property
+			"Reference"
+			"R3"
+			(at 91.44 193.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6219,7 +6818,7 @@
 		(property
 			"Value"
 			"220R"
-			(at 274.32 152.32 0)
+			(at 91.44 203.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6229,7 +6828,7 @@
 		(property
 			"Footprint"
 			"Resistor_SMD:R_0805_2012Metric"
-			(at 274.32 157.32 0)
+			(at 91.44 208.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6242,31 +6841,31 @@
 				"circuit"
 				(path
 					"/"
-					(reference R4)
+					(reference R3)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R4)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R3)
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id Device:R)
-		(at 294.64 147.32 0)
+		(lib_id Analog_Switch:TS5A3159ADBVR)
+		(at 121.92 198.12 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 61f9a683-ce6a-43c5-bf2c-8cb3b902ebb9)
+		(uuid 8f4db972-76d9-4128-86e6-d52a33a2fe8a)
 		(property
 			"Reference"
-			"R5"
-			(at 294.64 142.32 0)
+			"U7"
+			(at 121.92 193.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6275,8 +6874,8 @@
 		)
 		(property
 			"Value"
-			"220R"
-			(at 294.64 152.32 0)
+			"TS5A3159A"
+			(at 121.92 203.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6285,8 +6884,8 @@
 		)
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric"
-			(at 294.64 157.32 0)
+			"Package_TO_SOT_SMD:SOT-23-6"
+			(at 121.92 208.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6299,300 +6898,15 @@
 				"circuit"
 				(path
 					"/"
-					(reference R5)
+					(reference U7)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R5)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Device:R)
-		(at 314.96 147.32 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid cf77ddf7-b6cb-4f93-aeec-15962fbdb22d)
-		(property
-			"Reference"
-			"R20"
-			(at 314.96 142.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"15k"
-			(at 314.96 152.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric"
-			(at 314.96 157.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference R20)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R20)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Device:R)
-		(at 335.28000000000003 147.32 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid d3f9da25-3924-433c-9bf9-7d4ad593a9de)
-		(property
-			"Reference"
-			"R21"
-			(at 335.28000000000003 142.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"10k"
-			(at 335.28000000000003 152.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric"
-			(at 335.28000000000003 157.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference R21)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R21)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Device:C)
-		(at 355.6 147.32 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid fccebcce-223e-4497-8efa-64a22314dd65)
-		(property
-			"Reference"
-			"C5"
-			(at 355.6 142.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"100nF"
-			(at 355.6 152.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Capacitor_SMD:C_0805_2012Metric"
-			(at 355.6 157.32 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference C5)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference C5)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Custom_Digifant2:Q_NMOS_2N7002)
-		(at 58.42 198.12 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 034fb11c-6dba-4d7c-8375-c4db5334fb08)
-		(property
-			"Reference"
-			"Q4"
-			(at 58.42 193.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"2N7002"
-			(at 58.42 203.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Package_TO_SOT_SMD:SOT-23"
-			(at 58.42 208.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference Q4)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference Q4)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Custom_Digifant2:Q_NMOS_2N7002)
-		(at 111.76 198.12 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 8e69cf27-30ea-4c4c-8b59-72abc67affea)
-		(property
-			"Reference"
-			"Q5"
-			(at 111.76 193.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"2N7002"
-			(at 111.76 203.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Package_TO_SOT_SMD:SOT-23"
-			(at 111.76 208.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference Q5)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference Q5)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference U7)
 					(unit 1)
 				)
 			)
@@ -6604,10 +6918,10 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid a983deb8-b405-4fc4-8594-3851e131c941)
+		(uuid 9764ad50-5fb3-4bc5-a814-e88e0b0cf6a8)
 		(property
 			"Reference"
-			"R18"
+			"R23"
 			(at 147.32 193.12 0)
 			(effects
 				(font
@@ -6641,15 +6955,15 @@
 				"circuit"
 				(path
 					"/"
-					(reference R18)
+					(reference R23)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R18)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R23)
 					(unit 1)
 				)
 			)
@@ -6661,10 +6975,10 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid a1b807dc-081c-4abf-9247-20c612e51a29)
+		(uuid 40972445-4271-461c-a512-ac015242fca3)
 		(property
 			"Reference"
-			"R19"
+			"R4"
 			(at 170.18 193.12 0)
 			(effects
 				(font
@@ -6674,7 +6988,7 @@
 		)
 		(property
 			"Value"
-			"100k"
+			"220R"
 			(at 170.18 203.12 0)
 			(effects
 				(font
@@ -6698,31 +7012,31 @@
 				"circuit"
 				(path
 					"/"
-					(reference R19)
+					(reference R4)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R19)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R4)
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id Custom_Digifant2:Q_NMOS_2N7002)
-		(at 208.28 198.12 0)
+		(lib_id Device:R)
+		(at 187.96 198.12 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid e7cc5008-6c4b-4749-9ae6-5b95adfee281)
+		(uuid cb8510d8-114c-462f-b5fc-b3acabfc1cd9)
 		(property
 			"Reference"
-			"Q1"
-			(at 208.28 193.12 0)
+			"R5"
+			(at 187.96 193.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6731,8 +7045,8 @@
 		)
 		(property
 			"Value"
-			"2N7002"
-			(at 208.28 203.12 0)
+			"1k"
+			(at 187.96 203.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6741,8 +7055,8 @@
 		)
 		(property
 			"Footprint"
-			"Package_TO_SOT_SMD:SOT-23"
-			(at 208.28 208.12 0)
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 187.96 208.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6755,15 +7069,72 @@
 				"circuit"
 				(path
 					"/"
-					(reference Q1)
+					(reference R5)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference Q1)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R5)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Analog_Switch:TS5A3159ADBVR)
+		(at 218.44 198.12 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid f6443341-37d9-45f0-82d1-e13e69cd355c)
+		(property
+			"Reference"
+			"U8"
+			(at 218.44 193.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"TS5A3159A"
+			(at 218.44 203.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Package_TO_SOT_SMD:SOT-23-6"
+			(at 218.44 208.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference U8)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference U8)
 					(unit 1)
 				)
 			)
@@ -6775,10 +7146,10 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 36e08c39-bf7e-4b39-9ecf-51f8e98ea75c)
+		(uuid 9279bcc4-6957-4ebe-83c4-c96e665575c2)
 		(property
 			"Reference"
-			"RG1"
+			"R24"
 			(at 243.84 193.12 0)
 			(effects
 				(font
@@ -6788,7 +7159,7 @@
 		)
 		(property
 			"Value"
-			"100R"
+			"100k"
 			(at 243.84 203.12 0)
 			(effects
 				(font
@@ -6812,15 +7183,15 @@
 				"circuit"
 				(path
 					"/"
-					(reference RG1)
+					(reference R24)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference RG1)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R24)
 					(unit 1)
 				)
 			)
@@ -6832,10 +7203,10 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 9a7b8019-619d-4271-ad38-a054d0f9a454)
+		(uuid 13aac732-6b0a-4dd1-accf-b83b664f67f0)
 		(property
 			"Reference"
-			"RPU1"
+			"R20"
 			(at 264.16 193.12 0)
 			(effects
 				(font
@@ -6845,7 +7216,7 @@
 		)
 		(property
 			"Value"
-			"1k"
+			"15k"
 			(at 264.16 203.12 0)
 			(effects
 				(font
@@ -6869,15 +7240,15 @@
 				"circuit"
 				(path
 					"/"
-					(reference RPU1)
+					(reference R20)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference RPU1)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R20)
 					(unit 1)
 				)
 			)
@@ -6889,10 +7260,10 @@
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid a16c0f11-3ec8-49ac-9092-52942a71a112)
+		(uuid 3dc74414-7e74-42ba-a4d9-41154dcb4cfd)
 		(property
 			"Reference"
-			"R8"
+			"R21"
 			(at 284.48 193.12 0)
 			(effects
 				(font
@@ -6926,30 +7297,30 @@
 				"circuit"
 				(path
 					"/"
-					(reference R8)
+					(reference R21)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R8)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R21)
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id Device:R)
+		(lib_id Device:C)
 		(at 304.8 198.12 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid efc598ac-d9f3-4a67-be1f-735f2c392e4e)
+		(uuid 7028a621-a229-4f98-96c7-3a33929eff76)
 		(property
 			"Reference"
-			"R9"
+			"C5"
 			(at 304.8 193.12 0)
 			(effects
 				(font
@@ -6959,7 +7330,7 @@
 		)
 		(property
 			"Value"
-			"330R"
+			"100nF"
 			(at 304.8 203.12 0)
 			(effects
 				(font
@@ -6969,7 +7340,7 @@
 		)
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric"
+			"Capacitor_SMD:C_0805_2012Metric"
 			(at 304.8 208.12 0)
 			(effects
 				(font
@@ -6983,87 +7354,30 @@
 				"circuit"
 				(path
 					"/"
-					(reference R9)
+					(reference C5)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R9)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference C5)
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id Device:R)
-		(at 325.12 198.12 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 5a8d3409-b8c5-45f4-b766-8940a7dc6072)
-		(property
-			"Reference"
-			"R10"
-			(at 325.12 193.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"1k"
-			(at 325.12 203.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric"
-			(at 325.12 208.12 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference R10)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R10)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Device:R)
+		(lib_id Custom_Digifant2:Q_NMOS_2N7002)
 		(at 345.44 198.12 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 41f12b03-b591-4c09-84d2-a1129e5109be)
+		(uuid 273f4497-5194-43e9-928d-ee98d3f7e266)
 		(property
 			"Reference"
-			"R11"
+			"Q4"
 			(at 345.44 193.12 0)
 			(effects
 				(font
@@ -7073,7 +7387,7 @@
 		)
 		(property
 			"Value"
-			"330R"
+			"2N7002"
 			(at 345.44 203.12 0)
 			(effects
 				(font
@@ -7083,7 +7397,7 @@
 		)
 		(property
 			"Footprint"
-			"Resistor_SMD:R_0805_2012Metric"
+			"Package_TO_SOT_SMD:SOT-23"
 			(at 345.44 208.12 0)
 			(effects
 				(font
@@ -7097,31 +7411,31 @@
 				"circuit"
 				(path
 					"/"
-					(reference R11)
+					(reference Q4)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R11)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference Q4)
 					(unit 1)
 				)
 			)
 		)
 	)
 	(symbol
-		(lib_id Custom_Digifant2:AD9833)
-		(at 58.42 243.84 0)
+		(lib_id Custom_Digifant2:Q_NMOS_2N7002)
+		(at 58.42 259.08 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 9b29f678-33dc-4c87-876b-45b560240e55)
+		(uuid 6d18d54c-5864-4f99-8814-db3a03d6e55e)
 		(property
 			"Reference"
-			"U4"
-			(at 58.42 238.84 0)
+			"Q5"
+			(at 58.42 254.07999999999998 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7130,8 +7444,8 @@
 		)
 		(property
 			"Value"
-			"AD9833"
-			(at 58.42 248.84 0)
+			"2N7002"
+			(at 58.42 264.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7140,8 +7454,8 @@
 		)
 		(property
 			"Footprint"
-			"Package_SO:MSOP-10_3x3mm_P0.5mm"
-			(at 58.42 253.84 0)
+			"Package_TO_SOT_SMD:SOT-23"
+			(at 58.42 269.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7154,72 +7468,15 @@
 				"circuit"
 				(path
 					"/"
-					(reference U4)
+					(reference Q5)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference U4)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Oscillator:XO91)
-		(at 106.68 243.84 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 5691b1d6-a10d-44a5-964c-a69ec4eeb17c)
-		(property
-			"Reference"
-			"Y1"
-			(at 106.68 238.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"25MHz"
-			(at 106.68 248.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Oscillator:Oscillator_SMD_EuroQuartz_XO91-4Pin_7.0x5.0mm"
-			(at 106.68 253.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference Y1)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference Y1)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference Q5)
 					(unit 1)
 				)
 			)
@@ -7227,15 +7484,15 @@
 	)
 	(symbol
 		(lib_id Device:R)
-		(at 134.62 243.84 0)
+		(at 91.44 259.08 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 5f476022-7aed-4c26-9404-f587e67b9561)
+		(uuid 5122acad-23d3-426a-879d-52a286b50632)
 		(property
 			"Reference"
-			"R12"
-			(at 134.62 238.84 0)
+			"R18"
+			(at 91.44 254.07999999999998 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7244,8 +7501,8 @@
 		)
 		(property
 			"Value"
-			"200R"
-			(at 134.62 248.84 0)
+			"100k"
+			(at 91.44 264.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7255,7 +7512,7 @@
 		(property
 			"Footprint"
 			"Resistor_SMD:R_0805_2012Metric"
-			(at 134.62 253.84 0)
+			(at 91.44 269.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7268,414 +7525,15 @@
 				"circuit"
 				(path
 					"/"
-					(reference R12)
+					(reference R18)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R12)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Device:C)
-		(at 154.94 243.84 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 66ccf28c-f691-474a-8bcd-bd7994282a50)
-		(property
-			"Reference"
-			"C2"
-			(at 154.94 238.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"100nF"
-			(at 154.94 248.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Capacitor_SMD:C_0805_2012Metric"
-			(at 154.94 253.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference C2)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference C2)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Connector_Generic:Conn_01x01)
-		(at 182.88 243.84 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid a2bf62c3-0ae0-4069-a833-90ec3b8eac26)
-		(property
-			"Reference"
-			"TP1"
-			(at 182.88 238.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"KNOCK OUT"
-			(at 182.88 248.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"TestPoint:TestPoint_Pad_D1.5mm"
-			(at 182.88 253.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference TP1)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference TP1)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Connector_Generic:Conn_01x04)
-		(at 228.6 243.84 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid b34ba420-01ce-4ef4-9f6a-76778a3784ed)
-		(property
-			"Reference"
-			"J3"
-			(at 228.6 238.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"OLED / UI I2C"
-			(at 228.6 248.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
-			(at 228.6 253.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference J3)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference J3)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Switch:SW_Push)
-		(at 259.08 243.84 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 96654f96-9ff2-418d-a5d2-fc8ddf6ed632)
-		(property
-			"Reference"
-			"SW1"
-			(at 259.08 238.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"PUSH"
-			(at 259.08 248.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Button_Switch_THT:SW_PUSH_6mm"
-			(at 259.08 253.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference SW1)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference SW1)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Switch:SW_Push)
-		(at 281.94 243.84 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid 4793cfe4-fd4c-4620-8054-2346f23b8fa4)
-		(property
-			"Reference"
-			"SW2"
-			(at 281.94 238.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"PUSH"
-			(at 281.94 248.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Button_Switch_THT:SW_PUSH_6mm"
-			(at 281.94 253.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference SW2)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference SW2)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id Switch:SW_Push)
-		(at 304.8 243.84 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid c203c394-11a4-41a3-9a4f-111b33d7ff40)
-		(property
-			"Reference"
-			"SW3"
-			(at 304.8 238.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"PUSH"
-			(at 304.8 248.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"Button_Switch_THT:SW_PUSH_6mm"
-			(at 304.8 253.84 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference SW3)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference SW3)
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id LED:SK6812)
-		(at 45.72 294.64 0)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid e574444c-d141-4768-8fa6-e410b4727b54)
-		(property
-			"Reference"
-			"D2"
-			(at 45.72 289.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Value"
-			"SK6812"
-			(at 45.72 299.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property
-			"Footprint"
-			"LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm"
-			(at 45.72 304.64 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(instances
-			(project
-				"circuit"
-				(path
-					"/"
-					(reference D2)
-					(unit 1)
-				)
-			)
-			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
-				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference D2)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R18)
 					(unit 1)
 				)
 			)
@@ -7683,15 +7541,300 @@
 	)
 	(symbol
 		(lib_id Device:R)
-		(at 76.2 294.64 0)
+		(at 111.76 259.08 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 41b1b6d5-50c4-4ee4-a596-61a963ad5070)
+		(uuid e49ec4c8-df7b-49fa-84fd-e387355be0fe)
 		(property
 			"Reference"
-			"R17"
-			(at 76.2 289.64 0)
+			"R19"
+			(at 111.76 254.07999999999998 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"100k"
+			(at 111.76 264.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 111.76 269.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference R19)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R19)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Custom_Digifant2:Q_NMOS_2N7002)
+		(at 154.94 259.08 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 804b95f8-de53-40a1-a089-a3814ec8e7ad)
+		(property
+			"Reference"
+			"Q1"
+			(at 154.94 254.07999999999998 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"2N7002"
+			(at 154.94 264.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Package_TO_SOT_SMD:SOT-23"
+			(at 154.94 269.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference Q1)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference Q1)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:R)
+		(at 187.96 259.08 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid f7637b10-093e-4455-8475-7d7e1f3a2662)
+		(property
+			"Reference"
+			"RG1"
+			(at 187.96 254.07999999999998 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"100R"
+			(at 187.96 264.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 187.96 269.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference RG1)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference RG1)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:R)
+		(at 208.28 259.08 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid f9b02238-0e99-41a5-a017-b6c61e602721)
+		(property
+			"Reference"
+			"RPU1"
+			(at 208.28 254.07999999999998 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"1k"
+			(at 208.28 264.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 208.28 269.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference RPU1)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference RPU1)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:R)
+		(at 228.6 259.08 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid b5fe1a69-12fa-435c-b6bf-b8909f13fe28)
+		(property
+			"Reference"
+			"R8"
+			(at 228.6 254.07999999999998 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"10k"
+			(at 228.6 264.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 228.6 269.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference R8)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R8)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:R)
+		(at 251.46 259.08 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid d3e13c2d-8a6a-4678-91bf-552157e58d72)
+		(property
+			"Reference"
+			"R9"
+			(at 251.46 254.07999999999998 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7701,7 +7844,7 @@
 		(property
 			"Value"
 			"330R"
-			(at 76.2 299.64 0)
+			(at 251.46 264.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7711,7 +7854,7 @@
 		(property
 			"Footprint"
 			"Resistor_SMD:R_0805_2012Metric"
-			(at 76.2 304.64 0)
+			(at 251.46 269.08 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7724,15 +7867,300 @@
 				"circuit"
 				(path
 					"/"
-					(reference R17)
+					(reference R9)
 					(unit 1)
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
-					(reference R17)
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R9)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:R)
+		(at 269.24 259.08 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 40fc004b-59e6-4c8e-9d50-cdda0633f0f8)
+		(property
+			"Reference"
+			"R10"
+			(at 269.24 254.07999999999998 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"1k"
+			(at 269.24 264.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 269.24 269.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference R10)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R10)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:R)
+		(at 289.56 259.08 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid f995cffd-edf4-41cc-b3cd-0638a3cd7220)
+		(property
+			"Reference"
+			"R11"
+			(at 289.56 254.07999999999998 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"330R"
+			(at 289.56 264.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 289.56 269.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference R11)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R11)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Custom_Digifant2:AD9833)
+		(at 330.2 259.08 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid bdf4c319-81e2-4bad-bba4-9a520443e7d1)
+		(property
+			"Reference"
+			"U4"
+			(at 330.2 254.07999999999998 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"AD9833"
+			(at 330.2 264.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Package_SO:MSOP-10_3x3mm_P0.5mm"
+			(at 330.2 269.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference U4)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference U4)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Oscillator:XO91)
+		(at 45.72 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid cb70db66-efd7-42a4-9e00-590bce532eac)
+		(property
+			"Reference"
+			"Y1"
+			(at 45.72 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"25MHz"
+			(at 45.72 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Oscillator:Oscillator_SMD_EuroQuartz_XO91-4Pin_7.0x5.0mm"
+			(at 45.72 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference Y1)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference Y1)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:R)
+		(at 73.66 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid eeeb6718-e07d-4392-862d-2a8b2f348a39)
+		(property
+			"Reference"
+			"R12"
+			(at 73.66 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"200R"
+			(at 73.66 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 73.66 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference R12)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R12)
 					(unit 1)
 				)
 			)
@@ -7740,15 +8168,15 @@
 	)
 	(symbol
 		(lib_id Device:C)
-		(at 96.52 294.64 0)
+		(at 96.52 304.8 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 515a7b42-afe9-43eb-8c94-6d2670eb74bb)
+		(uuid a2ca48c1-cd5d-49f1-9530-83b7933f54fb)
 		(property
 			"Reference"
-			"C4"
-			(at 96.52 289.64 0)
+			"C2"
+			(at 96.52 299.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7758,7 +8186,7 @@
 		(property
 			"Value"
 			"100nF"
-			(at 96.52 299.64 0)
+			(at 96.52 309.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7768,7 +8196,463 @@
 		(property
 			"Footprint"
 			"Capacitor_SMD:C_0805_2012Metric"
-			(at 96.52 304.64 0)
+			(at 96.52 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference C2)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference C2)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Connector_Generic:Conn_01x01)
+		(at 127.0 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid e05589cb-0f47-4952-9429-f618a523e600)
+		(property
+			"Reference"
+			"TP1"
+			(at 127.0 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"KNOCK OUT"
+			(at 127.0 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"TestPoint:TestPoint_Pad_D1.5mm"
+			(at 127.0 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference TP1)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference TP1)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Connector_Generic:Conn_01x04)
+		(at 170.18 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 3c60fac5-bc97-4485-9621-cdf57f3fb2ce)
+		(property
+			"Reference"
+			"J3"
+			(at 170.18 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"OLED / UI I2C"
+			(at 170.18 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical"
+			(at 170.18 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference J3)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference J3)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Switch:SW_Push)
+		(at 203.2 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid b5cd3ca6-a6c4-4d1f-a734-9cb27ffc71f1)
+		(property
+			"Reference"
+			"SW1"
+			(at 203.2 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"PUSH"
+			(at 203.2 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Button_Switch_THT:SW_PUSH_6mm"
+			(at 203.2 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference SW1)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference SW1)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Switch:SW_Push)
+		(at 223.52 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 4e209f8e-98e5-4b0d-9494-e974f46a1f0f)
+		(property
+			"Reference"
+			"SW2"
+			(at 223.52 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"PUSH"
+			(at 223.52 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Button_Switch_THT:SW_PUSH_6mm"
+			(at 223.52 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference SW2)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference SW2)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Switch:SW_Push)
+		(at 248.92000000000002 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 2195cd76-8102-4fe9-93ee-ecea0b8fe741)
+		(property
+			"Reference"
+			"SW3"
+			(at 248.92000000000002 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"PUSH"
+			(at 248.92000000000002 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Button_Switch_THT:SW_PUSH_6mm"
+			(at 248.92000000000002 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference SW3)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference SW3)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id LED:SK6812)
+		(at 279.4 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid fc53db60-436c-4c9f-8fd8-c5d5bde58105)
+		(property
+			"Reference"
+			"D2"
+			(at 279.4 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"SK6812"
+			(at 279.4 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm"
+			(at 279.4 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference D2)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference D2)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:R)
+		(at 309.88 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 29c01158-9197-4189-a2fa-2c38e8141c3a)
+		(property
+			"Reference"
+			"R17"
+			(at 309.88 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"330R"
+			(at 309.88 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Resistor_SMD:R_0805_2012Metric"
+			(at 309.88 314.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference R17)
+					(unit 1)
+				)
+			)
+			(project
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
+				(path
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
+					(reference R17)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id Device:C)
+		(at 330.2 304.8 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 434bcdd3-c470-4f25-b2fa-c25216a5cdb3)
+		(property
+			"Reference"
+			"C4"
+			(at 330.2 299.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"100nF"
+			(at 330.2 309.8 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Capacitor_SMD:C_0805_2012Metric"
+			(at 330.2 314.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7786,9 +8670,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference C4)
 					(unit 1)
 				)
@@ -7797,15 +8681,15 @@
 	)
 	(symbol
 		(lib_id power:PWR_FLAG)
-		(at 116.84 294.64 0)
+		(at 350.52 304.8 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 068c151a-d1d5-4d10-9645-afaadba6e567)
+		(uuid 7bab99f1-ff2b-4e4e-aba1-6c09bb35f479)
 		(property
 			"Reference"
 			"#FLG03"
-			(at 116.84 289.64 0)
+			(at 350.52 299.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7822,9 +8706,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference #FLG03)
 					(unit 1)
 				)
@@ -7833,15 +8717,15 @@
 	)
 	(symbol
 		(lib_id power:PWR_FLAG)
-		(at 137.16 294.64 0)
+		(at 370.84000000000003 304.8 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid fa7bc4cd-3e5a-4576-8134-d28c79c82120)
+		(uuid 10535b4f-5e35-47a2-95a5-e01e2a17f786)
 		(property
 			"Reference"
 			"#FLG01"
-			(at 137.16 289.64 0)
+			(at 370.84000000000003 299.8 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7858,9 +8742,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference #FLG01)
 					(unit 1)
 				)
@@ -7869,15 +8753,15 @@
 	)
 	(symbol
 		(lib_id power:PWR_FLAG)
-		(at 157.48 294.64 0)
+		(at 38.1 358.14 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid a79ce96f-63d7-4bec-914b-3a0216fa643b)
+		(uuid ec73345d-e895-4f5c-bdc2-313dfca75a4e)
 		(property
 			"Reference"
 			"#FLG02"
-			(at 157.48 289.64 0)
+			(at 38.1 353.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7894,9 +8778,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference #FLG02)
 					(unit 1)
 				)
@@ -7905,15 +8789,15 @@
 	)
 	(symbol
 		(lib_id power:PWR_FLAG)
-		(at 180.34 294.64 0)
+		(at 58.42 358.14 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 095d8ce6-33d1-483c-a71c-8af877c1ca1a)
+		(uuid f65590ab-7149-4fb8-8dd3-daa5bc3f8607)
 		(property
 			"Reference"
 			"#FLG04"
-			(at 180.34 289.64 0)
+			(at 58.42 353.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7930,9 +8814,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference #FLG04)
 					(unit 1)
 				)
@@ -7941,15 +8825,15 @@
 	)
 	(symbol
 		(lib_id Device:R)
-		(at 198.12 294.64 0)
+		(at 76.2 358.14 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid 850f3748-9b02-4b65-b21e-c52b84429528)
+		(uuid 17f35fb3-66f7-4c3f-b458-f72b764f4c0d)
 		(property
 			"Reference"
 			"R6"
-			(at 198.12 289.64 0)
+			(at 76.2 353.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7959,7 +8843,7 @@
 		(property
 			"Value"
 			"4.7k"
-			(at 198.12 299.64 0)
+			(at 76.2 363.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7969,7 +8853,7 @@
 		(property
 			"Footprint"
 			"Resistor_SMD:R_0805_2012Metric"
-			(at 198.12 304.64 0)
+			(at 76.2 368.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7987,9 +8871,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference R6)
 					(unit 1)
 				)
@@ -7998,15 +8882,15 @@
 	)
 	(symbol
 		(lib_id Device:R)
-		(at 218.44 294.64 0)
+		(at 96.52 358.14 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid b745209e-3ce3-4498-8daf-2bf1dff575ef)
+		(uuid 728955a9-dccb-40c5-a92d-49a1f6c03559)
 		(property
 			"Reference"
 			"R7"
-			(at 218.44 289.64 0)
+			(at 96.52 353.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8016,7 +8900,7 @@
 		(property
 			"Value"
 			"4.7k"
-			(at 218.44 299.64 0)
+			(at 96.52 363.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8026,7 +8910,7 @@
 		(property
 			"Footprint"
 			"Resistor_SMD:R_0805_2012Metric"
-			(at 218.44 304.64 0)
+			(at 96.52 368.14 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8044,9 +8928,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference R7)
 					(unit 1)
 				)
@@ -8055,15 +8939,15 @@
 	)
 	(symbol
 		(lib_id MCU_RaspberryPi_and_Boards:Pico)
-		(at 350.52 294.64 0)
+		(at 147.32 401.32 0)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid e90d3964-aab7-43f0-b941-2b6fa264d857)
+		(uuid 8b38bd3f-1cf7-4374-8ff9-22c02a07a336)
 		(property
 			"Reference"
 			"U5"
-			(at 350.52 289.64 0)
+			(at 147.32 396.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8073,7 +8957,7 @@
 		(property
 			"Value"
 			"Raspberry Pi Pico"
-			(at 350.52 299.64 0)
+			(at 147.32 406.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8083,7 +8967,7 @@
 		(property
 			"Footprint"
 			"RPi_Pico:RPi_Pico_SMD_TH"
-			(at 350.52 304.64 0)
+			(at 147.32 411.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8101,9 +8985,9 @@
 				)
 			)
 			(project
-				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v28/digifant2_pruefstand_cs_v28"
+				"/home/node/digifant2-pruefstand/digifant2_pruefstand_cs_v29/digifant2_pruefstand_cs_v29"
 				(path
-					"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+					"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 					(reference U5)
 					(unit 1)
 				)
@@ -8119,7 +9003,7 @@
 			)
 			(justify right)
 		)
-		(uuid dadedb59-7fe8-427f-9ae1-551fdbe642c4)
+		(uuid f5964369-08ee-4945-97a0-8354378a282d)
 	)
 	(global_label
 		VW_PIN2
@@ -8130,18 +9014,18 @@
 			)
 			(justify right)
 		)
-		(uuid fe350f1b-3abb-4fcc-a9c4-359cb466ff9d)
+		(uuid e9085008-aed5-4a13-a903-4bf490f93872)
 	)
 	(global_label
 		VW_PIN2
-		(at 294.64 151.13 270)
+		(at 226.06 195.58 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
-		(uuid b868cd48-f844-423d-8ca7-5a89a179780a)
+		(uuid 64e685cc-4910-4366-a9e4-bb1709120b0a)
 	)
 	(global_label
 		VW_PIN6
@@ -8152,7 +9036,7 @@
 			)
 			(justify right)
 		)
-		(uuid c9769fef-0470-43a7-878b-d8181bd2a65c)
+		(uuid a6d9c39b-2361-437f-b0d6-3144fd69ab73)
 	)
 	(global_label
 		VW_PIN6
@@ -8163,29 +9047,29 @@
 			)
 			(justify right)
 		)
-		(uuid 369eccc0-3aaa-4bc0-996d-be3321b58563)
+		(uuid 2e750c78-0b77-47fc-ba96-ebe8b02e2f6f)
 	)
 	(global_label
 		VW_PIN6
-		(at 76.2 199.39000000000001 0)
+		(at 363.22 199.39000000000001 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid b1377c01-0181-4f9d-af67-7c0249d3edeb)
+		(uuid acfc4f4b-e469-42d8-bd92-8249c2df188f)
 	)
 	(global_label
 		VW_PIN6
-		(at 76.2 199.39000000000001 0)
+		(at 363.22 199.39000000000001 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid a1a2569d-d1a2-439c-aa1e-65d4a50dc833)
+		(uuid 93da83b6-0052-42dd-aefe-4ca962df8039)
 	)
 	(global_label
 		VW_PIN9
@@ -8196,7 +9080,7 @@
 			)
 			(justify right)
 		)
-		(uuid 192f19fe-c45c-4257-ba77-b5f06366c1c8)
+		(uuid ffeab8e8-02c9-4687-a4be-2bc503b4e634)
 	)
 	(global_label
 		VW_PIN9
@@ -8207,18 +9091,18 @@
 			)
 			(justify right)
 		)
-		(uuid b4cee9f5-7eae-4305-b40f-d3927189e8b8)
+		(uuid fef383de-0b57-4280-9a02-cee1e41df857)
 	)
 	(global_label
 		VW_PIN9
-		(at 233.68 151.13 270)
+		(at 53.339999999999996 195.58 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
-		(uuid 713ab1fb-2cad-4995-9d53-3dbe18c6cf3f)
+		(uuid 7b924c1e-9acc-4885-9ded-87ab9e030dfa)
 	)
 	(global_label
 		VW_PIN10
@@ -8229,7 +9113,7 @@
 			)
 			(justify right)
 		)
-		(uuid c8f9a62b-1a3c-41b9-9a79-83005ff3a8d2)
+		(uuid 494e05ec-1e9a-4b16-a3c9-2d7b56df12d8)
 	)
 	(global_label
 		VW_PIN10
@@ -8240,18 +9124,18 @@
 			)
 			(justify right)
 		)
-		(uuid 004b31ae-90dc-491f-9739-6c5d31cf12c0)
+		(uuid 11194edb-9cfc-4643-b593-f99029fa3ce9)
 	)
 	(global_label
 		VW_PIN10
-		(at 254.0 151.13 270)
+		(at 129.54 195.58 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
-		(uuid 578ab82c-86e3-42c1-b939-c6004749b055)
+		(uuid cda47f49-746b-4107-9a66-406aa6894d5d)
 	)
 	(global_label
 		VW_PIN11
@@ -8262,7 +9146,7 @@
 			)
 			(justify right)
 		)
-		(uuid 3451024f-1e89-42cf-9ba0-d4b23adce002)
+		(uuid f8e7c650-e1b3-4aeb-9288-34b6c2212f48)
 	)
 	(global_label
 		VW_PIN11
@@ -8273,29 +9157,29 @@
 			)
 			(justify right)
 		)
-		(uuid c4f8a580-692f-4e17-81bb-a1ae913a4ead)
+		(uuid 3264df88-96fe-434f-a3a9-5873294bb1f9)
 	)
 	(global_label
 		VW_PIN11
-		(at 129.54000000000002 199.39000000000001 0)
+		(at 76.2 260.34999999999997 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 8550af5d-1cc4-4280-acdc-813223f904b9)
+		(uuid dc13424e-cf9c-4610-a23a-88a4bd7ccab6)
 	)
 	(global_label
 		VW_PIN11
-		(at 129.54000000000002 199.39000000000001 0)
+		(at 76.2 260.34999999999997 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 56453661-e410-4cc8-87f4-3a3d14b46249)
+		(uuid 97799a72-329f-4115-b482-ba60222220f4)
 	)
 	(global_label
 		VW_PIN12
@@ -8306,7 +9190,7 @@
 			)
 			(justify right)
 		)
-		(uuid 98f4f6f1-d383-4908-b854-94b736ce86fc)
+		(uuid 1fa74aef-d909-46bd-a1d0-cda5eb6c5022)
 	)
 	(global_label
 		VW_PIN12
@@ -8317,29 +9201,29 @@
 			)
 			(justify right)
 		)
-		(uuid 6d2d246f-c988-4e87-8297-b924a3217a8a)
+		(uuid 11a13ef1-0adf-44ff-b1f7-6eddba0e11f1)
 	)
 	(global_label
 		VW_PIN12
-		(at 325.12 201.93 270)
+		(at 269.24 262.89 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 6b5e1427-0976-43e4-b461-e9da8447cd9a)
+		(uuid 2f44e6e6-709e-490d-946a-0f638f968fc6)
 	)
 	(global_label
 		VW_PIN12
-		(at 345.44 194.31 90)
+		(at 289.56 255.26999999999998 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid f3621d4e-d07d-46e5-9681-78851459e9a9)
+		(uuid 34de3c13-08f6-47c3-8567-9dbf1d746402)
 	)
 	(global_label
 		GND
@@ -8350,7 +9234,7 @@
 			)
 			(justify right)
 		)
-		(uuid 3f469007-299e-4d33-8893-cd7b8f25d27f)
+		(uuid a1341d7b-0c15-4cf3-adc9-76f6f4e1681b)
 	)
 	(global_label
 		GND
@@ -8361,7 +9245,7 @@
 			)
 			(justify left)
 		)
-		(uuid 80090f3e-d663-40ab-82a2-da23e94407ed)
+		(uuid 6632e688-1ebc-43ca-a11f-ebf7404be67a)
 	)
 	(global_label
 		GND
@@ -8372,7 +9256,7 @@
 			)
 			(justify right)
 		)
-		(uuid 8ca51448-c1ac-4c0b-a202-0a1a5f3e769d)
+		(uuid 735fc437-5636-4877-9c3c-028232a0cd93)
 	)
 	(global_label
 		GND
@@ -8383,7 +9267,7 @@
 			)
 			(justify left)
 		)
-		(uuid 2620f5f4-1a05-401a-a3a9-2dab263aa1ec)
+		(uuid bd8afbdc-c0d9-4c85-bd92-894765fc0a7d)
 	)
 	(global_label
 		GND
@@ -8394,7 +9278,7 @@
 			)
 			(justify right)
 		)
-		(uuid ce6c7ea4-3544-4442-9cff-1886c2dddf05)
+		(uuid b6c1fb39-b07c-486e-ace3-148e1fc7d4a9)
 	)
 	(global_label
 		GND
@@ -8405,7 +9289,7 @@
 			)
 			(justify right)
 		)
-		(uuid bc380209-039d-44c3-9ecf-8c5afbe4e1eb)
+		(uuid f5bebd9c-54c1-4e89-97b3-2a01c34cbab4)
 	)
 	(global_label
 		GND
@@ -8416,7 +9300,7 @@
 			)
 			(justify left)
 		)
-		(uuid 7897f928-a779-46eb-8fff-6c968cca46fc)
+		(uuid e7b0f6be-8bbf-4c4a-8ca8-2de29e630da1)
 	)
 	(global_label
 		GND
@@ -8427,7 +9311,7 @@
 			)
 			(justify left)
 		)
-		(uuid 28e61119-82d8-4305-b8a5-4d638d47f328)
+		(uuid b4dec833-d1a7-47d2-85f8-63e7e35cef5d)
 	)
 	(global_label
 		GND
@@ -8438,7 +9322,7 @@
 			)
 			(justify right)
 		)
-		(uuid 293bd30a-70dd-437b-bef8-2d0d9c55e33a)
+		(uuid 57a673d1-8b52-477d-8756-83581fc0cd68)
 	)
 	(global_label
 		GND
@@ -8449,7 +9333,7 @@
 			)
 			(justify right)
 		)
-		(uuid 490cc030-589b-4993-924c-1ba7ea470752)
+		(uuid 0f3cc226-f3d1-4213-9135-988c59533d03)
 	)
 	(global_label
 		GND
@@ -8460,7 +9344,7 @@
 			)
 			(justify left)
 		)
-		(uuid ba9b5043-d786-4e77-8565-c766599312bf)
+		(uuid 8c7d06c3-0aaf-4f98-a734-06c539f41a0b)
 	)
 	(global_label
 		GND
@@ -8471,7 +9355,7 @@
 			)
 			(justify left)
 		)
-		(uuid 2eb96dfb-9b78-4213-8aaf-7f2bb760f3e3)
+		(uuid 12aeb36d-d08d-4044-b2a6-fa2ee2a2e649)
 	)
 	(global_label
 		GND
@@ -8482,7 +9366,7 @@
 			)
 			(justify right)
 		)
-		(uuid e9d94ea4-0139-4c0b-8fe6-b07dbd3e675e)
+		(uuid 3777df4d-f4a9-4dbe-94d7-1045cdee54b4)
 	)
 	(global_label
 		GND
@@ -8493,7 +9377,7 @@
 			)
 			(justify left)
 		)
-		(uuid 9fad4415-86af-498a-a0bd-095b2aadc456)
+		(uuid 8d5f9a09-31ea-4682-9e5f-19471eb514ab)
 	)
 	(global_label
 		GND
@@ -8504,7 +9388,7 @@
 			)
 			(justify left)
 		)
-		(uuid 0ea0af48-8fb6-4abf-bf9b-7e822f35d4dc)
+		(uuid e0b7b982-ef62-411b-90ce-d2132c99d97e)
 	)
 	(global_label
 		GND
@@ -8515,7 +9399,7 @@
 			)
 			(justify right)
 		)
-		(uuid 3a838a00-5eb9-42e2-a3ee-c134e64dc29d)
+		(uuid e9b55e68-c8d2-46f6-a86c-dc484cdd24dd)
 	)
 	(global_label
 		GND
@@ -8526,7 +9410,7 @@
 			)
 			(justify right)
 		)
-		(uuid 0956e92c-9d09-4b28-80b3-af4d8abff90c)
+		(uuid a16f951e-130a-4e56-9d74-ccc92a7b195d)
 	)
 	(global_label
 		GND
@@ -8537,7 +9421,7 @@
 			)
 			(justify right)
 		)
-		(uuid 20012273-ce05-4986-8dc5-1b3ed2e51965)
+		(uuid 51d90271-dcdc-407c-9d7a-d000d05d7200)
 	)
 	(global_label
 		GND
@@ -8548,7 +9432,7 @@
 			)
 			(justify left)
 		)
-		(uuid a2a0204f-a231-4d06-bb3a-acde8079117c)
+		(uuid 70dc2cb0-88ae-4c3e-a8ca-249a72969930)
 	)
 	(global_label
 		GND
@@ -8559,7 +9443,7 @@
 			)
 			(justify right)
 		)
-		(uuid e28321e2-1d57-4bda-b1d4-b6a87bb0e45d)
+		(uuid c608d4b7-4282-496d-8d97-a99809be35cb)
 	)
 	(global_label
 		GND
@@ -8570,7 +9454,7 @@
 			)
 			(justify right)
 		)
-		(uuid 6304162c-6ec1-449b-a558-986c311e18d0)
+		(uuid ccbf228b-eb5e-43f2-910b-380dc0e384a1)
 	)
 	(global_label
 		GND
@@ -8581,7 +9465,7 @@
 			)
 			(justify left)
 		)
-		(uuid d50afc82-3472-4c92-ae07-d0aa1dfeef96)
+		(uuid 125eb785-247f-48f9-8c89-cde1ff00ef4d)
 	)
 	(global_label
 		GND
@@ -8592,7 +9476,7 @@
 			)
 			(justify right)
 		)
-		(uuid e3bccc01-0976-4853-8394-e1c2dde9f134)
+		(uuid 2e13baac-607c-43a3-b00c-86b2abfd9e0f)
 	)
 	(global_label
 		GND
@@ -8603,7 +9487,7 @@
 			)
 			(justify right)
 		)
-		(uuid 93128c72-6c37-4c8d-a2c6-76b80f456c42)
+		(uuid 78f01439-97bf-40ef-a260-e31f06028e61)
 	)
 	(global_label
 		GND
@@ -8614,7 +9498,7 @@
 			)
 			(justify right)
 		)
-		(uuid 7d4b8dea-694a-45cf-b201-6f58d38fd204)
+		(uuid fa48573e-1e11-4bf8-b070-7d1175a36299)
 	)
 	(global_label
 		GND
@@ -8625,392 +9509,469 @@
 			)
 			(justify right)
 		)
-		(uuid b012e9aa-f8ab-4558-8842-545395be3d57)
+		(uuid f5c4d32a-3493-4b20-ad8c-dd9b3774af2f)
 	)
 	(global_label
 		GND
-		(at 335.28000000000003 151.13 270)
+		(at 233.68 151.13 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid bdd8cdeb-1f78-42e1-911f-489f9122bb2d)
+		(uuid 8436a067-32a3-457d-bbd3-b8e8ac8a4d2f)
 	)
 	(global_label
 		GND
-		(at 355.6 151.13 270)
+		(at 45.72 210.82 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid e3bb7abc-0eef-4939-917f-317c4534cf44)
+		(uuid 4350d381-98f3-4f2a-8590-bb6e853b4189)
 	)
 	(global_label
 		GND
-		(at 76.2 196.85 0)
+		(at 45.72 210.82 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 27c49ee9-c7ae-4f48-8e7c-d61d0faa401a)
+	)
+	(global_label
+		GND
+		(at 121.92 210.82 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid f906671a-350f-4594-bf26-574d81800d38)
+	)
+	(global_label
+		GND
+		(at 121.92 210.82 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid a0be3bf9-c018-44fd-ba30-0809e21aae14)
+	)
+	(global_label
+		GND
+		(at 218.44 210.82 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid ae4ce2ef-be7e-493e-9265-5539b7361bfa)
+	)
+	(global_label
+		GND
+		(at 218.44 210.82 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 2a77367b-c0e6-4ff3-bed3-f4d637880511)
+	)
+	(global_label
+		GND
+		(at 284.48 201.93 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid cf752daa-be25-45e9-a1b3-28f8cf1c2017)
+	)
+	(global_label
+		GND
+		(at 304.8 201.93 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid cbb3f975-f2ec-4dd2-b8cd-50710bc0ce84)
+	)
+	(global_label
+		GND
+		(at 363.22 196.85 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid ffdc5bc8-1ec7-4cf9-b498-aa7d7164b757)
+		(uuid 3b6976f4-b71f-43a4-b9e1-3964a8cc58f1)
 	)
 	(global_label
 		GND
-		(at 76.2 196.85 0)
+		(at 363.22 196.85 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid c59c6bdf-640a-4ea7-b00c-f13073371a66)
+		(uuid d0d6673e-d372-4579-bf1d-cc84fba898f5)
 	)
 	(global_label
 		GND
-		(at 129.54000000000002 196.85 0)
+		(at 76.2 257.81 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 8490b835-f5cc-4d85-bbbc-13704ff7dbdd)
+		(uuid f75f012e-8e61-478a-b12d-7a27d026c5aa)
 	)
 	(global_label
 		GND
-		(at 129.54000000000002 196.85 0)
+		(at 76.2 257.81 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid e784f652-1d4d-4607-a194-937846788a0c)
+		(uuid 7f9d273d-d20b-436f-8793-77a31fdb39f4)
 	)
 	(global_label
 		GND
-		(at 147.32 201.93 270)
+		(at 91.44 262.89 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 03e63b86-ae2e-4d4f-bd56-d9d14b4f0f98)
+		(uuid 8e6b6c8f-df48-4744-b6e8-1e3d5c6038bd)
 	)
 	(global_label
 		GND
-		(at 170.18 201.93 270)
+		(at 111.76 262.89 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 628ab980-1452-4f9f-ab9d-771889fe54b6)
+		(uuid f57a5bd3-bd7f-4c63-aff0-a2003186801b)
 	)
 	(global_label
 		GND
-		(at 226.06 196.85 0)
+		(at 172.72 257.81 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 8e73264d-1b96-45cf-bd7c-383441d5e812)
+		(uuid 8bf91790-12e4-43c0-ada3-7ccb400e732b)
 	)
 	(global_label
 		GND
-		(at 226.06 196.85 0)
+		(at 172.72 257.81 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 0a024842-cfdd-4371-a20b-e832f39e02fc)
+		(uuid 0bbfd6f4-bdca-42ae-8bd2-ca13c1287dcd)
 	)
 	(global_label
 		GND
-		(at 40.64 241.3 180)
+		(at 312.41999999999996 256.53999999999996 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 02dbaef5-efec-42c3-a84d-2616c0bf42a8)
+		(uuid 5b4f2cdb-c610-4c76-bddb-2a45645efc1d)
 	)
 	(global_label
 		GND
-		(at 40.64 243.84 180)
+		(at 312.41999999999996 259.08 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 8ed006e2-7f58-458c-9625-baf0c256ba09)
+		(uuid c6d5ce16-bc04-47e3-be8a-4cf13d4bde0b)
 	)
 	(global_label
 		GND
-		(at 40.64 241.3 180)
+		(at 312.41999999999996 256.53999999999996 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 72450203-5629-4899-b78d-7fe472cdf038)
+		(uuid 2c40572e-ce1f-4f91-9b9f-f7c957c1c451)
 	)
 	(global_label
 		GND
-		(at 40.64 243.84 180)
+		(at 312.41999999999996 259.08 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 9b3fdc76-70da-4b0d-9062-4e3705270757)
+		(uuid d6e0210c-d407-4495-a086-1418b8e13cf5)
 	)
 	(global_label
 		GND
-		(at 106.68 251.46 270)
+		(at 45.72 312.42 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid b06e5278-fe4d-441d-9527-63322b9db283)
+		(uuid c27dabae-9a1d-47f5-b69d-8560c831c279)
 	)
 	(global_label
 		GND
-		(at 106.68 251.46 270)
+		(at 45.72 312.42 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 6bb43af9-fc8b-42f0-9945-52817c5f23de)
+		(uuid cdb9122a-8415-4b58-ab43-218837e45cbb)
 	)
 	(global_label
 		GND
-		(at 154.94 247.65 270)
+		(at 96.52 308.61 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 9b5b2494-83e0-404f-a0d9-f4fe71ca5060)
+		(uuid 11c6b821-2565-44f1-a6e2-e46cf1cc8855)
 	)
 	(global_label
 		GND
-		(at 223.51999999999998 241.3 180)
+		(at 165.1 302.26 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid fdfecb34-bc6c-4965-8b10-dc9039365e47)
+		(uuid 0f6814ce-fd0a-4476-a4fa-b7fbf8205fc7)
 	)
 	(global_label
 		GND
-		(at 264.15999999999997 243.84 0)
+		(at 208.28 304.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 86f1ba9d-2919-4730-ab2b-362cbcab17cc)
+		(uuid ae678c32-d9f1-4c0f-89d9-a3e84db62a1c)
 	)
 	(global_label
 		GND
-		(at 287.02 243.84 0)
+		(at 228.60000000000002 304.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 9cf3f3c4-59a0-4e17-9d4c-f3402fad519c)
+		(uuid 2111fbd9-3f0c-4930-b940-8ebbd92e4f33)
 	)
 	(global_label
 		GND
-		(at 309.88 243.84 0)
+		(at 254.00000000000003 304.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid cec7a768-3a8b-4b35-84d4-e67b1f9959e9)
+		(uuid 106572b4-676e-482d-b10c-0f357d1d432e)
 	)
 	(global_label
 		GND
-		(at 45.72 302.26 270)
+		(at 279.4 312.42 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid c122156d-7f5e-4ec9-944e-8bff465a97b5)
+		(uuid 028b25ea-687c-45a0-a677-ec3979f17b31)
 	)
 	(global_label
 		GND
-		(at 45.72 302.26 270)
+		(at 279.4 312.42 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 65f4f79d-a875-461c-a33b-0cc57e940859)
+		(uuid bbb9f199-245f-46e7-af64-25b57ed9c0e0)
 	)
 	(global_label
 		GND
-		(at 96.52 298.45 270)
+		(at 330.2 308.61 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 75744616-7e94-40b4-a5f2-a7e4d9aacbdc)
+		(uuid 06802e45-04be-4032-b9a9-612c2332d322)
 	)
 	(global_label
 		GND
-		(at 116.84 294.64 270)
+		(at 350.52 304.8 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid e6dfe5c6-9b3d-4624-9075-c38d874b4782)
+		(uuid 298be777-70b6-4fe8-a798-6eda6fdceb87)
 	)
 	(global_label
 		GND
-		(at 332.74 300.99 180)
+		(at 129.54 407.67 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid e8f3855a-6ce0-49c7-8fbb-2fa1f04f8950)
+		(uuid 0116ec12-838e-437d-b556-8752e4760019)
 	)
 	(global_label
 		GND
-		(at 332.74 313.69 180)
+		(at 129.54 420.37 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 4546bbab-1891-41c2-9f85-81aad63663ba)
+		(uuid 198ba102-9104-4d1a-9224-39a7193e10c7)
 	)
 	(global_label
 		GND
-		(at 368.29999999999995 313.69 0)
+		(at 165.1 420.37 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid dec065da-393b-495c-92bd-ca023dea69ad)
+		(uuid ea11990b-5d4d-4a32-9640-e8be8bbe7075)
 	)
 	(global_label
 		GND
-		(at 368.29999999999995 300.99 0)
+		(at 165.1 407.67 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 051bfa23-e2ca-4530-8d5b-a5c64d47b508)
+		(uuid 593052d8-b19d-44fe-adfc-ff5dd4a120ba)
 	)
 	(global_label
 		GND
-		(at 332.74 275.59 180)
+		(at 129.54 382.27 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 64cba7fc-fca1-47c1-ad34-4176c46fd9ab)
+		(uuid 3792d6db-2227-4de4-b496-8d96971b3dc9)
 	)
 	(global_label
 		GND
-		(at 368.29999999999995 288.28999999999996 0)
+		(at 165.1 394.96999999999997 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 3ea13c53-1158-45fe-a3ff-e1bb6ddb829f)
+		(uuid 613d6e0c-f6db-4e72-8ed2-3985c3374ca6)
 	)
 	(global_label
 		GND
-		(at 368.29999999999995 275.59 0)
+		(at 165.1 382.27 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 2ea47229-f953-4dd3-87bc-1bf4fe051ac4)
+		(uuid 197c29cb-6022-4061-a3a5-d469104fa6f8)
 	)
 	(global_label
 		GND
-		(at 350.52 323.84999999999997 270)
+		(at 147.32 430.53 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 01611469-4768-4695-9e20-fdfbb64e0404)
+		(uuid 1ec307c6-0663-438a-b3d5-e941bfb4e3b0)
 	)
 	(global_label
 		GND
-		(at 332.74 288.28999999999996 180)
+		(at 129.54 394.96999999999997 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 5abab65a-b68f-4ccd-8e31-4f135b6bd9e4)
+		(uuid 27e57bf1-d51c-45ae-bc04-8bb4f5b665a5)
 	)
 	(global_label
 		GND
-		(at 368.29999999999995 288.28999999999996 0)
+		(at 165.1 394.96999999999997 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid c2647bf6-7acb-43e7-9fb4-00abe5ca54fb)
+		(uuid ec165bd0-0985-40a9-b502-e6c197362300)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9021,7 +9982,7 @@
 			)
 			(justify right)
 		)
-		(uuid 5db7296f-c6f4-42cc-b2d8-330a9f33e6f2)
+		(uuid a68e6f03-f1d3-4d5b-9e1d-741358e8c395)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9032,7 +9993,7 @@
 			)
 			(justify left)
 		)
-		(uuid fc0b56c9-17a2-4979-9462-429a36b4a83e)
+		(uuid 16bdf805-49cd-46d5-aec4-cd07f8444515)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9043,7 +10004,7 @@
 			)
 			(justify right)
 		)
-		(uuid f4d4e95e-d25b-4ff0-94b4-ee000949ded4)
+		(uuid d9113a1d-a76d-472f-9e57-41bb200444bc)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9054,7 +10015,7 @@
 			)
 			(justify left)
 		)
-		(uuid 67d1daef-1f17-4e19-a519-77b70ef5c367)
+		(uuid d696b291-829e-47c3-ad55-109bf2bfbffd)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9065,7 +10026,7 @@
 			)
 			(justify left)
 		)
-		(uuid 0623dfa1-a8ba-4c5b-ae6f-6a66b132256c)
+		(uuid 76f6b342-ca61-4ac1-9ba7-3dc72dfe57da)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9076,7 +10037,7 @@
 			)
 			(justify left)
 		)
-		(uuid f0c810a5-7618-475e-9193-8272bf03064d)
+		(uuid 1e40f9a7-b65c-4f0a-9f47-f3f0e6e1950c)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9087,7 +10048,7 @@
 			)
 			(justify left)
 		)
-		(uuid 1af78eae-61ce-4aae-a9f1-860f1a296ef9)
+		(uuid d64e7862-0811-44e1-a311-d7570ce5bd0f)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9098,7 +10059,7 @@
 			)
 			(justify right)
 		)
-		(uuid dff951c6-b1ab-4450-908c-947eea00e0ac)
+		(uuid ac514973-b803-409e-a7a8-e4d6a43ceb71)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9109,7 +10070,7 @@
 			)
 			(justify right)
 		)
-		(uuid 6d01c52b-9e1d-479d-bfef-8fe07b415334)
+		(uuid d0efff53-9d57-497a-a129-2e31bdc92953)
 	)
 	(global_label
 		+12V_ECU_SW
@@ -9120,29 +10081,29 @@
 			)
 			(justify right)
 		)
-		(uuid 6f5e7091-b802-43d1-98a0-770ce655d281)
+		(uuid d2b9acb5-c1a7-4bb4-8eec-883cb807ddbe)
 	)
 	(global_label
 		+12V_ECU_SW
-		(at 264.16 201.93 270)
+		(at 208.28 262.89 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 6950355d-1243-41ee-97c6-a936acd76660)
+		(uuid 954001d6-e310-405c-86ad-1e63e4f04019)
 	)
 	(global_label
 		+12V_ECU_SW
-		(at 180.34 294.64 270)
+		(at 58.42 358.14 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 6abe46fd-5f8a-4bb4-bf8a-84011cde3189)
+		(uuid 7e98d19a-a18b-4aa5-94d5-8448df514c99)
 	)
 	(global_label
 		VW_PIN17
@@ -9153,7 +10114,7 @@
 			)
 			(justify left)
 		)
-		(uuid b9350c4f-131b-4661-889b-d3b54beed112)
+		(uuid f6c0c1b6-089b-473e-b8eb-52f78cb195e2)
 	)
 	(global_label
 		VW_PIN17
@@ -9164,65 +10125,10 @@
 			)
 			(justify left)
 		)
-		(uuid 6a2fd641-7ce8-4646-92aa-ef88be12780c)
+		(uuid 6e3b50a9-4b34-4f97-ade1-b3a0601fb215)
 	)
 	(global_label
 		VW_PIN17
-		(at 314.96 143.51 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid c629f986-bcee-49f8-b4b0-65065d61cd49)
-	)
-	(global_label
-		VW_PIN18
-		(at 327.65999999999997 39.37 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 3cb705bb-fa48-4023-b1f6-020d4d455a43)
-	)
-	(global_label
-		VW_PIN18
-		(at 327.65999999999997 39.37 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid cf6dd2af-10aa-47a3-abee-6a0e830d4faa)
-	)
-	(global_label
-		VW_PIN18
-		(at 226.06 199.39000000000001 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 8628a022-6ba8-46f0-96f0-671941e09eec)
-	)
-	(global_label
-		VW_PIN18
-		(at 226.06 199.39000000000001 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 0377accc-237d-4880-8690-8650634b377d)
-	)
-	(global_label
-		VW_PIN18
 		(at 264.16 194.31 90)
 		(effects
 			(font
@@ -9230,7 +10136,62 @@
 			)
 			(justify left)
 		)
-		(uuid d362163a-2224-408f-83ea-631a6d43aa82)
+		(uuid 824dd9ad-7b17-4ce2-8d6d-578827af610d)
+	)
+	(global_label
+		VW_PIN18
+		(at 327.65999999999997 39.37 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 37edfa94-423c-4166-9e01-99b69495bd7e)
+	)
+	(global_label
+		VW_PIN18
+		(at 327.65999999999997 39.37 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 49a77e85-a51b-4494-af7e-965e711f2b8c)
+	)
+	(global_label
+		VW_PIN18
+		(at 172.72 260.34999999999997 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 56fafc74-0f0e-409e-9436-a3449d234e73)
+	)
+	(global_label
+		VW_PIN18
+		(at 172.72 260.34999999999997 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid a26f37e3-edea-4ad7-8619-56175552e099)
+	)
+	(global_label
+		VW_PIN18
+		(at 208.28 255.26999999999998 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 97fb8ffc-2af0-40a4-a4a7-78d499293f50)
 	)
 	(global_label
 		VW_PIN21
@@ -9241,7 +10202,7 @@
 			)
 			(justify left)
 		)
-		(uuid a22048c3-f663-446b-bfab-fc729fa47fe8)
+		(uuid 8bea2431-bfd6-422c-a073-71d0a89261c7)
 	)
 	(global_label
 		VW_PIN21
@@ -9252,18 +10213,18 @@
 			)
 			(justify left)
 		)
-		(uuid 6711962e-e5b3-448c-a9e4-33495a044647)
+		(uuid 9e33097f-9958-4633-9d1c-348ff9b06bdc)
 	)
 	(global_label
 		VW_PIN21
-		(at 274.32 151.13 270)
+		(at 170.18 201.93 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 2955a364-80da-419a-a518-579ab3e37dd5)
+		(uuid 4638487c-96b3-42b9-b24f-58fbdf77e592)
 	)
 	(global_label
 		VW_PIN23_VALVE_RETURN
@@ -9274,7 +10235,7 @@
 			)
 			(justify left)
 		)
-		(uuid eb57d18c-4e15-416e-bdf7-a01f3ab6d1ff)
+		(uuid b062cc4f-9313-40bd-b405-e27b23ad9348)
 	)
 	(global_label
 		VW_PIN23_VALVE_RETURN
@@ -9285,7 +10246,7 @@
 			)
 			(justify left)
 		)
-		(uuid 86994b04-7230-42bb-91d2-5791aa2e623a)
+		(uuid 1f2fc551-bf51-46a7-903d-3d152a0d8ee6)
 	)
 	(global_label
 		VW_PIN23_VALVE_RETURN
@@ -9296,7 +10257,7 @@
 			)
 			(justify right)
 		)
-		(uuid 9db68428-3719-4073-92f1-1cc6a012f933)
+		(uuid 87099bf3-a18a-4cb9-9d5b-497684775136)
 	)
 	(global_label
 		VW_PIN23_VALVE_RETURN
@@ -9307,7 +10268,7 @@
 			)
 			(justify left)
 		)
-		(uuid 1d653f28-625b-440b-8e1b-39f8e34cbbfb)
+		(uuid ca7ca214-95d3-41ad-bd03-a85bfa264110)
 	)
 	(global_label
 		VW_PIN23_VALVE_RETURN
@@ -9318,7 +10279,7 @@
 			)
 			(justify right)
 		)
-		(uuid e2ba7d6d-0b09-4d19-86e3-c49e98a287c4)
+		(uuid 6ca54e90-e442-4ab0-a4bc-7e0464977a97)
 	)
 	(global_label
 		VW_PIN23_VALVE_RETURN
@@ -9329,7 +10290,7 @@
 			)
 			(justify right)
 		)
-		(uuid b4153848-7d7b-47de-aaf1-ed49d66fb9cb)
+		(uuid 96f394bc-ebbb-475d-90d5-947bdaa6c744)
 	)
 	(global_label
 		VW_PIN25
@@ -9340,7 +10301,7 @@
 			)
 			(justify left)
 		)
-		(uuid 3ede6945-5160-4b6d-8a1f-8ef594210b16)
+		(uuid b8afa3df-53e1-4643-9216-1bdeff0e662f)
 	)
 	(global_label
 		VW_PIN25
@@ -9351,29 +10312,29 @@
 			)
 			(justify left)
 		)
-		(uuid 51127bf8-df90-456c-9461-f5c2a69158fa)
+		(uuid 696acba8-a891-43cc-aea5-7f05252ff596)
 	)
 	(global_label
 		VW_PIN25
-		(at 284.48 201.93 270)
+		(at 228.6 262.89 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid b002e730-a1cd-4c6c-95dc-37fb7f07fd18)
+		(uuid 61c21814-5eb1-4eba-af70-7db01399094e)
 	)
 	(global_label
 		VW_PIN25
-		(at 304.8 194.31 90)
+		(at 251.46 255.26999999999998 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 891ab152-5ac3-4962-b828-cdfedae4fc26)
+		(uuid abc13fb0-2285-4750-a169-96439af6fa94)
 	)
 	(global_label
 		VIN_12V
@@ -9384,7 +10345,7 @@
 			)
 			(justify right)
 		)
-		(uuid 7bf1d94e-eadf-4694-abc8-62c361e9d405)
+		(uuid 83e61ccb-6a37-47e9-9bec-380f5a391bee)
 	)
 	(global_label
 		VIN_12V
@@ -9395,7 +10356,7 @@
 			)
 			(justify left)
 		)
-		(uuid 3581ad7e-40c2-48cf-a889-1f8f1a890b0b)
+		(uuid 5879ef05-b6e8-4deb-8d7e-1f1831250e9a)
 	)
 	(global_label
 		+12V_PROT
@@ -9406,7 +10367,7 @@
 			)
 			(justify right)
 		)
-		(uuid 77412991-1378-48d8-a462-474a6972c1df)
+		(uuid 59b6234f-25cd-44d7-88a9-ca52d0470280)
 	)
 	(global_label
 		+12V_PROT
@@ -9417,7 +10378,7 @@
 			)
 			(justify left)
 		)
-		(uuid 7d858fc0-5811-4355-b307-67c3a915b4ff)
+		(uuid 304e4c98-393a-4015-a320-7a11752816e6)
 	)
 	(global_label
 		+12V_PROT
@@ -9428,7 +10389,7 @@
 			)
 			(justify left)
 		)
-		(uuid bfbee67f-5d2d-4180-8100-df4217b9977b)
+		(uuid fd83b8c2-636d-4b2d-8997-304e9a4aa847)
 	)
 	(global_label
 		+12V_POST_D1
@@ -9439,7 +10400,7 @@
 			)
 			(justify right)
 		)
-		(uuid a833d9db-75b1-43dc-936d-d9ad94b5eba1)
+		(uuid 83943abe-f9fd-4f7b-846e-4e0b7bcc19fb)
 	)
 	(global_label
 		+12V_POST_D1
@@ -9450,7 +10411,7 @@
 			)
 			(justify right)
 		)
-		(uuid 6f210942-42d0-41dd-85a2-6bf48b269d3a)
+		(uuid 314ae659-f452-40aa-b035-fac20f2033e5)
 	)
 	(global_label
 		+12V_POST_D1
@@ -9461,7 +10422,7 @@
 			)
 			(justify left)
 		)
-		(uuid 67d49f83-17d1-4fe8-96d5-a87b1d27b458)
+		(uuid 98fa13c0-bb7d-4dee-bdfe-457807d1c41f)
 	)
 	(global_label
 		+12V_POST_D1
@@ -9472,7 +10433,7 @@
 			)
 			(justify right)
 		)
-		(uuid ce3227b0-77b9-480c-900d-dcaef0cda70e)
+		(uuid 7f55ff40-ca02-4500-898f-3e236ddcd1f5)
 	)
 	(global_label
 		+12V_POST_D1
@@ -9483,7 +10444,7 @@
 			)
 			(justify right)
 		)
-		(uuid fe316746-bc87-4d63-a070-fce5654b2ac0)
+		(uuid b5455135-9f1a-4c45-ac79-06a183b96ea4)
 	)
 	(global_label
 		+12V_ECU
@@ -9494,7 +10455,7 @@
 			)
 			(justify right)
 		)
-		(uuid 540749d5-e686-47c1-9ec3-420afba47b42)
+		(uuid 1986a127-56f7-4700-8d31-da9f6fd24485)
 	)
 	(global_label
 		+12V_ECU
@@ -9505,7 +10466,7 @@
 			)
 			(justify left)
 		)
-		(uuid ed13335a-43ca-4f3d-acd4-9d661e120b75)
+		(uuid 5f405900-9f65-497a-bf9d-171c34fd5e9e)
 	)
 	(global_label
 		+12V_ECU
@@ -9516,7 +10477,7 @@
 			)
 			(justify left)
 		)
-		(uuid 9eeebadc-f3b4-4012-b76a-bf8719b9eed0)
+		(uuid 2a5bd51a-d34b-4761-b643-0e1f78735718)
 	)
 	(global_label
 		+12V_ECU
@@ -9527,7 +10488,7 @@
 			)
 			(justify left)
 		)
-		(uuid 99ab763a-fa13-48dc-891e-def114dfb143)
+		(uuid 2fd51c96-bd34-43aa-9be5-d40d0018fbf0)
 	)
 	(global_label
 		+12V_ECU
@@ -9538,7 +10499,7 @@
 			)
 			(justify left)
 		)
-		(uuid 0f3eb432-22a0-4a2f-8e5c-cefbf53f0bb4)
+		(uuid 2033b991-1831-4f66-8159-4a864b56f4db)
 	)
 	(global_label
 		+12V_ECU
@@ -9549,7 +10510,7 @@
 			)
 			(justify right)
 		)
-		(uuid c92ab7e2-f3a0-42df-a581-f77cfc204d41)
+		(uuid 566d62c2-f5e7-4f43-9d4b-da88b7db9b90)
 	)
 	(global_label
 		+12V_ECU
@@ -9560,7 +10521,7 @@
 			)
 			(justify right)
 		)
-		(uuid affe475f-c5d6-40f5-870c-1659f111e54f)
+		(uuid b42e3f83-2c0a-41b3-ace4-2bf9c3d7a2a1)
 	)
 	(global_label
 		+12V_ECU
@@ -9571,7 +10532,7 @@
 			)
 			(justify right)
 		)
-		(uuid 35ce03a5-ad4a-4bc5-a02f-636440bea304)
+		(uuid cadeb2df-530c-4dd5-8f38-a6567fcf52ee)
 	)
 	(global_label
 		+12V_ECU
@@ -9582,18 +10543,18 @@
 			)
 			(justify right)
 		)
-		(uuid bfe2e1c8-8e64-4e0a-9c84-006233d30fc1)
+		(uuid 3850489e-c6c3-4159-9602-509684558d97)
 	)
 	(global_label
 		+12V_ECU
-		(at 137.16 294.64 270)
+		(at 370.84000000000003 304.8 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid ab754951-b0cd-4ec0-991b-23e5d8e0419b)
+		(uuid 8619a4b8-b2c5-4494-bd86-a36e7bc7c468)
 	)
 	(global_label
 		Q2_GATE
@@ -9604,7 +10565,7 @@
 			)
 			(justify right)
 		)
-		(uuid 9423e58f-0d3b-40d3-974e-cdfbb39342de)
+		(uuid e5d7d0d6-014c-42bf-b962-1015406520aa)
 	)
 	(global_label
 		Q2_GATE
@@ -9615,7 +10576,7 @@
 			)
 			(justify right)
 		)
-		(uuid f5e10508-0a20-47e6-92e8-017e106fa1f9)
+		(uuid 38c3b7eb-970d-4be4-9501-f3db6d7ace1a)
 	)
 	(global_label
 		Q2_GATE
@@ -9626,7 +10587,7 @@
 			)
 			(justify right)
 		)
-		(uuid 54b7eea6-d37f-44e9-9489-f71d8463a5f3)
+		(uuid 709c93fe-3f36-47b9-bc13-525f7496ae0b)
 	)
 	(global_label
 		Q2_GATE
@@ -9637,7 +10598,7 @@
 			)
 			(justify left)
 		)
-		(uuid f4b6371b-2d4c-4c95-b671-50397e904ed8)
+		(uuid c4a81b73-3997-4bbc-af1a-af8dbb4270ef)
 	)
 	(global_label
 		Q2_GATE
@@ -9648,7 +10609,7 @@
 			)
 			(justify right)
 		)
-		(uuid 442b2c47-0235-4e52-befc-673bc54d9008)
+		(uuid 88b75087-6d4c-4fbd-badd-6fb7fe8b645b)
 	)
 	(global_label
 		ECU_SW_GATE_DRV
@@ -9659,7 +10620,7 @@
 			)
 			(justify right)
 		)
-		(uuid 483cd599-c311-4130-8c7c-1dd999cb1019)
+		(uuid 17818298-1bda-4a39-884b-48567839e926)
 	)
 	(global_label
 		ECU_SW_GATE_DRV
@@ -9670,7 +10631,7 @@
 			)
 			(justify right)
 		)
-		(uuid 7ec1e655-3f89-42ea-ac33-2d7580d50255)
+		(uuid 559e5f7c-a238-4261-a1d4-0108815432a0)
 	)
 	(global_label
 		ECU_SW_GATE_DRV
@@ -9681,7 +10642,7 @@
 			)
 			(justify right)
 		)
-		(uuid dccdad8a-f8e7-4ef3-95b0-625bb92d04dd)
+		(uuid 84a40d7e-e1b8-4b3a-9178-dbde9aaf3c4e)
 	)
 	(global_label
 		ECU_SW_GATE_DRV
@@ -9692,7 +10653,7 @@
 			)
 			(justify left)
 		)
-		(uuid c5425f92-f761-4dcb-a081-38e764e0a054)
+		(uuid c465d045-ea6a-407d-9ad2-dfe3a7679921)
 	)
 	(global_label
 		N$1
@@ -9703,7 +10664,7 @@
 			)
 			(justify left)
 		)
-		(uuid 652320ad-f281-40f2-b9b6-c287fe54665c)
+		(uuid 6122892e-18e7-42c5-9695-05657531b6ac)
 	)
 	(global_label
 		N$1
@@ -9714,7 +10675,7 @@
 			)
 			(justify right)
 		)
-		(uuid 331ee1d7-141a-4aa1-a5c4-e518d3d1b012)
+		(uuid edd66e97-7fee-4396-9727-319695542414)
 	)
 	(global_label
 		GP13_ECU_PWR_EN
@@ -9725,29 +10686,29 @@
 			)
 			(justify left)
 		)
-		(uuid f9950774-ed3e-4510-a9e4-900b68a21226)
+		(uuid 5f52336b-5d62-4383-966b-1dcd85e79079)
 	)
 	(global_label
 		GP13_ECU_PWR_EN
-		(at 332.74 311.15 180)
+		(at 129.54 417.83 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 2fee1330-5b3f-436c-a647-c0b964014320)
+		(uuid dde7cd5f-d3b3-4281-af72-e67f5bdfaf67)
 	)
 	(global_label
 		GP13_ECU_PWR_EN
-		(at 332.74 311.15 180)
+		(at 129.54 417.83 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 6578caca-e41a-48d4-bcd1-7654029b7f4d)
+		(uuid 60aaf879-1983-4cad-b0f5-93d677d3d0d3)
 	)
 	(global_label
 		+3V3
@@ -9758,7 +10719,7 @@
 			)
 			(justify right)
 		)
-		(uuid dabc8b46-d59a-4777-bd4d-bb5a2f4f6910)
+		(uuid e5771b4e-307e-4cd3-a9d6-502b7f56e813)
 	)
 	(global_label
 		+3V3
@@ -9769,7 +10730,7 @@
 			)
 			(justify right)
 		)
-		(uuid e9e2052c-9d94-4496-9734-3886d749ce16)
+		(uuid 2c85635e-47b9-4661-8d58-305bd9314b2b)
 	)
 	(global_label
 		+3V3
@@ -9780,7 +10741,7 @@
 			)
 			(justify right)
 		)
-		(uuid aac2852a-8c68-4603-be4d-cc2e35000463)
+		(uuid 254eadd7-55e1-4f56-a322-be95f423b86c)
 	)
 	(global_label
 		+3V3
@@ -9791,7 +10752,7 @@
 			)
 			(justify left)
 		)
-		(uuid 06111d03-f3af-4b33-8382-509df83a35c1)
+		(uuid ca3fa683-01ca-4aa2-a5e3-930d740946b6)
 	)
 	(global_label
 		+3V3
@@ -9802,7 +10763,7 @@
 			)
 			(justify right)
 		)
-		(uuid 68cbf924-b8b0-4b64-aac2-3d341d199725)
+		(uuid 88b143c4-fefc-414c-899f-9db2ca1a7ad0)
 	)
 	(global_label
 		+3V3
@@ -9813,7 +10774,7 @@
 			)
 			(justify left)
 		)
-		(uuid 0e951819-9042-4f9d-839f-284c5f2fa76d)
+		(uuid 3863da0b-b48d-44fb-942f-9f75d4d6f745)
 	)
 	(global_label
 		+3V3
@@ -9824,7 +10785,7 @@
 			)
 			(justify left)
 		)
-		(uuid ce42bfb2-b640-4354-90b5-930f55636a0d)
+		(uuid 6757cdf0-0739-44ff-b86f-f5a16f5dcd18)
 	)
 	(global_label
 		+3V3
@@ -9835,483 +10796,10 @@
 			)
 			(justify left)
 		)
-		(uuid 3e217825-07d6-43c1-9e76-79cbd0901c67)
+		(uuid 1c5c5d71-7006-4957-b6ab-0c15ef53365b)
 	)
 	(global_label
 		+3V3
-		(at 284.48 194.31 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid e20496ab-47b6-43cd-87e1-bf2496938a43)
-	)
-	(global_label
-		+3V3
-		(at 325.12 194.31 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid c34797b0-35b3-4362-8dba-2ce0588d1035)
-	)
-	(global_label
-		+3V3
-		(at 40.64 238.76 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid b95f6826-6c43-4f32-8ca5-35bba96448bc)
-	)
-	(global_label
-		+3V3
-		(at 40.64 238.76 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid be019779-2fba-41b2-85ef-58a65191d848)
-	)
-	(global_label
-		+3V3
-		(at 99.06 243.84 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid cf89b538-32af-4c99-b0ba-893317e4bd93)
-	)
-	(global_label
-		+3V3
-		(at 106.68 236.22 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 4515ba80-c1f9-4267-ade6-d2c03ec2281a)
-	)
-	(global_label
-		+3V3
-		(at 106.68 236.22 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 6373df93-eed8-4c8c-9309-2696b1aef931)
-	)
-	(global_label
-		+3V3
-		(at 99.06 243.84 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 0ad72cf2-78a4-4e3b-816a-29b4c699d02c)
-	)
-	(global_label
-		+3V3
-		(at 223.51999999999998 243.84 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 72b2f2c1-761a-4ee5-aa64-8ac2ec0b2780)
-	)
-	(global_label
-		+3V3
-		(at 45.72 287.02 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid e2df551e-1891-47d2-aed4-5e8f21d89c99)
-	)
-	(global_label
-		+3V3
-		(at 45.72 287.02 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 32ba817e-ab1a-43ca-9660-a659cdbeab5f)
-	)
-	(global_label
-		+3V3
-		(at 96.52 290.83 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 4f4490e2-3c03-4c05-8841-46a31e09f91d)
-	)
-	(global_label
-		+3V3
-		(at 157.48 294.64 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid ffbfa8a8-3569-4a64-90eb-88a74dda90d8)
-	)
-	(global_label
-		+3V3
-		(at 198.12 290.83 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid dbdc24c1-5144-40ab-b49c-4f7743546470)
-	)
-	(global_label
-		+3V3
-		(at 218.44 290.83 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 2ff6d47d-00f9-426a-b3d3-4c2a53df60d7)
-	)
-	(global_label
-		+3V3
-		(at 368.29999999999995 295.90999999999997 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid e22f7d62-45c2-4acd-8fed-4add759f6520)
-	)
-	(global_label
-		+3V3
-		(at 368.29999999999995 283.21 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid d9044b56-c15b-4c05-a28b-b73f45587ac3)
-	)
-	(global_label
-		+3V3
-		(at 368.29999999999995 280.66999999999996 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 800f3d7a-aa77-4a6a-9bc5-df03dbd6299b)
-	)
-	(global_label
-		+3V3
-		(at 368.29999999999995 280.66999999999996 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 9329496f-8c0e-4a92-8063-24cd27e3aaaa)
-	)
-	(global_label
-		+3V3
-		(at 368.29999999999995 295.90999999999997 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid e5d114a2-bf67-4e7d-870c-5b849934a726)
-	)
-	(global_label
-		+3V3
-		(at 368.29999999999995 283.21 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid ae34e5f9-6904-4711-9c5a-6d022462aede)
-	)
-	(global_label
-		I2C_SDA
-		(at 360.67999999999995 104.14 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 0c321b5f-0e96-458b-8daa-b8e3aa5f054e)
-	)
-	(global_label
-		I2C_SDA
-		(at 360.67999999999995 104.14 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid a3b22adf-f190-4871-9af3-d17df88bb1f6)
-	)
-	(global_label
-		I2C_SDA
-		(at 149.86 149.85999999999999 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 2fc8f13c-215e-4147-874d-df31b1168845)
-	)
-	(global_label
-		I2C_SDA
-		(at 149.86 149.85999999999999 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 3fbe9bd8-40e9-4ffe-8c33-f001d80947c7)
-	)
-	(global_label
-		I2C_SDA
-		(at 172.72 147.32 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 45e2941b-44e4-47e9-b8d5-c3f9cdaea901)
-	)
-	(global_label
-		I2C_SDA
-		(at 172.72 147.32 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 2763856a-9d0e-4706-9955-3b97ba964110)
-	)
-	(global_label
-		I2C_SDA
-		(at 223.51999999999998 248.92000000000002 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 960deb16-dbfc-4dcd-82ae-77f660320d6e)
-	)
-	(global_label
-		I2C_SDA
-		(at 198.12 298.45 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid a810de5f-683c-461a-b4e1-b0d9d1730701)
-	)
-	(global_label
-		I2C_SDA
-		(at 332.74 283.21 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 38d903ac-6ff0-4042-8375-7e57a6d60baf)
-	)
-	(global_label
-		I2C_SDA
-		(at 332.74 283.21 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 1f72e8b5-9a4f-44c9-960d-9fd2dd8c260e)
-	)
-	(global_label
-		I2C_SCL
-		(at 360.67999999999995 106.67999999999999 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid b2d93195-2ab5-4abd-8557-56c8dadcc950)
-	)
-	(global_label
-		I2C_SCL
-		(at 360.67999999999995 106.67999999999999 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid a4b85c68-520b-4cc6-9bd3-8b6fbd900ffd)
-	)
-	(global_label
-		I2C_SCL
-		(at 149.86 152.4 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 6799ccfe-daba-4bb7-8546-02b842fa3d7e)
-	)
-	(global_label
-		I2C_SCL
-		(at 149.86 152.4 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid bad09bb7-d4a2-4c42-be2d-53dc557cfdac)
-	)
-	(global_label
-		I2C_SCL
-		(at 172.72 144.78 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid f61cdddd-ad4c-4687-b09d-a7aa709d86b2)
-	)
-	(global_label
-		I2C_SCL
-		(at 172.72 144.78 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid e9ee0948-9f0e-434a-8a16-a646b0a95bf6)
-	)
-	(global_label
-		I2C_SCL
-		(at 223.51999999999998 246.38 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 4d269a39-a96a-4c54-b05d-82d69001721a)
-	)
-	(global_label
-		I2C_SCL
-		(at 218.44 298.45 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid b706374f-2bbb-48da-a623-99a1c9ede7ce)
-	)
-	(global_label
-		I2C_SCL
-		(at 332.74 285.75 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid c4f62768-a2da-4f09-9c6d-d1954193e621)
-	)
-	(global_label
-		I2C_SCL
-		(at 332.74 285.75 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 60f54936-0056-4689-a646-c3cc5b8f8a7f)
-	)
-	(global_label
-		R2_DAC_SIDE
-		(at 203.20000000000002 144.78 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid f3b9b3ec-2a20-44eb-aa16-0f096e3bb59a)
-	)
-	(global_label
-		R2_DAC_SIDE
-		(at 203.20000000000002 144.78 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 27679dee-51b4-45b2-8aed-4e5ff6167b24)
-	)
-	(global_label
-		R2_DAC_SIDE
 		(at 233.68 143.51 90)
 		(effects
 			(font
@@ -10319,285 +10807,98 @@
 			)
 			(justify left)
 		)
-		(uuid d9bb8d6e-1888-4115-bd40-a208dc6b26e7)
+		(uuid 6d5328a3-bb9c-448c-afa2-48eb170fc0f6)
 	)
 	(global_label
-		R3_DAC_SIDE
-		(at 203.20000000000002 147.32 0)
+		+3V3
+		(at 45.72 185.42000000000002 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 9a74ce1a-edce-4a81-acbd-48af23aeb056)
+		(uuid 66f317ba-5a70-46ec-b794-48482e01a055)
 	)
 	(global_label
-		R3_DAC_SIDE
-		(at 203.20000000000002 147.32 0)
+		+3V3
+		(at 45.72 185.42000000000002 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid e518f0f7-f536-4c4f-b054-263c44e96f58)
+		(uuid 92920224-7f14-4006-bef0-8ecf8917040f)
 	)
 	(global_label
-		R3_DAC_SIDE
-		(at 254.0 143.51 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 14ca74e4-e49a-4825-8b5f-e8b667d390a2)
-	)
-	(global_label
-		R4_DAC_SIDE
-		(at 203.20000000000002 149.85999999999999 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 4044fdf7-9698-4002-a809-51c27048573f)
-	)
-	(global_label
-		R4_DAC_SIDE
-		(at 203.20000000000002 149.85999999999999 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 2eedc609-940f-4b38-b315-d31f859f16c8)
-	)
-	(global_label
-		R4_DAC_SIDE
-		(at 274.32 143.51 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 30a308bb-7afe-4c77-a7d4-d3a6cd05dd10)
-	)
-	(global_label
-		R5_DAC_SIDE
-		(at 203.20000000000002 152.4 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 5e4927ab-8f32-4f5f-ab4d-f72a9877f3e0)
-	)
-	(global_label
-		R5_DAC_SIDE
-		(at 203.20000000000002 152.4 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid b26450e1-cce8-4420-82a7-518cabe5d758)
-	)
-	(global_label
-		R5_DAC_SIDE
-		(at 294.64 143.51 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 7fdffb45-ddeb-404f-be80-70f10669d232)
-	)
-	(global_label
-		GP26_AFM_REF_ADC
-		(at 314.96 151.13 270)
+		+3V3
+		(at 71.12 201.93 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 1c209a34-f7a2-419c-9aba-03d42ce784c2)
+		(uuid 2c2ba11a-ac9d-4464-a71d-62954811c1bc)
 	)
 	(global_label
-		GP26_AFM_REF_ADC
-		(at 335.28000000000003 143.51 90)
+		+3V3
+		(at 121.92 185.42000000000002 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid b172635f-0b1f-4815-973b-b937ea382dbd)
+		(uuid 9d841b23-53c1-4281-b25f-bc5d910b44d4)
 	)
 	(global_label
-		GP26_AFM_REF_ADC
-		(at 355.6 143.51 90)
+		+3V3
+		(at 121.92 185.42000000000002 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid fdc7d774-c0fe-4335-8989-974b08667c37)
+		(uuid b065b682-69d8-4147-9f22-10d7ecc13b86)
 	)
 	(global_label
-		GP26_AFM_REF_ADC
-		(at 368.29999999999995 293.37 0)
+		+3V3
+		(at 147.32 201.93 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 6911d571-82b5-4e9b-a64e-e0c1d6fa787e)
+	)
+	(global_label
+		+3V3
+		(at 218.44 185.42000000000002 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid c4f05671-7e5a-4745-a113-9d833e596aea)
+		(uuid ca6094b9-aeda-426f-82b1-c0db0526d1db)
 	)
 	(global_label
-		GP26_AFM_REF_ADC
-		(at 368.29999999999995 293.37 0)
+		+3V3
+		(at 218.44 185.42000000000002 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid b7e689bd-066a-42f3-b31b-cc3ba4ffadcb)
+		(uuid ece03e85-84e6-43cd-9d59-06fafd7ddd20)
 	)
 	(global_label
-		GP6_THROTTLE_IDLE_SW
-		(at 40.64 196.85 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 0d9e9ba6-acae-4b76-a331-16cdb8aba5c6)
-	)
-	(global_label
-		GP6_THROTTLE_IDLE_SW
-		(at 40.64 196.85 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 9d17fd83-3580-4b4c-ab87-9afd1d6b4225)
-	)
-	(global_label
-		GP6_THROTTLE_IDLE_SW
-		(at 147.32 194.31 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 846cb7f2-815e-4ce0-81c2-070c6cc69655)
-	)
-	(global_label
-		GP6_THROTTLE_IDLE_SW
-		(at 332.74 290.83 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 932cb935-8b40-40ec-a0a3-e3da6df34d89)
-	)
-	(global_label
-		GP6_THROTTLE_IDLE_SW
-		(at 332.74 290.83 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 024cbde6-b1a4-484e-bee0-defbabccd150)
-	)
-	(global_label
-		GP7_THROTTLE_WOT_SW
-		(at 93.98 196.85 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 504f60c7-999b-4367-975c-3456d3283381)
-	)
-	(global_label
-		GP7_THROTTLE_WOT_SW
-		(at 93.98 196.85 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 038ede58-9be5-4697-b607-ffb41c348dd3)
-	)
-	(global_label
-		GP7_THROTTLE_WOT_SW
-		(at 170.18 194.31 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid 5ce02f69-e54d-47d0-b8be-42e64dfc3061)
-	)
-	(global_label
-		GP7_THROTTLE_WOT_SW
-		(at 332.74 293.37 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 4cdd660e-5514-4fab-b643-60ce744fd281)
-	)
-	(global_label
-		GP7_THROTTLE_WOT_SW
-		(at 332.74 293.37 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 9ab88706-beb2-47d0-b208-9ae7b2131dbd)
-	)
-	(global_label
-		N$2
-		(at 190.5 196.85 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid 337d279d-9374-4768-bccf-e8d601920bc2)
-	)
-	(global_label
-		N$2
+		+3V3
 		(at 243.84 201.93 270)
 		(effects
 			(font
@@ -10605,10 +10906,758 @@
 			)
 			(justify right)
 		)
-		(uuid 0ba696e8-9bce-46ad-a3ba-7ae0a19ee605)
+		(uuid 519c8fc4-7153-427c-9e1e-ca66e4c0b8b5)
 	)
 	(global_label
-		GP2_CRANK
+		+3V3
+		(at 228.6 255.26999999999998 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid d136abc7-f69b-4697-ad5e-6cdd7c680ba9)
+	)
+	(global_label
+		+3V3
+		(at 269.24 255.26999999999998 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid ac47bc7f-9813-46d4-8078-8e949fe7916d)
+	)
+	(global_label
+		+3V3
+		(at 312.41999999999996 253.99999999999997 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 292d1437-21f6-4f77-b7f5-ced175409401)
+	)
+	(global_label
+		+3V3
+		(at 312.41999999999996 253.99999999999997 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid e2305c2f-e864-42c0-8f69-83180fcdefbe)
+	)
+	(global_label
+		+3V3
+		(at 38.1 304.8 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid f7e6c9c6-80c3-48c3-8428-808e699d3e82)
+	)
+	(global_label
+		+3V3
+		(at 45.72 297.18 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid a24ca043-6811-4871-9bf9-e34cefb3616e)
+	)
+	(global_label
+		+3V3
+		(at 45.72 297.18 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 2d6a4849-fcb4-4a1f-982f-74d5b6c4ecd4)
+	)
+	(global_label
+		+3V3
+		(at 38.1 304.8 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid cc4dfb62-3785-46c9-9d17-ec04f4286ecc)
+	)
+	(global_label
+		+3V3
+		(at 165.1 304.8 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid bc684c5d-565f-4d27-b798-2b02339fd651)
+	)
+	(global_label
+		+3V3
+		(at 279.4 297.18 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid ebbb8853-a9a4-4466-9416-63721b74c24d)
+	)
+	(global_label
+		+3V3
+		(at 279.4 297.18 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 0c415b70-e00f-485c-a6e9-beff7cd94ad3)
+	)
+	(global_label
+		+3V3
+		(at 330.2 300.99 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 1e27a58d-a5dd-4128-8527-f4ca8446ea25)
+	)
+	(global_label
+		+3V3
+		(at 38.1 358.14 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 8bc560ef-87d8-48da-b17f-eb044f71bece)
+	)
+	(global_label
+		+3V3
+		(at 76.2 354.33 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 07fa2530-da96-4d43-b258-cc9ab1bed44d)
+	)
+	(global_label
+		+3V3
+		(at 96.52 354.33 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid bac59478-dd7c-43ae-8eb6-3c7de485b0f9)
+	)
+	(global_label
+		+3V3
+		(at 165.1 402.59 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 6d7b49a4-51a8-4aee-a200-b4ac8d77c832)
+	)
+	(global_label
+		+3V3
+		(at 165.1 389.89 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 2ed8ddb4-2f58-4953-92d8-2bd0562b9223)
+	)
+	(global_label
+		+3V3
+		(at 165.1 387.34999999999997 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid ffd8b933-fcae-4a78-bba0-801a7e8da54f)
+	)
+	(global_label
+		+3V3
+		(at 165.1 387.34999999999997 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 05228f64-6778-4734-8fc8-e1f0eb504c17)
+	)
+	(global_label
+		+3V3
+		(at 165.1 402.59 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid be86a2a8-d618-4285-8fc9-3aed548cca0c)
+	)
+	(global_label
+		+3V3
+		(at 165.1 389.89 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid c8f373f6-94ee-4bfd-ba09-497ccc683a8d)
+	)
+	(global_label
+		I2C_SDA
+		(at 360.67999999999995 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 38280d6b-068f-4a89-bb4a-cd3ba158e9bc)
+	)
+	(global_label
+		I2C_SDA
+		(at 360.67999999999995 104.14 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid cb20cef4-bddf-4412-8ea3-f8ebb5085505)
+	)
+	(global_label
+		I2C_SDA
+		(at 149.86 149.85999999999999 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 29fd384c-44a1-4ee3-bc7b-1360c4d18d71)
+	)
+	(global_label
+		I2C_SDA
+		(at 149.86 149.85999999999999 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid e300bebe-d0b1-4eba-851d-53c7e2e38c55)
+	)
+	(global_label
+		I2C_SDA
+		(at 172.72 147.32 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 8bf06932-abbc-4dee-be89-6129a1a9e7c8)
+	)
+	(global_label
+		I2C_SDA
+		(at 172.72 147.32 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 4f3a2488-d5a9-418b-966a-02d9d1bd180d)
+	)
+	(global_label
+		I2C_SDA
+		(at 165.1 309.88 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 2701cf35-7267-40a5-8ab6-6720f03cf49b)
+	)
+	(global_label
+		I2C_SDA
+		(at 76.2 361.95 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid d3a1115e-b767-4366-8717-a69f71d2cd7e)
+	)
+	(global_label
+		I2C_SDA
+		(at 129.54 389.89 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid bb3754f2-143a-41a1-a6cc-57b8812b946b)
+	)
+	(global_label
+		I2C_SDA
+		(at 129.54 389.89 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid f73f57a0-6497-4e43-b26e-6859e4757e2d)
+	)
+	(global_label
+		I2C_SCL
+		(at 360.67999999999995 106.67999999999999 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 72798467-620b-4923-9913-773d1c187e6d)
+	)
+	(global_label
+		I2C_SCL
+		(at 360.67999999999995 106.67999999999999 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 9e5cebf9-b9f3-406a-b83f-66cf589e7f6f)
+	)
+	(global_label
+		I2C_SCL
+		(at 149.86 152.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid d5f90561-a93a-4035-a213-8c2737e5ad89)
+	)
+	(global_label
+		I2C_SCL
+		(at 149.86 152.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 0e596916-bf40-4a5a-87b7-ca462890a459)
+	)
+	(global_label
+		I2C_SCL
+		(at 172.72 144.78 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 08d4dbdd-1bba-4b62-ac03-c38d57beb401)
+	)
+	(global_label
+		I2C_SCL
+		(at 172.72 144.78 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid d5729dfb-e3be-4366-b69c-36e3b3992678)
+	)
+	(global_label
+		I2C_SCL
+		(at 165.1 307.34000000000003 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid f3dfa8bc-69ed-4e5c-86a6-b83c9e1f71a8)
+	)
+	(global_label
+		I2C_SCL
+		(at 96.52 361.95 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 32632d86-9caf-4155-a867-3a90354e498a)
+	)
+	(global_label
+		I2C_SCL
+		(at 129.54 392.43 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 27b3bea2-a3f6-4739-9f18-52423a62e764)
+	)
+	(global_label
+		I2C_SCL
+		(at 129.54 392.43 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 7753be2a-22d4-4940-9db2-af1789536c33)
+	)
+	(global_label
+		R2_DAC_SIDE
+		(at 203.20000000000002 144.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid c8c3da3c-7ca4-47d3-8501-439723639da7)
+	)
+	(global_label
+		R2_DAC_SIDE
+		(at 203.20000000000002 144.78 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid caaf3415-610f-42d4-8773-ab4367fbfe60)
+	)
+	(global_label
+		R2_DAC_SIDE
+		(at 254.0 143.51 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 211cc888-b74b-4cae-a7b9-ec98a5e5ab22)
+	)
+	(global_label
+		R3_DAC_SIDE
+		(at 203.20000000000002 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 4b38e57e-953a-4ebe-b35e-27d3cf256dc3)
+	)
+	(global_label
+		R3_DAC_SIDE
+		(at 203.20000000000002 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 5a0ce4c6-d131-4ad6-be6d-fc7ca49d760e)
+	)
+	(global_label
+		R3_DAC_SIDE
+		(at 91.44 194.31 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 30127e7b-58f2-4979-b2c3-5c242dba3b47)
+	)
+	(global_label
+		R4_DAC_SIDE
+		(at 203.20000000000002 149.85999999999999 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid aaca42f1-43d4-46b4-9130-265617169055)
+	)
+	(global_label
+		R4_DAC_SIDE
+		(at 203.20000000000002 149.85999999999999 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 31be6cc1-30a2-4b56-a101-231ddfe19cfe)
+	)
+	(global_label
+		R4_DAC_SIDE
+		(at 170.18 194.31 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid b95d5826-cc61-4220-b58b-9d4bffe62c0c)
+	)
+	(global_label
+		R5_DAC_SIDE
+		(at 203.20000000000002 152.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 4bb16db8-0bcb-4e21-99f9-0a957139469d)
+	)
+	(global_label
+		R5_DAC_SIDE
+		(at 203.20000000000002 152.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 828402e8-6c36-4470-9935-3cff81992b79)
+	)
+	(global_label
+		R5_DAC_SIDE
+		(at 187.96 194.31 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 908aa32b-debd-4ab0-ba3b-593a979e1991)
+	)
+	(global_label
+		R2_SW_IN
+		(at 254.0 151.13 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 955e4f28-e38e-4f23-9266-c770ba3a5eb2)
+	)
+	(global_label
+		R2_SW_IN
+		(at 53.339999999999996 200.66 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 4e349ed7-5e1a-45c3-b274-4bcc9205b469)
+	)
+	(global_label
+		GP8_AIRTEMP_CONNECT
+		(at 45.72 205.74 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid b4a4dc15-6996-442a-9702-71ef5f5e0081)
+	)
+	(global_label
+		GP8_AIRTEMP_CONNECT
+		(at 71.12 194.31 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 69178876-04a3-49aa-803a-993c13cd36d2)
+	)
+	(global_label
+		GP8_AIRTEMP_CONNECT
+		(at 129.54 402.59 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 6d996ccb-f7d8-460b-b2b8-999fc4e8a95a)
+	)
+	(global_label
+		GP8_AIRTEMP_CONNECT
+		(at 129.54 402.59 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 6cb694bb-293a-45f0-b32d-1009888864d9)
+	)
+	(global_label
+		R3_SW_IN
+		(at 91.44 201.93 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 86318e6e-b880-4e21-9a95-737ad2f788a6)
+	)
+	(global_label
+		R3_SW_IN
+		(at 129.54 200.66 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 5572e233-cd6c-42ed-a0e0-af30bd608fd9)
+	)
+	(global_label
+		GP9_WATERTEMP_CONNECT
+		(at 121.92 205.74 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 34c4cf77-f807-48d1-b1fe-eeb76cf7c89d)
+	)
+	(global_label
+		GP9_WATERTEMP_CONNECT
+		(at 147.32 194.31 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 886bf532-b164-4b4a-a5f6-4631ce1a7802)
+	)
+	(global_label
+		GP9_WATERTEMP_CONNECT
+		(at 129.54 405.13 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid b0cbc41c-d317-48d5-a2ca-25b0ec12823c)
+	)
+	(global_label
+		GP9_WATERTEMP_CONNECT
+		(at 129.54 405.13 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid c0cbe991-ed38-47db-9535-444ccd2887ea)
+	)
+	(global_label
+		R5_SW_IN
+		(at 187.96 201.93 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 6094449f-7019-4261-bc49-821dbb5ff8c1)
+	)
+	(global_label
+		R5_SW_IN
+		(at 226.06 200.66 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 6c6f8ba4-0bd5-432e-8c66-545cd1b0138b)
+	)
+	(global_label
+		GP11_LAMBDA_CONNECT
+		(at 218.44 205.74 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 9918151c-76ca-4c46-99d7-9ee7631de8e1)
+	)
+	(global_label
+		GP11_LAMBDA_CONNECT
 		(at 243.84 194.31 90)
 		(effects
 			(font
@@ -10616,505 +11665,725 @@
 			)
 			(justify left)
 		)
-		(uuid 6aa72547-2e36-4224-a3f0-6f83e26cab34)
+		(uuid 1a692214-210b-4255-a7e7-2142ad193e8a)
+	)
+	(global_label
+		GP11_LAMBDA_CONNECT
+		(at 129.54 412.75 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 45aa4356-67dc-4e83-9e65-dbf0f622854d)
+	)
+	(global_label
+		GP11_LAMBDA_CONNECT
+		(at 129.54 412.75 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 3b3ab1ee-d719-4d72-9490-5a180b15a391)
+	)
+	(global_label
+		GP26_AFM_REF_ADC
+		(at 264.16 201.93 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid c240c4f9-6078-4e8c-a2d0-43d789742e3b)
+	)
+	(global_label
+		GP26_AFM_REF_ADC
+		(at 284.48 194.31 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid d358eb5a-273d-41bf-b0fc-cf0ae50e7059)
+	)
+	(global_label
+		GP26_AFM_REF_ADC
+		(at 304.8 194.31 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid b6490135-34d2-4ffa-a36e-89a641f43817)
+	)
+	(global_label
+		GP26_AFM_REF_ADC
+		(at 165.1 400.05 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid ab44a212-79c2-47d5-9b57-d66d24e064cb)
+	)
+	(global_label
+		GP26_AFM_REF_ADC
+		(at 165.1 400.05 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 261d7bfe-9cf9-4f76-a170-a7ee62725ab2)
+	)
+	(global_label
+		GP6_THROTTLE_IDLE_SW
+		(at 327.65999999999997 196.85 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid e703fcd8-228f-48cc-8dab-6ffc5ed92ebe)
+	)
+	(global_label
+		GP6_THROTTLE_IDLE_SW
+		(at 327.65999999999997 196.85 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 1309fb49-3125-4544-b683-75bdb09d98a2)
+	)
+	(global_label
+		GP6_THROTTLE_IDLE_SW
+		(at 91.44 255.26999999999998 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 8eacca16-ec32-4217-9241-bccde9184b99)
+	)
+	(global_label
+		GP6_THROTTLE_IDLE_SW
+		(at 129.54 397.51 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 6486984e-c13c-407e-acfe-3e5345cdcc42)
+	)
+	(global_label
+		GP6_THROTTLE_IDLE_SW
+		(at 129.54 397.51 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid c9690f23-b056-493d-a390-ded7a8f0fb31)
+	)
+	(global_label
+		GP7_THROTTLE_WOT_SW
+		(at 40.64 257.81 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 5ed020e8-c074-4a00-985f-2a91c71359c2)
+	)
+	(global_label
+		GP7_THROTTLE_WOT_SW
+		(at 40.64 257.81 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 8f75afbf-acb3-4c0e-a16d-24637e43008c)
+	)
+	(global_label
+		GP7_THROTTLE_WOT_SW
+		(at 111.76 255.26999999999998 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 11fc1a32-50dc-48fa-9bce-579db3382992)
+	)
+	(global_label
+		GP7_THROTTLE_WOT_SW
+		(at 129.54 400.05 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 8cc9ab8a-3daf-4884-bcf2-ed9d4a7130ff)
+	)
+	(global_label
+		GP7_THROTTLE_WOT_SW
+		(at 129.54 400.05 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 96fa619a-0748-4602-bd50-668d95ad9ad5)
+	)
+	(global_label
+		N$2
+		(at 137.16 257.81 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid d4cab92d-060a-4732-89f5-04f4b57bc708)
+	)
+	(global_label
+		N$2
+		(at 187.96 262.89 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid b27ef8f1-bd8a-4c79-a187-e2ccf79e970c)
 	)
 	(global_label
 		GP2_CRANK
-		(at 332.74 278.13 180)
+		(at 187.96 255.26999999999998 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right)
+			(justify left)
 		)
-		(uuid 0bf2e3cc-a8b1-46e8-99c1-7683ea7a8bd3)
+		(uuid e54ecbf0-5679-4c11-85b7-f68e4ed008bb)
 	)
 	(global_label
 		GP2_CRANK
-		(at 332.74 278.13 180)
+		(at 129.54 384.81 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 253d18c1-d805-497d-baa1-9c12e8159cde)
+		(uuid 38899ee5-9ae0-4871-b749-dd095d0d1c34)
+	)
+	(global_label
+		GP2_CRANK
+		(at 129.54 384.81 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid ce73922f-0a4a-4fd8-98ea-0f40f6bce362)
 	)
 	(global_label
 		GP14_IGN_CAPTURE
-		(at 304.8 201.93 270)
+		(at 251.46 262.89 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid ce3e5b71-f261-42be-877c-fe201adf5e77)
+		(uuid 429d9614-5432-42c4-9cf1-57c0f5fc2035)
 	)
 	(global_label
 		GP14_IGN_CAPTURE
-		(at 332.74 316.22999999999996 180)
+		(at 129.54 422.90999999999997 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 7bd652d2-2759-4d22-a60f-08c1433a637c)
+		(uuid ba0483cd-3d36-4198-af1c-a6890c810368)
 	)
 	(global_label
 		GP14_IGN_CAPTURE
-		(at 332.74 316.22999999999996 180)
+		(at 129.54 422.90999999999997 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 8c4d06fc-0aee-43ab-a39c-85228cc73e6d)
+		(uuid 08c9e0d0-bd08-4d35-ae5c-54ce1a00601f)
 	)
 	(global_label
 		GP15_INJ_CAPTURE
-		(at 345.44 201.93 270)
+		(at 289.56 262.89 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 12bca0e8-3a42-4816-b09e-0805ac7fe3c4)
+		(uuid 0aed97a9-c2a0-4c02-b4e9-2b591656ce82)
 	)
 	(global_label
 		GP15_INJ_CAPTURE
-		(at 332.74 318.77 180)
+		(at 129.54 425.45 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid d096c70e-de43-4af5-960a-f1a4c2d5ece9)
+		(uuid 657d9312-b663-41ef-a47e-f0f1ef0722b9)
 	)
 	(global_label
 		GP15_INJ_CAPTURE
-		(at 332.74 318.77 180)
+		(at 129.54 425.45 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 758aff23-b421-4fbe-8282-116f430c5ddd)
+		(uuid 620510ae-5d38-47ef-9241-425eca4634c8)
 	)
 	(global_label
 		N$3
-		(at 76.2 238.76 0)
+		(at 347.98 253.99999999999997 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid b8cfc2bd-8946-467b-a1f7-c649fb1ed840)
+		(uuid c828b0bd-ce10-4b37-87a8-2d4d4153f601)
 	)
 	(global_label
 		N$3
-		(at 76.2 238.76 0)
+		(at 347.98 253.99999999999997 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 3160cc78-692e-4695-9bc9-a502614f0084)
+		(uuid 196de2cc-ca27-4b03-99cd-298844316445)
 	)
 	(global_label
 		N$3
-		(at 114.30000000000001 243.84 0)
+		(at 53.339999999999996 304.8 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid ae924f16-441a-4417-9b39-d36529b23658)
+		(uuid ab668766-f895-4f74-bc30-7632fcfd7c94)
 	)
 	(global_label
 		GP19_SPI_MOSI
-		(at 76.2 241.3 0)
+		(at 347.98 256.53999999999996 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 574b4bb8-cc60-4060-97a0-5011348bb0eb)
+		(uuid b3c32f3a-e3be-4096-81c9-f1b17e6babda)
 	)
 	(global_label
 		GP19_SPI_MOSI
-		(at 76.2 241.3 0)
+		(at 347.98 256.53999999999996 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 7705aa8e-49eb-431e-9cfb-543008232cb2)
+		(uuid 3e2f987a-3e87-48e2-8a96-98370270a88a)
 	)
 	(global_label
 		GP19_SPI_MOSI
-		(at 368.29999999999995 308.61 0)
+		(at 165.1 415.29 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid a52e3d8f-ccb4-44ae-80eb-696449318980)
+		(uuid 610ac1cb-7c48-41cd-8cb4-17a1e5eb34ff)
 	)
 	(global_label
 		GP19_SPI_MOSI
-		(at 368.29999999999995 308.61 0)
+		(at 165.1 415.29 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 6e646db1-8be7-4f3b-b75b-57db9706cf94)
+		(uuid 0076ef47-e83d-4b70-8026-083dc91d79b6)
 	)
 	(global_label
 		GP18_SPI_SCK
-		(at 76.2 243.84 0)
+		(at 347.98 259.08 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid d8a3770b-c975-4938-baa8-0c83a42ec1e8)
+		(uuid 690f1604-fe0d-4ced-a576-00dd08ba8648)
 	)
 	(global_label
 		GP18_SPI_SCK
-		(at 76.2 243.84 0)
+		(at 347.98 259.08 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 74902bff-ae87-4603-be97-fa068cecf278)
+		(uuid 5985f7da-c468-4756-8599-5546bc563a8c)
 	)
 	(global_label
 		GP18_SPI_SCK
-		(at 368.29999999999995 311.15 0)
+		(at 165.1 417.83 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 61d9816c-cb66-4714-8533-693f5c26be4b)
+		(uuid f5f1b354-fd67-4115-a6d0-c8eed7b181e8)
 	)
 	(global_label
 		GP18_SPI_SCK
-		(at 368.29999999999995 311.15 0)
+		(at 165.1 417.83 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 09e13d62-f029-4e02-aad1-6d4eb3c12da5)
+		(uuid 593a4706-4468-401c-91ca-671f8a35698f)
 	)
 	(global_label
 		GP16_SPI_CS
-		(at 76.2 246.38 0)
+		(at 347.98 261.62 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 4332a31f-05aa-4b5d-8cca-45f3b7f40aa0)
+		(uuid b7dda9a3-785b-45cf-9b4d-04bdf697cfac)
 	)
 	(global_label
 		GP16_SPI_CS
-		(at 76.2 246.38 0)
+		(at 347.98 261.62 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid c148db30-5899-4905-9c16-0203549e9693)
+		(uuid 18f8ca5b-d632-4bbe-a4c9-35386015f7bb)
 	)
 	(global_label
 		GP16_SPI_CS
-		(at 368.29999999999995 318.77 0)
+		(at 165.1 425.45 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 1d1d0947-88d5-402a-8769-1e50f133733f)
+		(uuid 62ecbad8-01b2-454f-97b9-ca1d658941f0)
 	)
 	(global_label
 		GP16_SPI_CS
-		(at 368.29999999999995 318.77 0)
+		(at 165.1 425.45 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid d0741df1-ef23-4e57-b591-aa8176efa069)
+		(uuid 05097ed3-df0a-4008-860e-1af8490a79ad)
 	)
 	(global_label
 		U4_VOUT_R
-		(at 76.2 248.92000000000002 0)
+		(at 347.98 264.15999999999997 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 21be42c7-d7b4-4f42-8a30-ff77c353c5b5)
+		(uuid 7f4c1b87-52b5-4309-8ede-4dc034f55faf)
 	)
 	(global_label
 		U4_VOUT_R
-		(at 76.2 248.92000000000002 0)
+		(at 347.98 264.15999999999997 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 3a484907-d5f7-4385-93fc-0142d896bb9c)
+		(uuid 50f85b0a-1d94-4c15-9fae-894a633c3b0e)
 	)
 	(global_label
 		U4_VOUT_R
-		(at 134.62 240.03 90)
+		(at 73.66 300.99 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 41ae30e4-45eb-4793-b287-e8f3b0027e8c)
+		(uuid 797475df-dcae-4a33-a1a0-80c8ae685bd5)
 	)
 	(global_label
 		U4_LOAD
-		(at 134.62 247.65 270)
+		(at 73.66 308.61 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 5197b8cd-0bcb-4563-9935-c10224ddbfdc)
+		(uuid 3065f36e-d8f0-4156-99d1-6b72bce06c42)
 	)
 	(global_label
 		U4_LOAD
-		(at 154.94 240.03 90)
+		(at 96.52 300.99 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 35c08343-1bf1-485d-ae8e-eb23aca37a97)
+		(uuid 30b26296-2ff1-41c9-ac5e-04dd6d10f395)
 	)
 	(global_label
 		U4_LOAD
-		(at 177.79999999999998 243.84 180)
+		(at 121.92 304.8 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 003f9b5b-1a4a-413a-bed7-6519fade2740)
+		(uuid 9562b449-3bbe-406d-b79e-8392ecd9825d)
 	)
 	(global_label
 		GP20_BTN_MENU
-		(at 253.99999999999997 243.84 180)
+		(at 198.11999999999998 304.8 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 23d10327-fe80-49e9-b323-4c1914900611)
+		(uuid 95dc7735-9854-49e5-8701-4c254355d3d9)
 	)
 	(global_label
 		GP20_BTN_MENU
-		(at 368.29999999999995 306.07 0)
+		(at 165.1 412.75 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 8dcea185-f149-439b-901a-292c4acc7997)
+		(uuid 8dfd0a16-6ce5-4bbe-b11a-8d2e2d9e8226)
 	)
 	(global_label
 		GP20_BTN_MENU
-		(at 368.29999999999995 306.07 0)
+		(at 165.1 412.75 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid ede500b0-8603-4720-b88d-09eb97df6f6c)
+		(uuid 25db9b96-cae5-4d37-9e54-12241aeeb2fd)
 	)
 	(global_label
 		GP21_BTN_MINUS
-		(at 276.86 243.84 180)
+		(at 218.44 304.8 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 4b4ef199-94f0-47f4-a30f-6af0afbc7fd7)
+		(uuid a8be4538-e783-4bd7-8f3b-f9d966860679)
 	)
 	(global_label
 		GP21_BTN_MINUS
-		(at 368.29999999999995 303.53 0)
+		(at 165.1 410.21 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid ac6961a1-d483-4896-aa31-6e38652b2e66)
+		(uuid 8228c6b5-db8f-4296-a2da-8f20e98dbd43)
 	)
 	(global_label
 		GP21_BTN_MINUS
-		(at 368.29999999999995 303.53 0)
+		(at 165.1 410.21 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid fc75ca97-8022-49c5-bdca-ae4f29213219)
+		(uuid 82325c48-f651-4932-bd6b-17a836bf3439)
 	)
 	(global_label
 		GP22_BTN_PLUS
-		(at 299.72 243.84 180)
+		(at 243.84 304.8 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 72feb9cd-8e0d-45f7-8125-c5cd43e0af76)
+		(uuid f9a7b885-523e-43d4-a56d-c1cd8445ecbe)
 	)
 	(global_label
 		GP22_BTN_PLUS
-		(at 368.29999999999995 298.45 0)
+		(at 165.1 405.13 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid bcfddfd9-59ca-41a3-b85f-c43c39bd3435)
+		(uuid dee7774a-e7d5-4d65-a28c-0d642fbb56d5)
 	)
 	(global_label
 		GP22_BTN_PLUS
-		(at 368.29999999999995 298.45 0)
+		(at 165.1 405.13 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 1ce03785-90cf-43c1-b7ba-ff7787ef9493)
+		(uuid aa366a88-b1a0-41f5-86ad-3aa6a2b7112c)
 	)
 	(global_label
 		N$4
-		(at 38.1 294.64 180)
+		(at 271.78 304.8 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid f7b1b4e9-00b9-4ba3-9d43-e8a0dc490a1c)
+		(uuid 8adf63ee-66eb-4b8f-bfc8-754815de6bbd)
 	)
 	(global_label
 		N$4
-		(at 76.2 298.45 270)
+		(at 309.88 308.61 270)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 825558d8-9057-4d58-b6ef-b48493cf1d0c)
+		(uuid 72e33c4a-6793-4081-8c8a-527f2f10aee7)
 	)
 	(global_label
 		GP10_LED_DATA
-		(at 76.2 290.83 90)
+		(at 309.88 300.99 90)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left)
 		)
-		(uuid 9ac763f9-600e-4675-a8c8-7dfc23d58a56)
+		(uuid 76ed1a45-6f39-47be-94ef-1f52e4c724c2)
 	)
 	(global_label
 		GP10_LED_DATA
-		(at 332.74 303.53 180)
+		(at 129.54 410.21 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid a0db2e11-2b42-4cf9-bfe2-4bdc6cf745cb)
+		(uuid 867169c1-72ac-4f72-9646-30fdb32afcdc)
 	)
 	(global_label
 		GP10_LED_DATA
-		(at 332.74 303.53 180)
+		(at 129.54 410.21 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid 8c750188-f3a9-489c-86d5-6c9bfdf4c40a)
+		(uuid 2062e5f4-a9d2-4ad2-92b7-d17c868c598d)
 	)
-	(no_connect (at 40.64 246.38) (uuid fe379b58-204b-42fd-86b6-7cd780a2ecbe))
-	(no_connect (at 40.64 248.92) (uuid 601589ba-6daa-43ef-8876-6c078bd1665a))
-	(no_connect (at 53.34 294.64) (uuid b5338393-8c35-4bcb-bb32-6fda3da1e91d))
-	(no_connect (at 149.86 147.32) (uuid c62bdec3-23b1-4977-876f-8d6460cd9197))
-	(no_connect (at 172.72 152.4) (uuid 3e985f36-646d-4adf-b13d-35ffd60b2bb8))
-	(no_connect (at 332.74 270.51) (uuid a8e667d4-7bc0-4089-b2a9-1b20a1c7f062))
-	(no_connect (at 332.74 273.05) (uuid 688d7234-8004-4f73-bacf-03b9a5e4ebbc))
-	(no_connect (at 332.74 280.67) (uuid 8966300a-1b0d-4bb2-bd49-4ad32e611b04))
-	(no_connect (at 332.74 295.91) (uuid f3968a8c-2460-4857-9a69-afe50daf2846))
-	(no_connect (at 332.74 298.45) (uuid 775ea257-9135-4d28-891a-a214fe2fd84c))
-	(no_connect (at 332.74 306.07) (uuid 5d201419-e18f-4c2f-8b3d-aa778bf192ac))
-	(no_connect (at 332.74 308.61) (uuid 9f89a9c3-1551-4b8e-989b-59ee1ef6d037))
-	(no_connect (at 347.98 323.85) (uuid 6b385611-1a7d-4385-8f6d-ba0cb0aaf131))
-	(no_connect (at 353.06 323.85) (uuid 4f5cfd69-918f-4953-ac67-9f7c34e94469))
-	(no_connect (at 360.68 101.6) (uuid 0d7f87be-32d7-4998-bdb4-a705ae3d65a4))
-	(no_connect (at 368.3 270.51) (uuid 05449425-0280-457e-9388-cbcf6a68596a))
-	(no_connect (at 368.3 273.05) (uuid 28392633-c787-4e37-9dba-7d2980500289))
-	(no_connect (at 368.3 278.13) (uuid c9bce553-140b-489a-a01b-23aeb3b67f2f))
-	(no_connect (at 368.3 285.75) (uuid 2d2f477c-8eac-42cb-b2ce-c389877df7fb))
-	(no_connect (at 368.3 290.83) (uuid b0f45339-6742-47b6-ba97-762224b1e22c))
-	(no_connect (at 368.3 316.23) (uuid c33371ea-99b3-4371-9053-002e001c5b01))
+	(no_connect (at 38.1 198.12) (uuid 813370f1-e47f-4ba2-9d20-674c916e371f))
+	(no_connect (at 114.3 198.12) (uuid 08a697b9-bd13-4ff7-9d2e-c6788fba001b))
+	(no_connect (at 129.54 377.19) (uuid c3c0845b-d2f8-4165-ab6c-dcbe1122b5de))
+	(no_connect (at 129.54 379.73) (uuid 6b21a3e7-debb-42cd-9bad-1927238a6555))
+	(no_connect (at 129.54 387.35) (uuid 8ee31b41-a8c8-42d0-af95-52e0e486ae38))
+	(no_connect (at 129.54 415.29) (uuid dea51af6-1ce3-406a-8c19-a2637851a3bc))
+	(no_connect (at 144.78 430.53) (uuid 27fe5e9c-8d6d-49ea-b0a2-8b59ef823344))
+	(no_connect (at 149.86 147.32) (uuid cf999c9f-2f42-4c1b-a2e2-ecc10f74f469))
+	(no_connect (at 149.86 430.53) (uuid 7a5a037c-906f-4ecc-8a90-3155edcf3895))
+	(no_connect (at 165.1 377.19) (uuid 80af03aa-6f5a-4480-a4a0-1b967021bec1))
+	(no_connect (at 165.1 379.73) (uuid 05d82fcc-2e13-4703-8409-647efb5172fc))
+	(no_connect (at 165.1 384.81) (uuid cd12ddf0-342c-45c9-a746-1fcaac8a62e5))
+	(no_connect (at 165.1 392.43) (uuid 3ae9cb07-1e56-417b-89cd-ef5fdd02f202))
+	(no_connect (at 165.1 397.51) (uuid 9c3fb9be-b246-46f6-af30-8b8996d48384))
+	(no_connect (at 165.1 422.91) (uuid ae24b2b0-b265-449f-85a5-e23cf2fb3549))
+	(no_connect (at 172.72 152.4) (uuid 7b91aee3-c041-4f03-90bd-0d31ba5fb283))
+	(no_connect (at 210.82 198.12) (uuid 5765ee84-5cc9-4aa6-8d47-07fcd29ec9a8))
+	(no_connect (at 287.02 304.8) (uuid 3f02ec8b-eeb7-4fce-b628-36baece829fb))
+	(no_connect (at 312.42 261.62) (uuid a10cdd21-0e9a-4f95-90be-7def1bf75a7b))
+	(no_connect (at 312.42 264.16) (uuid 054d6c41-e637-4f12-bb58-8bf8c9d2d605))
+	(no_connect (at 360.68 101.6) (uuid 36118f28-ad13-4a74-9c17-aeaba5597839))
 	(sheet_instances
 		(path
-			"/0416952c-7c66-4521-a93d-d2b6f3a19e06/3c7da04a-684b-4a58-9b70-5e4ff2b4d8b6"
+			"/73df7696-bc8d-41a3-a499-07c28c14c582/a4fee41c-738a-4f92-bce8-92b297e17257"
 			(page "1")
 		)
 	)

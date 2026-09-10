@@ -9,7 +9,7 @@ SYM_API="https://gitlab.com/api/v4/projects/kicad%2Flibraries%2Fkicad-symbols/re
 FP_API="https://gitlab.com/api/v4/projects/kicad%2Flibraries%2Fkicad-footprints/repository/files"
 REF=9.0.0
 
-SYMS=(Amplifier_Instrumentation Analog_DAC Connector Connector_Generic Device
+SYMS=(Amplifier_Instrumentation Analog_Switch Analog_DAC Connector Connector_Generic Device
       Diode LED MCU_Module Mechanical Oscillator RF_Module Sensor_Current Switch power)
 FPS=(Button_Switch_THT Capacitor_SMD Capacitor_THT Connector_JST
      Connector_PinHeader_2.54mm Diode_SMD Fuse LED_SMD LED_THT MountingHole
@@ -29,6 +29,7 @@ FP_MODS=(
   "Oscillator.pretty/Oscillator_SMD_EuroQuartz_XO91-4Pin_7.0x5.0mm"
   "Package_SO.pretty/MSOP-10_3x3mm_P0.5mm"
   "Package_TO_SOT_SMD.pretty/SOT-23"
+  "Package_TO_SOT_SMD.pretty/SOT-23-6"
   "Package_TO_SOT_SMD.pretty/TO-252-2"
   "Resistor_SMD.pretty/R_0805_2012Metric"
   "Resistor_SMD.pretty/R_2512_6332Metric"

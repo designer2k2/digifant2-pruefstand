@@ -63,17 +63,24 @@ the current.
 | U3 | INA226, address **0x41** (A0 = 3 V3) | low-side sense of the valve current |
 
 ### `dac_analog_sim` — sensor spoofing (U2)
-MCP4728, 4-channel 12-bit I²C DAC, address **0x60**. Each output goes through a
-**220 Ω** series resistor (R2–R5) for short-circuit protection into the harness:
+MCP4728, 4-channel 12-bit I²C DAC, address **0x60**, `~LDAC` low. Each output goes
+through a series resistor into the harness:
 
-| DAC out | R | VW pin | simulates |
-|---------|---|--------|-----------|
-| VOUTA | R2 | VW-9 | intake-air temperature (NTC) |
-| VOUTB | R3 | VW-10 | coolant temperature (NTC) |
-| VOUTC | R4 | VW-21 | air-mass meter (LMM) |
-| VOUTD | R5 | VW-2 | lambda / O₂ |
+| DAC out | R | VW pin | simulates | disconnect |
+|---------|---|--------|-----------|-----------|
+| VOUTA | R2 220 Ω | VW-9 | intake-air temperature (NTC) | U6, GP8 |
+| VOUTB | R3 220 Ω | VW-10 | coolant temperature (NTC) | U7, GP9 |
+| VOUTC | R4 220 Ω | VW-21 | air-mass meter (LMM) | — |
+| VOUTD | R5 **1 k** | VW-2 | lambda / O₂ | U8, GP11 |
 
-`~LDAC` tied low (outputs update immediately).
+**Sensor-fault simulation:** the two NTC channels and the lambda channel each pass
+a **TS5A3159A** SPDT analog switch (~1 Ω, SOT-23-6, U6–U8). GPIO high → COM–NO →
+sensor connected; GPIO low → COM–NC (open) → the ECU sees an **open sensor** and
+should set the corresponding fault code. R22–R24 pull the control lines up so all
+three read connected at power-on; C6 decouples the DAC and switches. Lambda's
+series R is **1 k** (not 220 Ω) so it looks less like an ideal voltage source to
+the ECU's O₂ input. Set MCP4728 channel D to the internal 2.048 V reference for
+fine resolution in the 0–1 V lambda window.
 
 ### `crank_driver` — crank / Hall signal (Q1)
 Open-drain 2N7002 with **RG1 (100 Ω)** gate resistor and **RPU1 (1 k)** pull-up to
@@ -147,7 +154,10 @@ I²C pull-ups **R6 / R7 (4.7 k)** on `GP4` (SDA) / `GP5` (SCL).
 | 5  | I²C0 SCL |
 | 6  | throttle switch A (VW-6) → Q4 |
 | 7  | throttle switch B (VW-11) → Q5 |
+| 8  | intake-air-temp sensor connect (U6) — low = open-circuit |
+| 9  | coolant-temp sensor connect (U7) — low = open-circuit |
 | 10 | SK6812 status LED (PIO) |
+| 11 | lambda sensor connect (U8) — low = open-circuit |
 | 13 | ECU power-switch enable (high = ECU on) |
 | 14 | ignition edge capture (in) |
 | 15 | injector edge capture (in) |
@@ -173,10 +183,10 @@ engine 2H, ECU 037906022xx). ✅ = confirmed, ⚠️ = see notes.
 
 | VW pin | function | bench use | |
 |--------|----------|-----------|---|
-| 2  | oxygen sensor input | lambda sim out (DAC → R5) | ✅ |
+| 2  | oxygen sensor input | lambda sim out (DAC → R5 → U8) | ✅ |
 | 6  | throttle switch | Q4 open-drain to GND | ⚠️ idle-vs-WOT unconfirmed |
-| 9  | intake-air-temp sensor | NTC air sim (DAC → R2) | ✅ |
-| 10 | coolant-temp sensor | NTC water sim (DAC → R3) | ✅ |
+| 9  | intake-air-temp sensor | NTC air sim (DAC → R2 → U6) | ✅ |
+| 10 | coolant-temp sensor | NTC water sim (DAC → R3 → U7) | ✅ |
 | 11 | throttle switch | Q5 open-drain to GND | ⚠️ idle-vs-WOT unconfirmed |
 | 12 | injector drive (ECU output) | edge capture → GP15 | ✅ |
 | 13 | ground (battery −) | GND | ✅ |
