@@ -226,8 +226,43 @@ end has a 23 mm clear band above it toward J1 (was only ~7.5 mm, X-overlapping �
 a plugged-in USB cable would have fouled J1's screw terminal). J3 (OLED
 header) has its own ~40 mm clear band at the bottom, isolated from every other
 part, so a 0.96″ module can plug in flat without overhanging D2/J2. General
-passives are 0805 for hand assembly. Wide traces (≥0.6 mm) on the 12 V and
-valve-return nets; a GND pour on the bottom layer is recommended.
+passives are 0805 for hand assembly.
+
+**Netclasses** (2026-09-11, following a deep layout review): `Power` (0.8 mm
+track — VIN_12V, +12V_PROT, +12V_POST_D1, +12V_ECU, +12V_ECU_SW,
+VW_PIN23_VALVE_RETURN) and `Gnd` (0.5 mm track — GND) are now real KiCad
+netclasses in the project, not just a one-off width baked into the autorouter
+session — any further hand-routing on these nets inherits the right width.
+Clearance stays 0.15 mm across all classes; some MSOP-10/SOT-23-6 pads are only
+~0.15 mm apart, so a tighter class clearance fails DRC against the part's own
+adjacent pins.
+
+**GND** was previously an ad-hoc daisy chain that split into 4 disconnected
+islands (the whole operator-UI cluster — buttons, status LED, OLED header —
+had no ground return except through the Pico module's internal plane) and
+physically routed the ECU's full return current *through* U1/U3's ground pads,
+corrupting the current-sense reference. It's ripped up and re-routed as part
+of the normal autoroute pass now, giving one connected net with sane 0.5 mm
+copper. A literal B.Cu ground pour is still worth adding by hand in the KiCad
+GUI (Draw Filled Zone, B.Cu, GND net) once you're routing — scripted pour +
+via-stitching attempts kept landing on other nets' copper in this dense a
+board and weren't worth fighting further.
+
+**Kelvin sensing**: U1/U3's IN+/IN− now get short, dedicated 0.2 mm traces
+straight to RS1/RS2's pads instead of being unrouted or (U3's case) sharing
+18.7 mm of the general GND daisy chain. This is genuinely the tightest spot on
+the board — 0.5 mm-pitch MSOP-10 pins right next to a 2512 shunt — and a
+handful of DRC items (a couple of clearance/crossing flags right around
+U1/U3/RS1/RS2) are left for a quick manual nudge in KiCad's interactive
+router, same as the historical INA226-fanout items.
+
+**+12V_ECU_SW** no longer detours 135 mm through J2 with two extra vias — it's
+ripped up and re-routed directly from Q2's tab as part of the same autoroute
+pass, ~65 mm point-to-point.
+
+**Thermal copper** for D1/Q2 is not yet added — do this by hand too (small
+filled zone on F.Cu, on their nets, butted against the pads) once you can see
+the board; scripted attempts here also landed disconnected from the pad.
 
 ## Ideas from the user's own HiL notes, not yet in this design
 
@@ -257,8 +292,11 @@ pull-up / polarity option), not just different firmware on this board.
 
 ## Known open points
 
-- ~2–3 connections in the U1/U3 INA226 0.5 mm-pitch fanout are left for KiCad's
-  interactive router.
+- A handful of clearance/crossing DRC items right around U1/U3/RS1/RS2 (the
+  Kelvin-sense traces threading a genuinely tight spot) — quick manual nudge
+  in KiCad's interactive router.
+- GND ground pour and D1/Q2 thermal copper: not yet added (see Board section)
+  — do these by hand once you're in the KiCad GUI routing.
 - AD9833 knock output has no defined path to the ECU yet (stops at TP1).
 - RS2 gives the idle valve a permanent path to ground in parallel with the ECU's
   VW-23 driver; to *observe* the ECU's PWM cleanly, VW-23 should be the only

@@ -41,9 +41,12 @@ non-headless JRE for Freerouting — see the header of `place_and_route.py`.
 
 Schematic ERC-clean; VW harness pinout verified against the cabby-info.com
 Digifant II reference and the user's own hands-on HiL notes (see `DESIGN.md`).
-Board placed + autorouted (144 × 169 mm, 2-layer, 4 × M3 holes, isolated OLED + USB clearance
-zone), DRC-clean except ~2-3 connections in the INA226 / shunt 0.5 mm-pitch
-fanout left for KiCad's interactive router. Not yet fabbed.
+Board placed + autorouted (144 × 169 mm, 2-layer, 4 × M3 holes, isolated OLED + USB
+clearance zones), real Power/Gnd netclasses, GND re-routed as one connected net
+(was 4 islands), dedicated Kelvin sense traces for both shunts, DRC-clean except
+a handful of items right at the tight U1/U3/RS1/RS2 cluster for a manual nudge.
+Ground pour + thermal copper for D1/Q2 still to add by hand in the KiCad GUI.
+Not yet fabbed.
 
 ## License
 
