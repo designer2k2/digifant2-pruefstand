@@ -46,17 +46,21 @@ def place_bbox_topleft(ref, x, y, rot):
 
 
 def flow(refs, x0, y0, x_max, rot=0, gap=GAP):
+    """refs entries are either a ref string, or (ref, rot_override) to rotate just
+    that part (e.g. 180 deg to flip pin order without changing footprint size, so
+    traces don't have to route around it)."""
     x, y, row_h = x0, y0, 0.0
-    for ref in refs:
+    for item in refs:
+        ref, this_rot = item if isinstance(item, tuple) else (item, rot)
         f = fps.get(ref)
         if not f:
             print("MISSING", ref); continue
-        f.SetOrientationDegrees(rot)
+        f.SetOrientationDegrees(this_rot)
         bb = f.GetBoundingBox(False, False)
         w, h = bb.GetWidth() / 1e6, bb.GetHeight() / 1e6
         if x + w > x_max and x > x0:
             x = x0; y += row_h + gap; row_h = 0.0
-        place_bbox_topleft(ref, x, y, rot)
+        place_bbox_topleft(ref, x, y, this_rot)
         x += w + gap
         row_h = max(row_h, h)
 
@@ -65,7 +69,7 @@ def place():
     place_bbox_topleft("J0", W - 11, 6, 90)     # VW harness, right edge
     place_bbox_topleft("J1", 2, 6, 90)          # 12V in, left edge
     place_bbox_topleft("U5", 3, 24, 0)          # Pico
-    flow(["F1", "D1", "RS1", "C1", "Q2", "R13", "C3", "R14", "Q3", "R15", "R16"],
+    flow(["F1", ("D1", 180), "RS1", "C1", "Q2", "R13", "C3", "R14", "Q3", "R15", "R16"],
          14, 6, W - 14)                          # power chain
     flow(["RS2", "U1", "U3", "R6", "R7"], 40, 26, W - 14)          # current sense
     flow(["U2", "C6", "R2", "R3", "R4", "R5", "R20", "R21", "C5",
