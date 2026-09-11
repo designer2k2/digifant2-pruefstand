@@ -237,6 +237,21 @@ valve-return nets; a GND pour on the bottom layer is recommended.
 - **VW-3 (fuel pump relay) monitoring** — not broken out here; easy add if
   wanted, per the note above.
 
+## Digifant 1 (G40/G60) — explicitly out of scope for this board
+
+This board targets **Digifant II (2H)** only. Per the user's own repair notes,
+Digifant I (G40/G60) has real, documented differences on this same connector —
+do not assume pin-compatibility if a G40/G60 variant is ever built:
+- **VW-5** is knock-sensor ground on 2H, but a **CO potentiometer** (0–3 kΩ,
+  ~900 Ω nominal) on G40/G60.
+- **Ignition output is inverted on G60** (its output stage is already inside the
+  ECU) and wants a stronger pull-up than 2H.
+- Fault-code readout differs too (K-Line on G40 vs. a blink-code method on G60) —
+  irrelevant to this board's scope but relevant to a future shared bench.
+
+A G40/G60 variant would need its own adapter harness (and probably a switched
+pull-up / polarity option), not just different firmware on this board.
+
 ## Known open points
 
 - ~2–3 connections in the U1/U3 INA226 0.5 mm-pitch fanout are left for KiCad's
