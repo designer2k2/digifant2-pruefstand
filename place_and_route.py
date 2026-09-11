@@ -28,7 +28,7 @@ b = pcbnew.LoadBoard(pcb_path)
 MM = pcbnew.FromMM
 fps = {f.GetReference(): f for f in b.GetFootprints()}
 
-W, H = 130.0, 100.0          # content area
+W, H = 130.0, 140.0          # content area (extra 40mm of H reserved for the OLED zone below)
 MARGIN = 7.0                 # border reserved for the corner mounting holes
 BW, BH = W + 2 * MARGIN, H + 2 * MARGIN
 OX, OY = MARGIN, MARGIN
@@ -76,8 +76,14 @@ def place():
           "U6", "R22", "U7", "R23", "U8", "R24"], 40, 40, W - 14)  # DAC + AFM sense + sensor disconnects
     flow(["U4", "Y1", "R12", "C2", "TP1"], 40, 54, W - 14)        # DDS / knock
     flow(["R8", "R9", "R10", "R11", "RG1", "Q1", "RPU1",
-          "Q4", "R18", "Q5", "R19"], 40, 68, W - 14)             # edge capture + crank + throttle sw
-    flow(["SW1", "SW2", "SW3", "R17", "C4", "D2", "J3", "J2"], 6, H - 16, W - 6)
+          "Q5", "R19"], 40, 68, W - 14)             # edge capture + crank + idle switch
+    flow(["SW1", "SW2", "SW3", "R17", "C4", "D2", "J2"], 6, 84, W - 6)
+
+    # J3 (OLED header) gets its own clear band at the bottom, isolated from every
+    # other part: a 0.96" I2C OLED module (~27-33mm) plugs in flat and would
+    # otherwise overhang D2/J2, which used to sit only ~7mm away. This band is
+    # ~40mm deep (104 to H) and full-width, with nothing else placed in it.
+    place_bbox_topleft("J3", W / 2 - 13.5, 104, 0)
 
     for d in list(b.GetDrawings()):
         if d.GetLayer() == pcbnew.Edge_Cuts:

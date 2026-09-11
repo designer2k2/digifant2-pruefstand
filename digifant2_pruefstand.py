@@ -186,27 +186,20 @@ def afm_ref_sense(vw_pin17, gnd, adc):
     c5[2] += gnd
 
 
-def throttle_switches(gnd, gp_idle, gp_wot, vw_pin6, vw_pin11):
-    """Digifant II uses two throttle micro-switches (idle + full-throttle) that
-    pull an ECU input to ground when closed. Q4/Q5 (2N7002, open-drain) emulate
-    the contacts under Pico control; R18/R19 hold the gates low so both switches
-    read 'open' (part throttle) when the Pico is unpowered. The ECU has its own
-    pull-ups on VW-6/VW-11, so no external pull-up here.
-    VW-6 vs VW-11 = idle vs full-throttle is not settled -- confirm which is which
-    against the Bentley diagram; firmware can also just swap them."""
-    q4 = Component("Custom_Digifant2:Q_NMOS_2N7002", ref="Q4", value="2N7002",
-                    footprint="Package_TO_SOT_SMD:SOT-23")
+def throttle_switches(gnd, gp_idle, vw_pin11):
+    """Corrected per the user's own hands-on HiL notes (F60 idle switch: 'Pin 6
+    Masse und Pin 11'): VW-6 is NOT a second switch contact, it's the sensor/
+    idle-switch common ground (wired straight to GND in main_circuit) -- there is
+    only ONE idle switch, on VW-11, which the ECU pulls up internally and the
+    switch (or here, Q5) pulls to VW-6/GND when idle is active ('Pin 11 auf Pin 6
+    verbinden fuer Leerlauf aktiv'). No full-throttle switch is broken out.
+    Q5 (2N7002, open-drain) emulates the contact under Pico control; R19 holds
+    the gate low so it reads 'open' (not idle) when the Pico is unpowered."""
     q5 = Component("Custom_Digifant2:Q_NMOS_2N7002", ref="Q5", value="2N7002",
                     footprint="Package_TO_SOT_SMD:SOT-23")
-    r18 = Component("Device:R", ref="R18", value="100k", footprint="Resistor_SMD:R_0805_2012Metric")
     r19 = Component("Device:R", ref="R19", value="100k", footprint="Resistor_SMD:R_0805_2012Metric")
-    q4["G"] += gp_idle
-    r18[1] += gp_idle
-    r18[2] += gnd
-    q4["S"] += gnd
-    q4["D"] += vw_pin6
-    q5["G"] += gp_wot
-    r19[1] += gp_wot
+    q5["G"] += gp_idle
+    r19[1] += gp_idle
     r19[2] += gnd
     q5["S"] += gnd
     q5["D"] += vw_pin11
@@ -266,7 +259,10 @@ def dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2,
 
 
 def crank_driver(gpio_crank, gnd, ecu_12v, vw_pin18):
-    """Q1 open-drain crank/Hallgeber signal driver, RPU1 pull-up to +12V_ECU."""
+    """Q1 open-drain crank/Hallgeber signal driver, RPU1 pull-up to +12V_ECU.
+    VW-18 confirmed (not VW-8) by the user's own working HiL notes: the crank
+    square wave needs >=8-10V amplitude (5V is not enough) -- consistent with
+    pulling up to the switched 12V rail here, not a 3.3/5V logic level."""
     # Custom_Digifant2:Q_NMOS_2N7002 (not Device:Q_NMOS): the generic symbol's pin
     # *numbers* are the letters G/D/S, which resolve fine at the schematic level but
     # don't match the real SOT-23 footprint's numeric pads 1/2/3 -- confirmed via
@@ -392,12 +388,10 @@ def main_circuit():
     gp_led_data = Net("GP10_LED_DATA")
     gp_ecu_en = Net("GP13_ECU_PWR_EN")
     gp_thr_idle = Net("GP6_THROTTLE_IDLE_SW")
-    gp_thr_wot = Net("GP7_THROTTLE_WOT_SW")
     gp_conn_air = Net("GP8_AIRTEMP_CONNECT")
     gp_conn_water = Net("GP9_WATERTEMP_CONNECT")
     gp_conn_lambda = Net("GP11_LAMBDA_CONNECT")
     afm_ref_adc = Net("GP26_AFM_REF_ADC")
-    vw_pin6 = Net("VW_PIN6")
     vw_pin11 = Net("VW_PIN11")
     vw_pin17 = Net("VW_PIN17")
 
@@ -407,10 +401,10 @@ def main_circuit():
     j0 = Component("Custom_Digifant2:CONN_VW", ref="J0", value="VW ECU HARNESS",
                     footprint="TerminalBlock:TerminalBlock_MaiXu_MX126-5.0-15P_1x15_P5.00mm")
     j0["VW-2"] += vw_pin2
-    j0["VW-6"] += vw_pin6      # throttle switch (idle or WOT -- confirm)
+    j0["VW-6"] += gnd          # sensor/idle-switch common ground (confirmed by user's HiL notes)
     j0["VW-9"] += vw_pin9
     j0["VW-10"] += vw_pin10
-    j0["VW-11"] += vw_pin11    # throttle switch (the other one)
+    j0["VW-11"] += vw_pin11    # idle switch (single contact, pulled to VW-6/GND when idle)
     j0["VW-12"] += vw_pin12
     j0["VW-13"] += gnd
     j0["VW-14"] += ecu_sw
@@ -430,7 +424,7 @@ def main_circuit():
     dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2,
                    gp_conn_air, gp_conn_water, gp_conn_lambda)
     afm_ref_sense(vw_pin17, gnd, afm_ref_adc)
-    throttle_switches(gnd, gp_thr_idle, gp_thr_wot, vw_pin6, vw_pin11)
+    throttle_switches(gnd, gp_thr_idle, vw_pin11)
     crank_driver(gp_crank, gnd, ecu_sw, vw_pin18)
     edge_capture(vcc_3v3, gp_ignition, gp_injector, vw_pin25, vw_pin12)
     knock_sim(vcc_3v3, gnd, gp_spi_sck, gp_spi_mosi, gp_spi_cs)
@@ -482,7 +476,8 @@ def main_circuit():
     # debug probe planned) are all intentionally left NC, same convention as above.
     u5["GPIO2"] += gp_crank
     u5["GPIO6"] += gp_thr_idle
-    u5["GPIO7"] += gp_thr_wot
+    # GPIO7 free (was the 2nd throttle-switch driver; VW-6 turned out to be
+    # ground, not a 2nd switch contact -- see throttle_switches()).
     u5["GPIO8"] += gp_conn_air
     u5["GPIO9"] += gp_conn_water
     u5["GPIO11"] += gp_conn_lambda

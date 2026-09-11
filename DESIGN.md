@@ -85,13 +85,20 @@ fine resolution in the 0–1 V lambda window.
 ### `crank_driver` — crank / Hall signal (Q1)
 Open-drain 2N7002 with **RG1 (100 Ω)** gate resistor and **RPU1 (1 k)** pull-up to
 the switched 12 V rail. Pico `GP2` toggles it → a clean 12 V square wave on VW-18
-for the ECU's engine-speed input. ~12 mA when on.
+for the ECU's engine-speed input. ~12 mA when on. **VW-18 confirmed** by the
+user's own working HiL notes: the crank signal needs ≥8–10 V amplitude (5 V is
+not enough), which only makes sense pulled up to the 12 V rail as done here —
+this also resolves the earlier VW-8-vs-18 ambiguity from public pinout sources
+in favour of VW-18.
 
 ### `edge_capture` — read the ECU's ignition & injector outputs
 The ECU's output pins are pulled up to the Pico's 3 V3 (**R8 10 k** on VW-25
 ignition, **R10 1 k** on VW-12 injector) with a **330 Ω** series resistor
 (R9 / R11) as an ESD / current guard into the GPIO. `GP14` = ignition,
-`GP15` = injector.
+`GP15` = injector. R10's 1 k on the injector line is validated by the user's own
+bench notes: a 10 k pull-up was too weak for the ~2.4 ms idle injector pulse
+(didn't fully charge/discharge between cycles); even 2.2 k still showed some
+droop, so 1 k here has real margin.
 
 ### `knock_sim` — knock-sensor burst generator (U4)
 AD9833 DDS on SPI (`GP16` FSYNC / `GP18` SCLK / `GP19` SDATA). **Y1**, a real
@@ -104,8 +111,10 @@ pins; add a small cap to ground on each in a real build.
 ### `operator_ui` — local controls
 **J3**, a 4-pin header, carries `GND / +3V3 / SCL / SDA` for an I²C OLED
 (SSD1306 at 0x3C — no bus conflict with the INA226s or DAC). Check the module's
-pin order before wiring. **SW1–SW3** are momentary buttons to ground on
-`GP20 / GP21 / GP22` (menu / − / +).
+pin order before wiring. J3 has its own ~40 mm-deep clear band at the bottom of
+the board (nothing else placed within it) since a 0.96″ OLED module (~27–33 mm)
+plugged in flat would otherwise overhang neighbouring parts. **SW1–SW3** are
+momentary buttons to ground on `GP20 / GP21 / GP22` (menu / − / +).
 
 ### `status_led` — one addressable RGB pixel (D2)
 **SK6812** (5050) on a single GPIO (`GP10`), driven by the Pico's PIO. SK6812 is
@@ -114,13 +123,16 @@ shifter, no 5 V rail, and it frees two GPIOs versus a plain 3-pin RGB LED.
 **R17 (330 Ω)** on the data line, **C4 (100 nF)** decoupling. Chain from `DOUT`
 to add more pixels. Colour meaning is up to firmware.
 
-### `throttle_switches` — idle / full-throttle micro-switch emulation
-Digifant II reads throttle position from two micro-switches (idle + WOT) that
-pull an ECU input to ground when closed (the ECU has internal pull-ups on
-VW-6/VW-11). **Q4 / Q5** (2N7002, open-drain) emulate the contacts under Pico
-control (`GP6` / `GP7`); **R18 / R19 (100 k)** hold the gates low so both read
-"open" (part throttle) when the Pico is unpowered. Which of VW-6 / VW-11 is idle
-vs WOT is not confirmed — check the Bentley diagram, or just swap in firmware.
+### `throttle_switches` — idle-switch emulation
+**Corrected by the user's own HiL notes** ("F60 Leerlaufschalter Pin 6 Masse und
+Pin 11"): VW-6 is **not** a second switch contact, it's the sensor / idle-switch
+**common ground** — wired straight to GND in `main_circuit`. There is only
+**one** idle switch, on **VW-11**, which the ECU pulls up internally; closing it
+(or here, Q5) pulls VW-11 to VW-6/GND ("Pin 11 auf Pin 6 verbinden für Leerlauf
+aktiv"). No full-throttle switch is broken out — the earlier "two switches"
+reading of the public pinout tables was wrong. **Q5** (2N7002, open-drain)
+emulates the contact under Pico control (`GP6`); **R19 (100 k)** holds the gate
+low so it reads "not idle" when the Pico is unpowered.
 
 ### `afm_ref_sense` — airflow-pot reference measurement
 The airflow-meter potentiometer is read *ratiometrically*: the ECU sources a
@@ -152,8 +164,8 @@ I²C pull-ups **R6 / R7 (4.7 k)** on `GP4` (SDA) / `GP5` (SCL).
 | 2  | crank / Hall drive → Q1 |
 | 4  | I²C0 SDA |
 | 5  | I²C0 SCL |
-| 6  | throttle switch A (VW-6) → Q4 |
-| 7  | throttle switch B (VW-11) → Q5 |
+| 6  | idle switch (VW-11) → Q5 — high = idle active |
+| 7  | free (VW-6 turned out to be ground, not a 2nd switch) |
 | 8  | intake-air-temp sensor connect (U6) — low = open-circuit |
 | 9  | coolant-temp sensor connect (U7) — low = open-circuit |
 | 10 | SK6812 status LED (PIO) |
@@ -179,20 +191,22 @@ I²C pull-ups **R6 / R7 (4.7 k)** on `GP4` (SDA) / `GP5` (SCL).
 ## VW harness (J0, 15 of the 25 ECU pins)
 
 Verified against the cabby-info.com Digifant II 25-pin reference (VW Cabriolet,
-engine 2H, ECU 037906022xx). ✅ = confirmed, ⚠️ = see notes.
+engine 2H, ECU 037906022xx) **and the user's own hands-on Digifant HiL notes**
+(2024–2026 bench work on real ECUs) — the latter settled two points the public
+pinout tables left ambiguous. ✅ = confirmed, ⚠️ = see notes.
 
 | VW pin | function | bench use | |
 |--------|----------|-----------|---|
 | 2  | oxygen sensor input | lambda sim out (DAC → R5 → U8) | ✅ |
-| 6  | throttle switch | Q4 open-drain to GND | ⚠️ idle-vs-WOT unconfirmed |
+| 6  | sensor / idle-switch common ground | wired to GND | ✅ own HiL notes ("F60 ... Pin 6 Masse") |
 | 9  | intake-air-temp sensor | NTC air sim (DAC → R2 → U6) | ✅ |
 | 10 | coolant-temp sensor | NTC water sim (DAC → R3 → U7) | ✅ |
-| 11 | throttle switch | Q5 open-drain to GND | ⚠️ idle-vs-WOT unconfirmed |
+| 11 | idle switch (single contact, pulls to VW-6/GND) | Q5 open-drain to GND | ✅ own HiL notes |
 | 12 | injector drive (ECU output) | edge capture → GP15 | ✅ |
 | 13 | ground (battery −) | GND | ✅ |
 | 14 | ECU main power (relay T87) | switched +12 V rail | ✅ |
-| 17 | airflow-pot reference (ECU source) | divided → GP26/ADC0 | ✅ sense-only |
-| 18 | Hall sender | crank square wave (Q1) | ⚠️ **sources disagree** — cabby-info: VW-18 = Hall *supply*, VW-8 = Hall *signal*; xjamiex: reversed. Confirm before fab. |
+| 17 | airflow-pot reference (ECU source, ~5 V) | divided → GP26/ADC0 | ✅ sense-only, confirmed by own HiL notes |
+| 18 | Hall sender / crank signal | crank square wave (Q1) | ✅ own HiL notes: needs ≥8–10 V amplitude, resolves the earlier VW-8-vs-18 ambiguity |
 | 19 | ground (engine / sensors) | GND | ✅ |
 | 21 | airflow-pot wiper (ECU input) | LMM sim out (DAC → R4) | ✅ |
 | 22 | idle-valve feed | switched +12 V rail | ✅ |
@@ -200,23 +214,32 @@ engine 2H, ECU 037906022xx). ✅ = confirmed, ⚠️ = see notes.
 | 25 | to ignition control unit (ECU output) | edge capture → GP14 | ✅ |
 
 Not broken out (add terminals if needed): VW-1 (start/circuit 50), 3 (fuel-pump
-relay), 4/5/7 (knock sensor + / ground / shield), 8 (Hall — see VW-18 note),
-16 (A/C), 20 (MIL).
+relay, switches ground — a nice future diagnostic LED per the user's own HiL:
+"Fuelpump Out BLUE, Pin 3 Masse geschalten"), 4/5/7 (knock sensor + / ground /
+shield), 8, 16 (A/C), 20 (MIL).
 
 ## Board
 
-144 × 114 mm, 2-layer, 4 × M3 corner holes (non-plated, 4.5 mm inset). General
+144 × 154 mm, 2-layer, 4 × M3 corner holes (non-plated, 4.5 mm inset). J3 (OLED
+header) has its own ~40 mm clear band at the bottom, isolated from every other
+part, so a 0.96″ module can plug in flat without overhanging D2/J2. General
 passives are 0805 for hand assembly. Wide traces (≥0.6 mm) on the 12 V and
 valve-return nets; a GND pour on the bottom layer is recommended.
 
+## Ideas from the user's own HiL notes, not yet in this design
+
+- **Per-signal indicator LEDs / test points.** The user's earlier hand-built HiL
+  had a labelled LED + test point on each key signal (600 Ω series each): power
+  in (green), Hall/crank in (green), Hall supply out (green), ignition out
+  (red), injector out (blue), idle-valve out (yellow), fuel-pump out (blue).
+  This board currently has one shared status LED (D2) instead — cheap to add
+  discrete ones later if per-signal visibility is worth the board space.
+- **VW-3 (fuel pump relay) monitoring** — not broken out here; easy add if
+  wanted, per the note above.
+
 ## Known open points
 
-- **VW-18 vs VW-8 for the crank/Hall signal** — public pinout sources disagree
-  (see the harness table). Verify against the Bentley manual or by probing the
-  actual ECU before cutting copper.
-- **VW-6 / VW-11** — which throttle switch is idle vs full-throttle is not
-  confirmed.
-- ~4 connections in the U1/U3 INA226 0.5 mm-pitch fanout are left for KiCad's
+- ~2–3 connections in the U1/U3 INA226 0.5 mm-pitch fanout are left for KiCad's
   interactive router.
 - AD9833 knock output has no defined path to the ECU yet (stops at TP1).
 - RS2 gives the idle valve a permanent path to ground in parallel with the ECU's

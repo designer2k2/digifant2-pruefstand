@@ -1,6 +1,6 @@
 (kicad_sch (version 20211123) (generator eeschema)
 
-  (uuid 1c483d2c-e9de-466b-a040-f4de250ba799)
+  (uuid f29cf57b-9c69-4f44-b8c2-7141cf6d327a)
 
   (paper "A2")
 
@@ -10,7 +10,7 @@
   (sheet (at 25.4 25.4) (size 50.8 25.4)
     (stroke (width 0.1524) (type solid) (color 0 0 0 0))
     (fill (color 0 0 0 0.0000))
-    (uuid a02a4b41-53f7-45bc-bce3-990ccad5c6d0)
+    (uuid 287e48a9-b942-4e24-bf00-e3f8d0accfde)
     (property "Sheet name" "Digifant2_Pruefstand" (id 0) (at 25.4 24.6884 0)
       (effects (font (size 1.27 1.27)) (justify left bottom))
     )
@@ -21,7 +21,7 @@
 
   (sheet_instances
     (path "/" (page "1"))
-    (path "/a02a4b41-53f7-45bc-bce3-990ccad5c6d0" (page "2"))
+    (path "/287e48a9-b942-4e24-bf00-e3f8d0accfde" (page "2"))
   )
 
   (symbol_instances

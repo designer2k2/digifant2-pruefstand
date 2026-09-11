@@ -22,7 +22,7 @@ GPIO / I²C / VW-harness maps.** `article-draft.md` has the wider project backgr
 | `gen_project.py` | `python3 gen_project.py <name>` → full KiCad project + netlist + lib tables, runs ERC/DRC via `kicad-cli`, auto-applies no-connect flags |
 | `place_and_route.py` | `pcbnew` functional-zone placement → Specctra DSN → Freerouting → SES import (run inside the KiCad flatpak; `java` runs outside it) |
 | `add_nc_flags.py` | stamps `no_connect` flags from an ERC report (circuit-synth has no NC API) |
-| `board/` | the current KiCad project (144×114 mm, 2-layer, 4× M3 corner holes) |
+| `board/` | the current KiCad project (144×154 mm, 2-layer, 4× M3 corner holes, isolated OLED zone) |
 | `UPSTREAM_BUGS.md` | circuit-synth bugs found, drafted for upstream filing |
 | `kicad-symbols/`, `kicad-footprints/` | libraries — custom/community committed, stock via `./fetch_libs.sh` |
 
@@ -40,10 +40,10 @@ non-headless JRE for Freerouting — see the header of `place_and_route.py`.
 ## Status
 
 Schematic ERC-clean; VW harness pinout verified against the cabby-info.com
-Digifant II reference (two pins flagged — see `DESIGN.md`). Board placed +
-autorouted (144 × 114 mm, 2-layer, 4 × M3 holes), DRC-clean except ~4 connections
-in the INA226 / shunt 0.5 mm-pitch fanout left for KiCad's interactive router.
-Not yet fabbed.
+Digifant II reference and the user's own hands-on HiL notes (see `DESIGN.md`).
+Board placed + autorouted (144 × 154 mm, 2-layer, 4 × M3 holes, isolated OLED
+zone), DRC-clean except ~2-3 connections in the INA226 / shunt 0.5 mm-pitch
+fanout left for KiCad's interactive router. Not yet fabbed.
 
 ## License
 
