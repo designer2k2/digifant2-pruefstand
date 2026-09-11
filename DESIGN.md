@@ -53,8 +53,9 @@ current for the whole switched rail. `VS` from 3 V3. `ALERT` unused (NC).
 
 ### `idle_valve` — real N71 valve as load, low-side current sense (U3)
 The bench-mounted real idle-air-control valve plugs into **J2** (JST-XH,
-3 A/contact). The ECU's own low-side driver on VW-23 PWMs it; the bench watches
-the current.
+3 A/contact), placed right next to RS2/U3 (not off in the button row) to keep
+the valve's drive/return/sense traces short. The ECU's own low-side driver on
+VW-23 PWMs it; the bench watches the current.
 
 | ref | part | why |
 |-----|------|-----|
