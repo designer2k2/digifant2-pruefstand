@@ -292,9 +292,11 @@ pull-up / polarity option), not just different firmware on this board.
 
 ## Known open points
 
-- A handful of clearance/crossing DRC items right around U1/U3/RS1/RS2 (the
-  Kelvin-sense traces threading a genuinely tight spot) — quick manual nudge
-  in KiCad's interactive router.
+- A cluster of real DRC violations right around U1/U3/RS1/RS2 (2 shorting_items,
+  2 clearance, 5 tracks_crossing) from the Kelvin-sense traces threading a
+  genuinely tight spot — every escape direction tried there grazes either
+  Freerouting's own GND fanout or the power row next door. Confined to this one
+  pocket; quick manual nudge in KiCad's interactive router.
 - GND ground pour and D1/Q2 thermal copper: not yet added (see Board section)
   — do these by hand once you're in the KiCad GUI routing.
 - AD9833 knock output has no defined path to the ECU yet (stops at TP1).

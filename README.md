@@ -45,10 +45,15 @@ Schematic ERC-clean; VW harness pinout verified against the cabby-info.com
 Digifant II reference and the user's own hands-on HiL notes (see `DESIGN.md`).
 Board placed + autorouted (144 × 169 mm, 2-layer, 4 × M3 holes, isolated OLED + USB
 clearance zones), real Power/Gnd netclasses, GND re-routed as one connected net
-(was 4 islands), dedicated Kelvin sense traces for both shunts, DRC-clean except
-a handful of items right at the tight U1/U3/RS1/RS2 cluster for a manual nudge.
-Ground pour + thermal copper for D1/Q2 still to add by hand in the KiCad GUI.
-Not yet fabbed.
+(was 4 islands), dedicated Kelvin sense traces for both shunts. DRC still flags a
+real cluster of violations (2 shorting_items, 2 clearance, 5 tracks_crossing, 5
+unconnected) confined entirely to the tight U1/U3/RS1/RS2 pocket where the Kelvin
+escapes were hand-routed — every escape direction tried there grazes something
+(Freerouting's own dense GND fanout on one side, the power row on the other), so
+it's left for a manual nudge in KiCad's interactive router rather than a scripted
+fix. Everywhere else on the board DRC is clean (remaining warnings are cosmetic
+silkscreen/lib_footprint_mismatch noise, harmless). Ground pour + thermal copper
+for D1/Q2 still to add by hand in the KiCad GUI. Not yet fabbed.
 
 ## License
 

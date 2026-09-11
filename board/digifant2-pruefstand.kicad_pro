@@ -265,7 +265,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "digifant2-pruefstand.kicad_pro",
+    "filename": "digifant2_pruefstand_cs_v33.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -415,8 +415,8 @@
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "digifant2-pruefstand.kicad_sch",
-        "name": "digifant2-pruefstand",
+        "filename": "digifant2_pruefstand_cs_v33.kicad_sch",
+        "name": "digifant2_pruefstand_cs_v33",
         "uuid": "00000000-0000-0000-0000-000000000000"
       }
     ]
