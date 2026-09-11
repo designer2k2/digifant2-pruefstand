@@ -12,7 +12,7 @@ REF=9.0.0
 SYMS=(Amplifier_Instrumentation Analog_Switch Analog_DAC Connector Connector_Generic Device
       Diode LED MCU_Module Mechanical Oscillator RF_Module Sensor_Current Switch power)
 FPS=(Button_Switch_THT Capacitor_SMD Capacitor_THT Connector_JST
-     Connector_PinHeader_2.54mm Diode_SMD Fuse LED_SMD LED_THT MountingHole
+     Connector_PinHeader_2.54mm Diode_SMD Fuse LED_SMD MountingHole
      Oscillator Package_SO Package_TO_SOT_SMD Resistor_SMD TerminalBlock TestPoint)
 # individual footprint files (KiCad's .pretty dirs are huge; grab only what's used)
 FP_MODS=(
@@ -24,7 +24,6 @@ FP_MODS=(
   "Diode_SMD.pretty/D_SMC"
   "Fuse.pretty/Fuse_1206_3216Metric"
   "LED_SMD.pretty/LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm"
-  "LED_THT.pretty/LED_D5.0mm-4_RGB"
   "MountingHole.pretty/MountingHole_3.2mm_M3"
   "Oscillator.pretty/Oscillator_SMD_EuroQuartz_XO91-4Pin_7.0x5.0mm"
   "Package_SO.pretty/MSOP-10_3x3mm_P0.5mm"

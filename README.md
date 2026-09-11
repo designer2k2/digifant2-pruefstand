@@ -22,6 +22,8 @@ GPIO / I²C / VW-harness maps.** `article-draft.md` has the wider project backgr
 | `gen_project.py` | `python3 gen_project.py <name>` → full KiCad project + netlist + lib tables, runs ERC/DRC via `kicad-cli`, auto-applies no-connect flags |
 | `place_and_route.py` | `pcbnew` functional-zone placement → Specctra DSN → Freerouting → SES import (run inside the KiCad flatpak; `java` runs outside it) |
 | `add_nc_flags.py` | stamps `no_connect` flags from an ERC report (circuit-synth has no NC API) |
+| `fix_layout.py` | post-route layout surgery (real netclasses, GND/Kelvin re-routing) — see the header comment for the 2-phase, 2-process invocation it needs |
+| `reroute_missing.py` | re-exports a Specctra DSN from a partially-ripped-up board so Freerouting only has to fill the reopened ratsnest |
 | `board/` | the current KiCad project (144×169 mm, 2-layer, 4× M3 corner holes, isolated OLED + USB clearance zones) |
 | `UPSTREAM_BUGS.md` | circuit-synth bugs found, drafted for upstream filing |
 | `kicad-symbols/`, `kicad-footprints/` | libraries — custom/community committed, stock via `./fetch_libs.sh` |
