@@ -220,7 +220,9 @@ shield), 8, 16 (A/C), 20 (MIL).
 
 ## Board
 
-144 × 154 mm, 2-layer, 4 × M3 corner holes (non-plated, 4.5 mm inset). J3 (OLED
+144 × 169 mm, 2-layer, 4 × M3 corner holes (non-plated, 4.5 mm inset). U5's USB
+end has a 23 mm clear band above it toward J1 (was only ~7.5 mm, X-overlapping —
+a plugged-in USB cable would have fouled J1's screw terminal). J3 (OLED
 header) has its own ~40 mm clear band at the bottom, isolated from every other
 part, so a 0.96″ module can plug in flat without overhanging D2/J2. General
 passives are 0805 for hand assembly. Wide traces (≥0.6 mm) on the 12 V and

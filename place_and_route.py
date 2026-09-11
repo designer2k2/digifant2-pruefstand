@@ -28,7 +28,7 @@ b = pcbnew.LoadBoard(pcb_path)
 MM = pcbnew.FromMM
 fps = {f.GetReference(): f for f in b.GetFootprints()}
 
-W, H = 130.0, 140.0          # content area (extra 40mm of H reserved for the OLED zone below)
+W, H = 130.0, 155.0          # content area (OLED zone below + USB clearance above U5)
 MARGIN = 7.0                 # border reserved for the corner mounting holes
 BW, BH = W + 2 * MARGIN, H + 2 * MARGIN
 OX, OY = MARGIN, MARGIN
@@ -68,7 +68,10 @@ def flow(refs, x0, y0, x_max, rot=0, gap=GAP):
 def place():
     place_bbox_topleft("J0", W - 11, 6, 90)     # VW harness, right edge
     place_bbox_topleft("J1", 2, 6, 90)          # 12V in, left edge
-    place_bbox_topleft("U5", 3, 24, 0)          # Pico
+    # Pico: y0=40, not 24 -- its USB end (top of the footprint, near pin 1) was
+    # only ~7.5mm from J1's screw terminal, X-overlapping it. A USB plug needs
+    # real clearance to approach and bend away; this gives ~23mm to J1 above.
+    place_bbox_topleft("U5", 3, 40, 0)
     flow(["F1", ("D1", 180), "RS1", "C1", "Q2", "R13", "C3", "R14", "Q3", "R15", "R16"],
          14, 6, W - 14)                          # power chain
     flow(["RS2", "U1", "U3", "R6", "R7"], 40, 26, W - 14)          # current sense
@@ -77,13 +80,13 @@ def place():
     flow(["U4", "Y1", "R12", "C2", "TP1"], 40, 54, W - 14)        # DDS / knock
     flow(["R8", "R9", "R10", "R11", "RG1", "Q1", "RPU1",
           "Q5", "R19"], 40, 68, W - 14)             # edge capture + crank + idle switch
-    flow(["SW1", "SW2", "SW3", "R17", "C4", "D2", "J2"], 6, 84, W - 6)
+    flow(["SW1", "SW2", "SW3", "R17", "C4", "D2", "J2"], 6, 100, W - 6)
 
     # J3 (OLED header) gets its own clear band at the bottom, isolated from every
     # other part: a 0.96" I2C OLED module (~27-33mm) plugs in flat and would
     # otherwise overhang D2/J2, which used to sit only ~7mm away. This band is
-    # ~40mm deep (104 to H) and full-width, with nothing else placed in it.
-    place_bbox_topleft("J3", W / 2 - 13.5, 104, 0)
+    # ~40mm deep and full-width, with nothing else placed in it.
+    place_bbox_topleft("J3", W / 2 - 13.5, 119, 0)
 
     for d in list(b.GetDrawings()):
         if d.GetLayer() == pcbnew.Edge_Cuts:
