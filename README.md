@@ -26,6 +26,8 @@ GPIO / I²C / VW-harness maps.** `article-draft.md` has the wider project backgr
 | `reroute_missing.py` | re-exports a Specctra DSN from a partially-ripped-up board so Freerouting only has to fill the reopened ratsnest |
 | `board/` | the current KiCad project (144×169 mm, 2-layer, 4× M3 corner holes, isolated OLED + USB clearance zones) |
 | [`board/bom_output/bom.html`](board/bom_output/bom.html) | interactive BOM ([InteractiveHtmlBom](https://github.com/openscopeproject/InteractiveHtmlBom)) — click a part to highlight it on the board, no KiCad needed |
+| [`BOM.md`](BOM.md) | Mouser sourcing: part numbers for every line item, with confidence notes — 6 of 30 need manual confirmation, see the file |
+| [`mouser_cart.csv`](mouser_cart.csv) | only the Mouser-verified part numbers, ready to paste into Mouser's bulk order tool |
 | `UPSTREAM_BUGS.md` | circuit-synth bugs found, drafted for upstream filing |
 | `kicad-symbols/`, `kicad-footprints/` | libraries — custom/community committed, stock via `./fetch_libs.sh` |
 
