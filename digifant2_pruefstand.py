@@ -315,6 +315,8 @@ def knock_sim(vcc_3v3, gnd, spi_sck, spi_mosi, spi_cs):
                     footprint="Oscillator:Oscillator_SMD_EuroQuartz_XO91-4Pin_7.0x5.0mm")
     r12 = Component("Device:R", ref="R12", value="200R", footprint="Resistor_SMD:R_0805_2012Metric")
     c2 = Component("Device:C", ref="C2", value="100nF", footprint="Capacitor_SMD:C_0805_2012Metric")
+    c7 = Component("Device:C", ref="C7", value="100nF", footprint="Capacitor_SMD:C_0805_2012Metric")
+    c8 = Component("Device:C", ref="C8", value="100nF", footprint="Capacitor_SMD:C_0805_2012Metric")
 
     u4["VDD"] += vcc_3v3
     u4["DGND"] += gnd
@@ -326,10 +328,13 @@ def knock_sim(vcc_3v3, gnd, spi_sck, spi_mosi, spi_cs):
     u4["SCLK"] += spi_sck
     u4["SDATA"] += spi_mosi
     u4["FSYNC"] += spi_cs
-    # COMP (DAC bias decouple) and CAP_2V5 (internal regulator bypass) are both
-    # decoupling-only pins per the datasheet -- a real build should each get a
-    # decoupling cap to ground, but that's a layout/BOM detail; left unconnected
-    # here rather than modeling a dummy net, same as the other NC pins noted above.
+    # COMP (DAC bias decouple) and CAP_2V5 (internal regulator bypass) are
+    # decoupling-only pins per the datasheet -- each gets its own 100nF cap to
+    # AGND, per ADI's recommended application circuit (Rev. G, Figure 33/34).
+    c7[1] += u4["COMP"]
+    c7[2] += gnd
+    c8[1] += u4["CAP_2V5"]
+    c8[2] += gnd
 
     vout_r = Net("U4_VOUT_R")
     u4["VOUT"] += vout_r

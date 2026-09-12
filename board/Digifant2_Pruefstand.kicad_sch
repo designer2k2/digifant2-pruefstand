@@ -8880,6 +8880,120 @@
 			)
 		)
 	)
+		(symbol
+			(lib_id Device:C)
+			(at 370.84000000000003 259.08 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid dff1125c-3e13-4a99-b165-e2881ac99172)
+			(property
+				"Reference"
+				"C7"
+				(at 370.84000000000003 254.07999999999998 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"100nF"
+				(at 370.84000000000003 264.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"Capacitor_SMD:C_0805_2012Metric"
+				(at 370.84000000000003 269.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference C7)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_addcaps/digifant2_pruefstand_scratch_addcaps"
+					(path
+						"/096cc5cf-556d-44cb-bb18-6e4ad9bdecd8/1cb8be03-44d5-48c5-b2c4-df3d76afeeda"
+						(reference C7)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Device:C)
+			(at 38.1 309.88 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid b4aa1b21-da38-49ca-9569-6592666772a8)
+			(property
+				"Reference"
+				"C8"
+				(at 38.1 304.88 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"100nF"
+				(at 38.1 314.88 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"Capacitor_SMD:C_0805_2012Metric"
+				(at 38.1 319.88 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference C8)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_addcaps/digifant2_pruefstand_scratch_addcaps"
+					(path
+						"/096cc5cf-556d-44cb-bb18-6e4ad9bdecd8/1cb8be03-44d5-48c5-b2c4-df3d76afeeda"
+						(reference C8)
+						(unit 1)
+					)
+				)
+			)
+		)
 	(global_label
 		VW_PIN2
 		(at 292.1 36.83 180)
@@ -12155,9 +12269,73 @@
 	(no_connect (at 172.72 152.4) (uuid 014f38d2-6279-47f8-ab75-6add020a6f98))
 	(no_connect (at 210.82 198.12) (uuid 90a426ed-0d60-4429-978e-cd2d5fe10a98))
 	(no_connect (at 220.98 309.88) (uuid b1ba29da-fabe-4da1-bf9b-d0db195e0705))
-	(no_connect (at 236.22 261.62) (uuid a7f075ea-2abb-4fe8-b410-fc09c82cd785))
-	(no_connect (at 236.22 264.16) (uuid 139e6dac-8273-4861-8f15-7a61fdd2bd21))
 	(no_connect (at 360.68 101.6) (uuid 7ab7e252-8dd2-4a59-9d91-99dcf534ad3e))
+		(global_label
+			U4_COMP
+			(at 236.22 261.62 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 99e74166-06e3-44ac-82cd-bc2f14c85035)
+		)
+		(global_label
+			U4_CAP2V5
+			(at 236.22 264.15999999999997 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 33df1b7f-f52b-4d2d-ade2-69a810274514)
+		)
+		(global_label
+			U4_COMP
+			(at 370.84000000000003 255.26999999999998 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid 142653b1-ac19-4fdc-8305-c746fb815fcf)
+		)
+		(global_label
+			GND
+			(at 370.84000000000003 262.89 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 6a5de1e9-6cbc-4540-b3ee-40ed225c0b53)
+		)
+		(global_label
+			U4_CAP2V5
+			(at 38.1 306.07 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+			(uuid 1506a024-a2a7-4ec5-bfed-891b387a1c4b)
+		)
+		(global_label
+			GND
+			(at 38.1 313.69 270)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 87f8d2c5-856d-4dbf-b9b7-f2b6143cac29)
+		)
 	(sheet_instances
 		(path
 			"/5ed9f7fe-9bad-4449-b39f-cca1de882057/50315ab2-e05c-44a2-aca4-601b7dd74228"

@@ -107,7 +107,8 @@ AD9833 DDS on SPI (`GP16` FSYNC / `GP18` SCLK / `GP19` SDATA). **Y1**, a real
 *input*), feeds MCLK. The output passes an **R12 (200 Ω) + C2 (100 nF)** RC to
 **TP1**, a test point — the coupling to a real knock-sensor input isn't defined
 yet, so it stops at the pad. AD9833 `COMP` and `CAP_2V5` are decoupling-only
-pins; add a small cap to ground on each in a real build.
+pins; each gets its own **100 nF cap to AGND (C7, C8)**, per ADI's recommended
+application circuit.
 
 ### `operator_ui` — local controls
 **J3**, a 4-pin header, carries `GND / +3V3 / SCL / SDA` for an I²C OLED
@@ -302,4 +303,8 @@ pull-up / polarity option), not just different firmware on this board.
 - RS2 gives the idle valve a permanent path to ground in parallel with the ECU's
   VW-23 driver; to *observe* the ECU's PWM cleanly, VW-23 should be the only
   return with the shunt in series.
-- AD9833 `COMP` / `CAP_2V5` want a decoupling cap to ground each on a real build.
+- ~~AD9833 `COMP` / `CAP_2V5` decoupling caps~~ — added (C7, C8), placed and
+  hot-side traces routed. C8's GND pad (its own local corner is as tight as
+  U1/U3/RS1/RS2 — same story, scripted routing kept grazing something) is one
+  short unrouted ratsnest line — quick manual finish in KiCad, same as the
+  other pocket.

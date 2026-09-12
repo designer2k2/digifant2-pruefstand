@@ -53,12 +53,16 @@ clearance zones), real Power/Gnd netclasses, GND re-routed as one connected net
 (was 4 islands), dedicated Kelvin sense traces for both shunts. The tight
 U1/U3/RS1/RS2 pocket (2 shorting_items, 2 clearance, 5 tracks_crossing left by
 the scripted Kelvin routing) was cleaned up by hand in KiCad's interactive
-router, and a B.Cu GND pour was added — **DRC is now clean**: 0 unconnected
-items, 0 shorts, 0 clearance/crossing violations. Remaining warnings are
-cosmetic (silkscreen overlap, lib_footprint_mismatch, and one starved_thermal
-note on a single Pico GND pad with only 1 pour spoke instead of 2 — connected
-fine, just a slightly weaker thermal/mechanical joint). Thermal copper for
-D1/Q2 still optional to add by hand. Not yet fabbed.
+router, and a B.Cu GND pour was added. Also added the two AD9833 decoupling
+caps (C7, C8) the review flagged as missing before fab — both hot-side traces
+routed; **C8's GND pad has one short unrouted line left** (its corner near
+U4 is as tight as the U1/U3/RS1/RS2 pocket) for a quick manual finish in
+KiCad, same as before. Otherwise **DRC is clean**: 0 shorts, 0
+clearance/crossing violations. Remaining warnings are cosmetic (silkscreen
+overlap, lib_footprint_mismatch, and one starved_thermal note on a single
+Pico GND pad with only 1 pour spoke instead of 2 — connected fine, just a
+slightly weaker thermal/mechanical joint). Thermal copper for D1/Q2 still
+optional to add by hand. Not yet fabbed.
 
 ## License
 
