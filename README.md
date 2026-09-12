@@ -28,6 +28,8 @@ GPIO / I²C / VW-harness maps.** `article-draft.md` has the wider project backgr
 | [`board/bom_output/bom.html`](board/bom_output/bom.html) | interactive BOM ([InteractiveHtmlBom](https://github.com/openscopeproject/InteractiveHtmlBom)) — click a part to highlight it on the board, no KiCad needed |
 | [`BOM.md`](BOM.md) | Mouser sourcing: part numbers for every line item, with confidence notes — 6 of 30 need manual confirmation, see the file |
 | [`mouser_cart.csv`](mouser_cart.csv) | only the Mouser-verified part numbers, ready to paste into Mouser's bulk order tool |
+| [`JLCPCB_ASSEMBLY.md`](JLCPCB_ASSEMBLY.md) | hybrid plan: JLCPCB machine-places the SMD parts, you hand-solder THT + 4 unconfirmed SMD parts — read this before submitting |
+| [`jlcpcb_bom.csv`](jlcpcb_bom.csv) / [`jlcpcb_cpl.csv`](jlcpcb_cpl.csv) | JLCPCB SMT-assembly BOM + pick-and-place, 42 of 46 SMD parts (real positions from `board/`, real LCSC part numbers) |
 | `UPSTREAM_BUGS.md` | circuit-synth bugs found, drafted for upstream filing |
 | `kicad-symbols/`, `kicad-footprints/` | libraries — custom/community committed, stock via `./fetch_libs.sh` |
 
