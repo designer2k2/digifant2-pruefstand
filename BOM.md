@@ -44,7 +44,7 @@ part sits on the board).
 | R12 | 1 | 200Ω, 0805 | Yageo / RC0805FR-07200RL | — | Pattern-matched — confirm on mouser.com before ordering |
 | RG1 | 1 | 100Ω, 0805 | Yageo / RC0805FR-07100RL | — | Pattern-matched — confirm on mouser.com before ordering |
 | C3 | 1 | 10nF, 0805, X7R, 50V | Yageo / CC0805JRX7R9BB103 | [CC0805JRX7R9BB103](https://www.mouser.com/ProductDetail/YAGEO/CC0805JRX7R9BB103) | Verified |
-| C2, C4, C5, C6 | 4 | 100nF, 0805, X7R, 50V | Yageo / CC0805KRX7R9BB104 | [CC0805KRX7R9BB104](https://www.mouser.com/ProductDetail/YAGEO/CC0805KRX7R9BB104) | Verified |
+| C2, C4, C5, C6, C7, C8 | 6 | 100nF, 0805, X7R, 50V | Yageo / CC0805KRX7R9BB104 | [CC0805KRX7R9BB104](https://www.mouser.com/ProductDetail/YAGEO/CC0805KRX7R9BB104) | Verified |
 
 ## Summary: not orderable as-is
 
