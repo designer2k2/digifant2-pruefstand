@@ -292,13 +292,12 @@ pull-up / polarity option), not just different firmware on this board.
 
 ## Known open points
 
-- A cluster of real DRC violations right around U1/U3/RS1/RS2 (2 shorting_items,
-  2 clearance, 5 tracks_crossing) from the Kelvin-sense traces threading a
-  genuinely tight spot — every escape direction tried there grazes either
-  Freerouting's own GND fanout or the power row next door. Confined to this one
-  pocket; quick manual nudge in KiCad's interactive router.
-- GND ground pour and D1/Q2 thermal copper: not yet added (see Board section)
-  — do these by hand once you're in the KiCad GUI routing.
+- ~~DRC violations around U1/U3/RS1/RS2~~ — fixed by hand in KiCad's
+  interactive router; DRC is now clean (0 unconnected/shorts/clearance).
+- ~~GND ground pour~~ — added (B.Cu). One pad (U5 GND pad 42) has only 1
+  thermal-relief spoke into it instead of the zone's preferred 2
+  (`starved_thermal` warning) — connected fine, optionally strengthen the
+  spoke count in zone properties. D1/Q2 thermal copper still optional.
 - AD9833 knock output has no defined path to the ECU yet (stops at TP1).
 - RS2 gives the idle valve a permanent path to ground in parallel with the ECU's
   VW-23 driver; to *observe* the ECU's PWM cleanly, VW-23 should be the only
