@@ -21,3 +21,7 @@ logs/
 
 # superseded version dirs from gen_project.py
 /digifant2_pruefstand_cs_v*/
+
+# InteractiveHtmlBom: cloned source (not vendored) -- the generated
+# board/bom_output/*.html IS committed, so repo visitors get a clickable BOM
+/.ibom-src/
