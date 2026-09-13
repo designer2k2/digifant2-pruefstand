@@ -8128,7 +8128,7 @@
 		)
 		(property
 			"Value"
-			"KNOCK OUT"
+			"KNOCK OUT (to VW-4)"
 			(at 58.42 314.88 0)
 			(effects
 				(font
@@ -8994,6 +8994,63 @@
 				)
 			)
 		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 77.47 309.88 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid 92ffb607-b490-4e50-993a-6da36b9c7e88)
+			(property
+				"Reference"
+				"TP2"
+				(at 77.47 304.88 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"KNOCK GND (to VW-5)"
+				(at 77.47 314.88 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 77.47 319.88 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP2)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_fix23/digifant2_pruefstand_scratch_fix23"
+					(path
+						"/1d0c82a2-feac-4989-ac41-75dbcafe7445/27b0ed1e-7c83-4569-a3b4-468bc8a85a9f"
+						(reference TP2)
+						(unit 1)
+					)
+				)
+			)
+		)
 	(global_label
 		VW_PIN2
 		(at 292.1 36.83 180)
@@ -9215,7 +9272,7 @@
 		(uuid a51efe84-86c4-4a56-8f11-60bc7114f21a)
 	)
 	(global_label
-		GND
+		VW_PIN23_VALVE_RETURN
 		(at 91.44 151.13 270)
 		(effects
 			(font
@@ -9226,7 +9283,7 @@
 		(uuid dbfca2bd-d9d2-496b-acc7-c4aa2e9a5596)
 	)
 	(global_label
-		GND
+		VALVE_RETURN_SENSE
 		(at 114.30000000000001 144.78 180)
 		(effects
 			(font
@@ -9259,7 +9316,7 @@
 		(uuid b0053819-82a0-4b01-a067-984271440ac3)
 	)
 	(global_label
-		GND
+		VALVE_RETURN_SENSE
 		(at 114.30000000000001 144.78 180)
 		(effects
 			(font
@@ -10194,7 +10251,7 @@
 		(uuid 47df7248-4795-4ee7-95bd-7f15629076f5)
 	)
 	(global_label
-		VW_PIN23_VALVE_RETURN
+		VALVE_RETURN_SENSE
 		(at 53.34 149.85999999999999 180)
 		(effects
 			(font
@@ -10205,7 +10262,7 @@
 		(uuid b6be0ed5-c9e0-43d7-9c37-d18394722736)
 	)
 	(global_label
-		VW_PIN23_VALVE_RETURN
+		VALVE_RETURN_SENSE
 		(at 91.44 143.51 90)
 		(effects
 			(font
@@ -12335,6 +12392,17 @@
 				(justify right)
 			)
 			(uuid 87f8d2c5-856d-4dbf-b9b7-f2b6143cac29)
+		)
+		(global_label
+			GND
+			(at 72.39 309.88 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 298e5836-6989-460c-a825-c4a068ebbc4b)
 		)
 	(sheet_instances
 		(path

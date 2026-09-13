@@ -63,6 +63,16 @@ VW-23 PWMs it; the bench watches the current.
 | RS2 | **0.033 Ω** 1 % shunt, 2512 | 0.1 Ω would clip the INA226 above ~0.8 A; 0.033 Ω gives ~60 mV at 1.8 A peak |
 | U3 | INA226, address **0x41** (A0 = 3 V3) | low-side sense of the valve current |
 
+RS2 sits truly **in series** between the valve (J2) and VW-23 — not as a
+separate tap to GND running in parallel with the ECU's own low-side driver
+(the original layout's bug: both paths shared the same GND, so return current
+split between RS2 and the ECU's internal switch, and U3 only ever saw whatever
+fraction happened through RS2 — understating the real current, worst exactly
+when the ECU driver is on). U3's IN+ stays on VW-23's net (the pin that
+already had a routed path to J0) and IN− moved to the valve-side node
+(`VALVE_RETURN_SENSE`) — current-reading sign is a firmware convention either
+way, and keeping IN+ where it was avoided re-routing a long existing run.
+
 ### `dac_analog_sim` — sensor spoofing (U2)
 MCP4728, 4-channel 12-bit I²C DAC, address **0x60**, `~LDAC` low. Each output goes
 through a series resistor into the harness:
@@ -105,10 +115,20 @@ droop, so 1 k here has real margin.
 AD9833 DDS on SPI (`GP16` FSYNC / `GP18` SCLK / `GP19` SDATA). **Y1**, a real
 4-pin **XO91 25 MHz** active oscillator (not a bare crystal — MCLK is a clock
 *input*), feeds MCLK. The output passes an **R12 (200 Ω) + C2 (100 nF)** RC to
-**TP1**, a test point — the coupling to a real knock-sensor input isn't defined
-yet, so it stops at the pad. AD9833 `COMP` and `CAP_2V5` are decoupling-only
-pins; each gets its own **100 nF cap to AGND (C7, C8)**, per ADI's recommended
-application circuit.
+**TP1** (signal) and **TP2** (ground) — a defined pair of test points to wire
+to the ECU harness's VW-4 (signal) / VW-5 (ground, 2H) via a short external
+pigtail, rather than dead-ending at a single pad with no return reference. J0
+is already full at 15/15 positions (VW-4/5/7, the knock sensor's real pins,
+were never broken out there), so this stays a small standalone tap rather than
+expanding J0. A proper 2-pin JST connector (matching J2's style) was tried
+first, but this corner of the board is criss-crossed with existing traces on
+both layers (`+12V_ECU_SW`, `VW_PIN10/11/12`, `GP8/GP9/GP13/GP26` all thread
+through here) — every placement tried for a through-hole 2-pin connector
+shorted a different existing net, so two small bare test pads (same
+`TestPoint_Pad_D1.5mm` footprint as the original TP1) were used instead; they
+fit where the bulkier connector wouldn't. AD9833 `COMP` and `CAP_2V5` are
+decoupling-only pins; each gets its own **100 nF cap to AGND (C7, C8)**, per
+ADI's recommended application circuit.
 
 ### `operator_ui` — local controls
 **J3**, a 4-pin header, carries `GND / +3V3 / SCL / SDA` for an I²C OLED
@@ -302,12 +322,19 @@ pull-up / polarity option), not just different firmware on this board.
   thermal-relief spoke into it instead of the zone's preferred 2
   (`starved_thermal` warning) — connected fine, optionally strengthen the
   spoke count in zone properties. D1/Q2 thermal copper still optional.
-- AD9833 knock output has no defined path to the ECU yet (stops at TP1).
-- RS2 gives the idle valve a permanent path to ground in parallel with the ECU's
-  VW-23 driver; to *observe* the ECU's PWM cleanly, VW-23 should be the only
-  return with the shunt in series.
-- ~~AD9833 `COMP` / `CAP_2V5` decoupling caps~~ — added (C7, C8), placed and
-  hot-side traces routed. C8's GND pad (its own local corner is as tight as
-  U1/U3/RS1/RS2 — same story, scripted routing kept grazing something) is one
-  short unrouted ratsnest line — quick manual finish in KiCad, same as the
-  other pocket.
+- ~~AD9833 knock output has no defined path to the ECU~~ — now reaches a
+  defined pair of test points (TP1 signal, TP2 ground) for an external pigtail
+  to VW-4/VW-5. See `knock_sim` above for why it's test points and not a
+  proper connector.
+- ~~RS2 gave the idle valve a permanent parallel-to-GND path~~ — fixed: RS2 is
+  now truly in series between J2 and VW-23 (`VALVE_RETURN_SENSE` on the valve
+  side, `VW_PIN23_VALVE_RETURN` on the ECU side). One new tight spot from this
+  fix: U3 pin 9's own local GND-mesh neighbours (pin 1/pin 7's path back to the
+  wider ground network) sit right where U3 pin 9's new sense connection also
+  needs to run — 2 `shorting_items` confined to that one pocket. Tried by hand
+  and via Freerouting from several angles; every attempt converges on the same
+  conflict, meaning it's genuinely as tight as the U1/U3/RS1/RS2 pocket itself
+  — same quick manual-nudge treatment.
+- ~~AD9833 `COMP` / `CAP_2V5` decoupling caps~~ — added (C7, C8), fully routed;
+  C8's GND connection (previously a short unrouted ratsnest line) got picked
+  up for free by the Freerouting pass used for the RS2 fix above.

@@ -135,10 +135,21 @@ def ecu_current_sense(post_shunt_hi, post_shunt_lo, gnd, vcc_3v3, sda, scl):
     # has no NC-flag API in this version).
 
 
-def idle_valve(drive_12v, valve_return, gnd, vcc_3v3, sda, scl):
+def idle_valve(drive_12v, valve_return_sense, valve_return_ecu, gnd, vcc_3v3, sda, scl):
     """Real used N71 idle valve as load (J2), current sensed by U3 (INA226, addr 0x41).
-    valve_return is the same net as VW connector pin 23 (idle-valve return) -- J2 sits
-    in that current loop as the bench-mounted real load."""
+    valve_return_ecu is the same net as VW connector pin 23 (idle-valve return) --
+    J2 sits in that current loop as the bench-mounted real load.
+
+    RS2 is wired truly IN SERIES between the valve and VW-23/the ECU's own
+    low-side driver -- not as a separate tap to GND in parallel with it (the
+    original layout's bug). That parallel path let return current split between
+    RS2 and the ECU's internal switch (both go to the same shared GND on this
+    bench), so U3 only ever saw whatever fraction happened to take RS2's path --
+    understating the true valve current, worst right when the ECU driver is ON
+    and current is actually flowing. With RS2 truly in series, 100% of the
+    valve's return current must cross it before reaching VW-23, so U3 reads the
+    real total and the ECU's own PWM drive is undisturbed except for RS2's own
+    ~60mV drop (negligible against 12V)."""
     j2 = Component("Connector_Generic:Conn_01x02", ref="J2", value="IDLE VALVE N71",
                     footprint="Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical")
     # 0.033R (not 0.1R): the idle valve peaks near ~1.8A, and 0.1R * 1.8A = 180mV
@@ -150,15 +161,20 @@ def idle_valve(drive_12v, valve_return, gnd, vcc_3v3, sda, scl):
                     footprint="Package_SO:MSOP-10_3x3mm_P0.5mm")
 
     j2[1] += drive_12v
-    j2[2] += valve_return
-    rs2[1] += valve_return
-    rs2[2] += gnd
+    j2[2] += valve_return_sense
+    rs2[1] += valve_return_sense
+    rs2[2] += valve_return_ecu
 
-    u3["IN+"] += valve_return
-    u3["IN-"] += gnd
+    # IN+ (not IN-) carries the ECU-side net here: on the physical board, IN+
+    # is the INA226 pin that already had a routed path to VW-23 from the
+    # original (buggy) topology -- keeping it means only the sense-side needs
+    # new routing, not a rip-up of the existing long run to J0. Sign of the
+    # current reading is a firmware convention either way.
+    u3["IN+"] += valve_return_ecu
+    u3["IN-"] += valve_return_sense
     # VBUS on the valve *supply* (switched rail) so U3 also reports the voltage the
-    # valve is actually fed -- valve_return itself is a PWM node and not useful as
-    # a bus-voltage reading.
+    # valve is actually fed -- the return node itself is a PWM node and not useful
+    # as a bus-voltage reading.
     u3["VBUS"] += drive_12v
     u3["VS"] += vcc_3v3
     u3["GND"] += gnd
@@ -306,8 +322,18 @@ def edge_capture(vcc_3v3, gpio_ignition, gpio_injector, vw_pin25, vw_pin12):
 
 
 def knock_sim(vcc_3v3, gnd, spi_sck, spi_mosi, spi_cs):
-    """AD9833 U4 DDS burst generator; output only reaches TP1, not the VW connector
-    (real target pin/coupling never established -- same as the original schematic)."""
+    """AD9833 U4 DDS burst generator. Output now reaches a defined pair of test
+    points (TP1 signal + TP2 ground) instead of dead-ending at a single bare
+    pad -- J0 is already full at 15/15 positions (VW-4/5/7, the knock sensor's
+    real pins, were never broken out there), so this is a small standalone tap
+    meant to be wired to the ECU harness's VW-4 (signal) / VW-5 (ground, 2H)
+    pins via a short external pigtail -- clipped/soldered onto both pads, not
+    a proper connector housing. A 2-pin JST here would be nicer, but this
+    corner of the board is criss-crossed with existing traces on both layers
+    (+12V_ECU_SW, VW_PIN10/11/12, GP8/GP9/GP13/GP26 all thread through here at
+    various points); every placement tried for a through-hole 2-pin connector
+    shorted a different existing net. Two bare test pads (TestPoint_Pad_D1.5mm,
+    same as the original TP1) are small enough to actually fit."""
     u4 = Component("Custom_Digifant2:AD9833", ref="U4", value="AD9833",
                     footprint="Package_SO:MSOP-10_3x3mm_P0.5mm")
     # Active 4-pin oscillator, not a passive 2-pin crystal: AD9833's MCLK is a
@@ -346,9 +372,12 @@ def knock_sim(vcc_3v3, gnd, spi_sck, spi_mosi, spi_cs):
     load = Net("U4_LOAD")
     r12[2] += load
     c2[1] += load
-    tp1 = Component("Connector_Generic:Conn_01x01", ref="TP1", value="KNOCK OUT",
+    tp1 = Component("Connector_Generic:Conn_01x01", ref="TP1", value="KNOCK OUT (to VW-4)",
                      footprint="TestPoint:TestPoint_Pad_D1.5mm")
     tp1[1] += load
+    tp2 = Component("Connector_Generic:Conn_01x01", ref="TP2", value="KNOCK GND (to VW-5)",
+                     footprint="TestPoint:TestPoint_Pad_D1.5mm")
+    tp2[1] += gnd
     c2[2] += gnd
 
 
@@ -429,7 +458,8 @@ def main_circuit():
     power_section(vin_12v, gnd, ecu_12v, ecu_sw)
     ecu_power_switch(ecu_12v, ecu_sw, gnd, gp_ecu_en)
     ecu_current_sense(Net("+12V_POST_D1"), ecu_12v, gnd, vcc_3v3, sda, scl)
-    idle_valve(ecu_sw, vw_pin23_valve_return, gnd, vcc_3v3, sda, scl)
+    valve_return_sense = Net("VALVE_RETURN_SENSE")  # J2 side of RS2, before the shunt
+    idle_valve(ecu_sw, valve_return_sense, vw_pin23_valve_return, gnd, vcc_3v3, sda, scl)
     dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2,
                    gp_conn_air, gp_conn_water, gp_conn_lambda)
     afm_ref_sense(vw_pin17, gnd, afm_ref_adc)

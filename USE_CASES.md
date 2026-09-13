@@ -27,7 +27,7 @@ VW-17 divider, has since been fixed).
 | Measure total ECU current, 0–2.5 A | U1 + RS1 (0.02 Ω) | ✅ | INA226 PGA range ±81.92 mV / 0.02 Ω = ±4.10 A — 64% headroom over the 2.5 A worst case. |
 | Measure ECU supply voltage | U1 VBUS (on `+12V_ECU`) | ⚠️ | Reads upstream of Q2, so it's off by the switch's ~0.1 V drop from the actual VW-14 voltage — documented already, just firmware-correctable. |
 | Measure idle-valve current, 0–1.8 A peak | U3 + RS2 (0.033 Ω) | ⚠️ **new finding** | INA226 range ±81.92 mV / 0.033 Ω = ±2.48 A — only ~38% headroom over the 1.8 A nominal peak. A **valve fault (stalled/locked coil, higher inrush)** — exactly the condition you'd most want to *see* — could clip this reading. Worth keeping in mind if fault-injection testing on the valve itself is ever a goal; not a problem for normal PWM operation. |
-| Observe the ECU's own idle-valve PWM waveform cleanly | RS2, U3, VW-23 | ❌ (already known) | RS2 is a permanent parallel ground path alongside the ECU's own VW-23 driver — current-sensing works, but it's not an isolated view of just the ECU's drive. Documented in DESIGN.md. |
+| Observe the ECU's own idle-valve PWM waveform cleanly | RS2, U3, VW-23 | ✅ **fixed** | RS2 was a permanent parallel path to GND alongside the ECU's own VW-23 driver, splitting the return current between the two and understating U3's reading. Now truly in series (100% of the current crosses RS2 before reaching VW-23) — U3 reads the real total and the ECU's own drive is undisturbed except RS2's own ~60mV drop. |
 | Measure idle-valve supply voltage | U3 VBUS (on switched rail) | ✅ | Independent of the PWM node, reads what the valve is actually fed. |
 
 ## Sensor simulation
@@ -51,7 +51,7 @@ VW-17 divider, has since been fixed).
 | Capture ignition edges | R8 (10 kΩ pull-up) + R9 (330 Ω series) → GP14 | ✅ | 0.32 mA load on the ECU's output when pulled low — negligible burden. |
 | Capture injector edges, including the ~2.4 ms idle pulse | R10 (1 kΩ) + R11 (330 Ω) → GP15 | ✅ | Already bench-validated by the user (10 kΩ too weak, even 2.2 kΩ marginal) — 1 kΩ has real margin. |
 | Measure ignition angle | Q1 crank drive (GP2) + R8/R9 ignition capture (GP14) | ✅ (firmware) | The bench *generates* the crank signal itself, so firmware already has an exact timestamp for every crank edge — no separate crank-sensing path needed. Angle = time from that known crank-edge timestamp to the captured ignition-edge timestamp, converted with the RPM the bench is already simulating. R9's 330 Ω + GPIO input capacitance adds tens of ns of propagation delay — negligible next to one crank-degree (27.8 µs at 6000 RPM). This gives angle *relative to the bench's own injected trigger edge*; an absolute "degrees BTDC" figure additionally needs Digifant-2's real trigger-wheel convention, a calibration/firmware detail, not a hardware one. |
-| Generate a knock-sensor burst (5–15 kHz typical resonant range) | U4 (AD9833) + Y1 | ✅ (generation) / ❌ (delivery) | AD9833 covers that range trivially (up to ~12.5 MHz max). But the output only reaches **TP1**, not the VW connector — already documented; the DDS itself works, there's just no defined path to the ECU yet. |
+| Generate a knock-sensor burst (5–15 kHz typical resonant range) | U4 (AD9833) + Y1 | ✅ **fixed** | AD9833 covers that range trivially (up to ~12.5 MHz max). Output now reaches a defined pair of test points (TP1 signal, TP2 ground) for a pigtail to VW-4/VW-5, instead of dead-ending with no return reference. |
 | Local UI: menu/±  buttons | SW1–SW3 → GND | ⚠️ | No external pull-up in hardware — relies on firmware enabling the RP2040's internal pull-ups. Standard practice, just a firmware dependency to remember, not a board defect. |
 | I²C bus: OLED + both INA226s + DAC coexist | 0x3C / 0x40 / 0x41 / 0x60, shared SDA/SCL | ✅ | No address collisions. 4.7 kΩ pull-ups are a normal Fast-Mode (400 kHz) value for a short on-board bus with this few devices. |
 | GPIO budget for the two "not yet in this design" ideas (per-signal LEDs, fuel-pump monitor) | Pico GPIO map | ✅ | 8 GPIOs free (0, 1, 3, 7, 12, 17, 27, 28) — plenty of headroom if those get added later. |
@@ -66,6 +66,7 @@ VW-17 divider, has since been fixed).
 ## Summary: what to act on before you'd call every use case covered
 
 1. ~~**VW-17 divider headroom**~~ — fixed (R20 15k→20k).
-2. **D1 thermal copper** — already on the to-do list, but now tied to a specific consequence: don't run sustained near-3 A tests until it's added.
-3. **RS2's shared ground path** and **AD9833→ECU coupling** — both already known, both are "finish the design intent" items rather than layout bugs.
-4. Everything else in this matrix is either ✅ verified with real numbers, or an inherent/expected limitation (average-current sensing on a PWM node, firmware-side pull-ups, firmware-defined trip thresholds) rather than something the hardware needs to change for.
+2. ~~**RS2's shared ground path**~~ — fixed: truly in series now, not a parallel tap to GND.
+3. ~~**AD9833→ECU coupling**~~ — fixed: TP1/TP2 give it a defined external path.
+4. **D1 thermal copper** — already on the to-do list, but now tied to a specific consequence: don't run sustained near-3 A tests until it's added.
+5. Everything else in this matrix is either ✅ verified with real numbers, or an inherent/expected limitation (average-current sensing on a PWM node, firmware-side pull-ups, firmware-defined trip thresholds) rather than something the hardware needs to change for.
