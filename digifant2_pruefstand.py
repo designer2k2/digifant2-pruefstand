@@ -174,8 +174,12 @@ def afm_ref_sense(vw_pin17, gnd, adc):
     reference on VW-17 and reads the wiper on VW-21. We inject the wiper voltage
     with the DAC, so firmware needs to know VW-17's actual level to scale it (and
     a drooping VW-17 is itself a useful fault indicator). R20/R21 divide VW-17
-    (~5V nominal, up to ~9V worst case) into the Pico's 0-3.3V ADC; C5 filters."""
-    r20 = Component("Device:R", ref="R20", value="15k", footprint="Resistor_SMD:R_0805_2012Metric")
+    (~5V nominal, up to ~9V worst case) into the Pico's 0-3.3V ADC; C5 filters.
+    R20 20k (not 15k): ratio was 10k/25k=0.4, so the stated 9V worst case divided
+    to 3.6V -- right at the RP2040 ADC's absolute-max input rating (VDD+0.3V),
+    zero margin. 10k/30k=0.333 puts that same worst case at 3.0V (0.6V of real
+    margin) while nominal 5V still lands mid-range at 1.67V."""
+    r20 = Component("Device:R", ref="R20", value="20k", footprint="Resistor_SMD:R_0805_2012Metric")
     r21 = Component("Device:R", ref="R21", value="10k", footprint="Resistor_SMD:R_0805_2012Metric")
     c5 = Component("Device:C", ref="C5", value="100nF", footprint="Capacitor_SMD:C_0805_2012Metric")
     r20[1] += vw_pin17

@@ -8,7 +8,8 @@ works but with a caveat worth knowing, ❌ genuine gap.
 
 This complements DESIGN.md's "Known open points" rather than duplicating it —
 where a use case exposes one of those points, it's cited; three items below
-are **new findings** from this pass, not previously written down.
+were **new findings** from this pass, not previously written down (one, the
+VW-17 divider, has since been fixed).
 
 ## Power / sequencing
 
@@ -39,7 +40,7 @@ are **new findings** from this pass, not previously written down.
 | Simulate lambda/O₂ voltage | U2 VOUTD → R5 (1 kΩ) → VW-2 | ✅ | 1 kΩ (not 220 Ω) specifically so the source doesn't look like an ideal voltage source to the ECU's O₂ input — matches a real sensor's output impedance better. |
 | Inject open-sensor fault: air, coolant, lambda | U6/U7/U8 (TS5A3159A) | ✅ | GPIO low → COM floats (NC pin left open) → ECU sees a genuine open circuit, not just a forced voltage — this is what actually exercises the ECU's fault-detection path, not just a wrong reading. |
 | Sensors read "connected" at power-on (no false fault before firmware runs) | R22–R24 (100 kΩ pull-ups to +3V3) | ✅ | But **contingent on +3V3 being present** — see the sequencing note above; the whole DAC/switch subsystem is unpowered without it anyway, so there's no window where a false "open" fault could appear without also having no signal at all. |
-| Read the airflow-pot reference (VW-17) to scale the injected wiper voltage | R20/R21 divider → GP26/ADC0 | ❌ **new finding** | Divider ratio R21/(R20+R21) = 10/25 = 0.4. DESIGN.md's own stated worst case (~9 V on VW-17) divides down to **3.6 V — at or past the RP2040's ADC absolute-maximum input rating (VDD + 0.3 V ≈ 3.6 V), with zero margin.** Nominal 5 V (→2.0 V) is completely safe; it's specifically the stated fault/worst-case voltage that has no headroom. Worth either widening the divider ratio or adding a small series-R + clamp diode to +3V3 before fab if that worst case is a real possibility in practice. |
+| Read the airflow-pot reference (VW-17) to scale the injected wiper voltage | R20/R21 divider → GP26/ADC0 | ✅ **fixed** | R20 was 15 k (ratio 0.4, worst case 9 V → 3.6 V — at the RP2040 ADC's absolute-max rating, zero margin). Now 20 k (ratio 0.333): 9 V → 3.0 V, 0.6 V of real margin; nominal 5 V → 1.67 V, still comfortably mid-range. |
 
 ## Digital I/O emulation
 
@@ -63,7 +64,7 @@ are **new findings** from this pass, not previously written down.
 
 ## Summary: what to act on before you'd call every use case covered
 
-1. **VW-17 divider headroom** — the one item worth a hardware change if the ~9 V worst case is realistic: widen the ratio or add a clamp.
+1. ~~**VW-17 divider headroom**~~ — fixed (R20 15k→20k).
 2. **D1 thermal copper** — already on the to-do list, but now tied to a specific consequence: don't run sustained near-3 A tests until it's added.
 3. **RS2's shared ground path** and **AD9833→ECU coupling** — both already known, both are "finish the design intent" items rather than layout bugs.
 4. Everything else in this matrix is either ✅ verified with real numbers, or an inherent/expected limitation (average-current sensing on a PWM node, firmware-side pull-ups, firmware-defined trip thresholds) rather than something the hardware needs to change for.

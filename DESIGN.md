@@ -141,8 +141,11 @@ The airflow-meter potentiometer is read *ratiometrically*: the ECU sources a
 reference on VW-17 and reads the wiper on VW-21. Since the bench injects the
 wiper voltage with the DAC, firmware needs VW-17's actual level to scale it
 correctly — and a drooping VW-17 is itself a useful fault indicator.
-**R20 (15 k) / R21 (10 k)** divide VW-17 (~5 V nominal, headroom to ~9 V) into
-the Pico's `GP26 / ADC0`; **C5 (100 nF)** filters. Sense-only, ~25 kΩ load on
+**R20 (20 k) / R21 (10 k)** divide VW-17 (~5 V nominal, headroom to ~9 V) into
+the Pico's `GP26 / ADC0`; **C5 (100 nF)** filters. Ratio is 1:3 (not the
+original 1:2.5) so the stated 9 V worst case lands at 3.0 V — 0.6 V of real
+margin below the RP2040 ADC's absolute-max input rating, instead of landing
+right on it. Sense-only, ~30 kΩ load on
 the ECU's reference.
 
 ### Bus-voltage measurement
