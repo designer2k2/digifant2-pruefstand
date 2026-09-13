@@ -9051,6 +9051,690 @@
 				)
 			)
 		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 396.24 50.80000000000001 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid 15eef3bc-090f-4382-a359-aa33dc866207)
+			(property
+				"Reference"
+				"TP3"
+				(at 396.24 45.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP GP2_CRANK"
+				(at 396.24 55.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 396.24 60.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP3)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP3)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 421.64 50.80000000000001 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid 82886984-453f-4913-8835-272379cca3ec)
+			(property
+				"Reference"
+				"TP4"
+				(at 421.64 45.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP GP6_THROTTLE_IDLE_SW"
+				(at 421.64 55.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 421.64 60.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP4)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP4)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 447.04 50.80000000000001 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid 9b1fc23a-4ff5-481e-bd4f-23db65fe36a9)
+			(property
+				"Reference"
+				"TP5"
+				(at 447.04 45.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP GP14_IGN_CAPTURE"
+				(at 447.04 55.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 447.04 60.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP5)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP5)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 472.44 50.80000000000001 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid e7ff28df-e4a4-4618-bb4c-9e808b39830b)
+			(property
+				"Reference"
+				"TP6"
+				(at 472.44 45.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP GP15_INJ_CAPTURE"
+				(at 472.44 55.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 472.44 60.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP6)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP6)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 497.84000000000003 50.80000000000001 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid 3d396673-b636-4524-a162-2cf7fe984e64)
+			(property
+				"Reference"
+				"TP7"
+				(at 497.84000000000003 45.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP GP16_SPI_CS"
+				(at 497.84000000000003 55.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 497.84000000000003 60.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP7)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP7)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 523.24 50.80000000000001 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid 6a8f65e3-611e-4c56-9a7a-88045241dede)
+			(property
+				"Reference"
+				"TP8"
+				(at 523.24 45.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP GP18_SPI_SCK"
+				(at 523.24 55.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 523.24 60.80000000000001 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP8)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP8)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 396.24 76.19999999999999 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid fe962041-f6b5-44a3-867d-ca5f1f69bf4f)
+			(property
+				"Reference"
+				"TP9"
+				(at 396.24 71.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP GP19_SPI_MOSI"
+				(at 396.24 81.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 396.24 86.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP9)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP9)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 421.64 76.19999999999999 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid dd117e80-19ef-492f-b49a-6738c700c4e5)
+			(property
+				"Reference"
+				"TP10"
+				(at 421.64 71.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP I2C_SDA"
+				(at 421.64 81.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 421.64 86.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP10)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP10)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 447.04 76.19999999999999 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid 72f76ebe-7704-43a3-820f-ee3a519d0d91)
+			(property
+				"Reference"
+				"TP11"
+				(at 447.04 71.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP I2C_SCL"
+				(at 447.04 81.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 447.04 86.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP11)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP11)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 472.44 76.19999999999999 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid d28f81ef-3fad-4bd7-b4ad-d6c235eb6f45)
+			(property
+				"Reference"
+				"TP12"
+				(at 472.44 71.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP GP10_LED_DATA"
+				(at 472.44 81.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 472.44 86.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP12)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP12)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 497.84000000000003 76.19999999999999 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid 4966fc8c-f1a3-49c8-bacf-bb69c01b5b3c)
+			(property
+				"Reference"
+				"TP13"
+				(at 497.84000000000003 71.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP +12V_ECU"
+				(at 497.84000000000003 81.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 497.84000000000003 86.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP13)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP13)
+						(unit 1)
+					)
+				)
+			)
+		)
+		(symbol
+			(lib_id Connector_Generic:Conn_01x01)
+			(at 523.24 76.19999999999999 0)
+			(in_bom yes)
+			(on_board yes)
+			(dnp no)
+			(uuid 2f87d47e-c5f3-4be8-be4d-9c39483a027c)
+			(property
+				"Reference"
+				"TP14"
+				(at 523.24 71.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Value"
+				"TP +12V_ECU_SW"
+				(at 523.24 81.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property
+				"Footprint"
+				"TestPoint:TestPoint_Pad_D1.5mm"
+				(at 523.24 86.19999999999999 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(instances
+				(project
+					"circuit"
+					(path
+						"/"
+						(reference TP14)
+						(unit 1)
+					)
+				)
+				(project
+					"/workspace/digifant2-pruefstand/digifant2_pruefstand_scratch_tp/digifant2_pruefstand_scratch_tp"
+					(path
+						"/cfd9c9e6-0dbe-4fbb-b1cf-9328588074d8/f86d15f1-0aa6-4534-9b56-a4f4a575717d"
+						(reference TP14)
+						(unit 1)
+					)
+				)
+			)
+		)
 	(global_label
 		VW_PIN2
 		(at 292.1 36.83 180)
@@ -12403,6 +13087,138 @@
 				(justify right)
 			)
 			(uuid 298e5836-6989-460c-a825-c4a068ebbc4b)
+		)
+	(global_label
+			GP2_CRANK
+			(at 391.16 50.80000000000001 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid ca23e4fa-66cb-4833-9341-dd2b2bb58423)
+		)
+	(global_label
+			GP6_THROTTLE_IDLE_SW
+			(at 416.56 50.80000000000001 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid a7202987-6d7a-4ce3-81aa-7248b2924f4d)
+		)
+	(global_label
+			GP14_IGN_CAPTURE
+			(at 441.96000000000004 50.80000000000001 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 8e27d8a8-8736-4f9b-ad72-5e9829738b19)
+		)
+	(global_label
+			GP15_INJ_CAPTURE
+			(at 467.36 50.80000000000001 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 8159a39d-65f6-4223-b795-45a181b59960)
+		)
+	(global_label
+			GP16_SPI_CS
+			(at 492.76 50.80000000000001 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 7d53d155-fc41-434f-ae91-a3db278aac31)
+		)
+	(global_label
+			GP18_SPI_SCK
+			(at 518.1600000000001 50.80000000000001 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid f086f8b8-fbbf-44da-8331-97122eb69f88)
+		)
+	(global_label
+			GP19_SPI_MOSI
+			(at 391.15999999999997 76.19999999999999 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 3ec48ddf-2782-43d8-b0e7-ea2baf91ba16)
+		)
+	(global_label
+			I2C_SDA
+			(at 416.55999999999995 76.19999999999999 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid fbcb5f20-b439-48fb-9549-76ae4f542381)
+		)
+	(global_label
+			I2C_SCL
+			(at 441.96000000000004 76.19999999999999 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid e82610d6-879a-4a4b-afb2-3d54367890fd)
+		)
+	(global_label
+			GP10_LED_DATA
+			(at 467.36 76.19999999999999 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 7806ada5-4dff-4bd5-a8ef-f39ded0120b3)
+		)
+	(global_label
+			+12V_ECU
+			(at 492.76000000000005 76.19999999999999 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 3b34bbfc-65c9-45d0-9551-36fc2e9782db)
+		)
+	(global_label
+			+12V_ECU_SW
+			(at 518.16 76.19999999999999 180)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+			(uuid 42ab4d11-602a-4a1e-b27e-bcb1d57b949f)
 		)
 	(sheet_instances
 		(path

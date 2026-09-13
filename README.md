@@ -64,12 +64,15 @@ corrupting the current reading — this reopened one small pocket at U3 pin 9
 (2 `shorting_items`, confined to that one spot after extensive
 hand-routing/Freerouting attempts, same class of residual as the historical
 U1/U3/RS1/RS2 items). Gave the AD9833 knock output a defined path out
-(TP1/TP2 test points for VW-4/VW-5) instead of a dead end. Otherwise **DRC is
-clean**. Remaining warnings are cosmetic (silkscreen overlap,
-lib_footprint_mismatch, and one starved_thermal note on a single Pico GND pad
-with only 1 pour spoke instead of 2 — connected fine, just a slightly weaker
-thermal/mechanical joint). Thermal copper for D1/Q2 still optional to add by
-hand. Not yet fabbed.
+(TP1/TP2 test points for VW-4/VW-5) instead of a dead end. Added 12 more
+scope-probe test points (TP3–TP14) on the main GPIO signals, both buses, and
+both 12 V rails — one of these (TP12, LED data) reopened a real but
+imprecisely-located `shorting_items` pair near GND, left for the same manual
+nudge as the other pockets. Remaining warnings are cosmetic (silkscreen
+overlap, lib_footprint_mismatch, and one starved_thermal note on a single
+Pico GND pad with only 1 pour spoke instead of 2 — connected fine, just a
+slightly weaker thermal/mechanical joint). Thermal copper for D1/Q2 still
+optional to add by hand. Not yet fabbed.
 
 ## License
 

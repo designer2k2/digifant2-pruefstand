@@ -381,6 +381,31 @@ def knock_sim(vcc_3v3, gnd, spi_sck, spi_mosi, spi_cs):
     c2[2] += gnd
 
 
+def debug_test_points(gp_crank, gp_thr_idle, gp_ignition, gp_injector,
+                       gp_spi_cs, gp_spi_sck, gp_spi_mosi, sda, scl,
+                       gp_led_data, ecu_12v, ecu_sw):
+    """Bare 1.5mm test pads (TestPoint_Pad_D1.5mm, same footprint as the
+    knock-output TP1/TP2) on the signals a scope is actually likely to probe
+    while debugging firmware: the GPIO-driven digital lines, both buses, and
+    the two 12V rails. Not exhaustive -- +3V3 was tried at four different
+    anchor points and every one routed through the same congested corridor
+    near the Pico, so it was dropped rather than fight that further; +3V3 is
+    already exposed at many existing component pins (R6/R7, C2-C6, any of the
+    INA226 VS pins) if you need to probe it."""
+    nets = [
+        ("TP3", "GP2_CRANK", gp_crank), ("TP4", "GP6_THROTTLE_IDLE_SW", gp_thr_idle),
+        ("TP5", "GP14_IGN_CAPTURE", gp_ignition), ("TP6", "GP15_INJ_CAPTURE", gp_injector),
+        ("TP7", "GP16_SPI_CS", gp_spi_cs), ("TP8", "GP18_SPI_SCK", gp_spi_sck),
+        ("TP9", "GP19_SPI_MOSI", gp_spi_mosi), ("TP10", "I2C_SDA", sda),
+        ("TP11", "I2C_SCL", scl), ("TP12", "GP10_LED_DATA", gp_led_data),
+        ("TP13", "+12V_ECU", ecu_12v), ("TP14", "+12V_ECU_SW", ecu_sw),
+    ]
+    for ref, label, net in nets:
+        tp = Component("Connector_Generic:Conn_01x01", ref=ref, value=f"TP {label}",
+                        footprint="TestPoint:TestPoint_Pad_D1.5mm")
+        tp[1] += net
+
+
 def operator_ui(vcc_3v3, gnd, sda, scl, btn_menu, btn_minus, btn_plus):
     j3 = Component("Connector_Generic:Conn_01x04", ref="J3", value="OLED / UI I2C",
                     footprint="Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical")
@@ -468,6 +493,9 @@ def main_circuit():
     edge_capture(vcc_3v3, gp_ignition, gp_injector, vw_pin25, vw_pin12)
     knock_sim(vcc_3v3, gnd, gp_spi_sck, gp_spi_mosi, gp_spi_cs)
     operator_ui(vcc_3v3, gnd, sda, scl, gp_btn_menu, gp_btn_minus, gp_btn_plus)
+    debug_test_points(gp_crank, gp_thr_idle, gp_ignition, gp_injector,
+                       gp_spi_cs, gp_spi_sck, gp_spi_mosi, sda, scl,
+                       gp_led_data, ecu_12v, ecu_sw)
     status_led(vcc_3v3, gnd, gp_led_data)
 
     # ERC needs to see an actual power *source* pin on each rail, not just

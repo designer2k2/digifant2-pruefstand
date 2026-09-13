@@ -8,7 +8,7 @@ CRA2512-FZ-R020ELF,1,0.02R 1% shunt 2512,RS1
 SUD50P06-15-GE3,1,P-MOS DPAK ECU load switch,Q2
 B2B-XH-ALFSN,1,JST XH 2-pos vertical header,J2
 TSW-104-07-G-S,1,4-pos 2.54mm vertical header,J3
-5010,2,THT test point (substitute for bare pad),"TP1,TP2"
+5010,14,THT test point (substitute for bare pad),"TP1,TP2,TP3,TP4,TP5,TP6,TP7,TP8,TP9,TP10,TP11,TP12,TP13,TP14"
 B3F-1000,3,6x6mm tactile switch,"SW1,SW2,SW3"
 RC0805FR-0710KL,3,10k 0805,"R8,R13,R21"
 RC0805FR-074K7L,3,4.7k 0805,"R6,R7,R14"

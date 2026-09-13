@@ -138,6 +138,20 @@ the board (nothing else placed within it) since a 0.96″ OLED module (~27–33 
 plugged in flat would otherwise overhang neighbouring parts. **SW1–SW3** are
 momentary buttons to ground on `GP20 / GP21 / GP22` (menu / − / +).
 
+### `debug_test_points` — scope probe points (TP3–TP14)
+Bare 1.5 mm test pads (same `TestPoint_Pad_D1.5mm` footprint as the knock
+output's TP1/TP2) on the signals most likely to get probed while debugging
+firmware: crank drive (TP3), idle-switch drive (TP4), ignition/injector
+capture (TP5/TP6), the SPI bus to the AD9833 (TP7 CS / TP8 SCK / TP9 MOSI),
+the I²C bus (TP10 SDA / TP11 SCL), the status LED data line (TP12), and both
+12 V rails — sensed (TP13, `+12V_ECU`) and switched (TP14, `+12V_ECU_SW`).
+**+3V3 was deliberately left without a dedicated point**: it was tried at four
+different anchor locations (three different Pico pins, then a decoupling
+cap elsewhere) and every one routed through the same congested corridor near
+the Pico, each time producing a real but hard-to-pin-down clearance/short
+against unrelated nets. Not worth forcing — +3V3 is already exposed at many
+existing pins (R6/R7, C2–C6, any INA226 `VS` pin) if you need to probe it.
+
 ### `status_led` — one addressable RGB pixel (D2)
 **SK6812** (5050) on a single GPIO (`GP10`), driven by the Pico's PIO. SK6812 is
 picked over WS2812B because its data threshold is in spec at 3.3 V — no level
@@ -316,6 +330,14 @@ pull-up / polarity option), not just different firmware on this board.
 
 ## Known open points
 
+- Adding TP3–TP14 (debug test points) reopened one real but imprecisely
+  located `shorting_items`/`clearance` pair between `GP10_LED_DATA` and
+  `GND` — the actual pad-to-pad distances involved (TP12 to the nearest GND
+  pad) are ~2 mm, well outside any normal clearance rule, so the true
+  conflict is somewhere along the newly-routed copper itself, not at a
+  pad. KiCad's interactive router will show the exact offending trace
+  visually where a script can't easily locate it — same manual-nudge
+  treatment as the other pockets on this board.
 - ~~DRC violations around U1/U3/RS1/RS2~~ — fixed by hand in KiCad's
   interactive router; DRC is now clean (0 unconnected/shorts/clearance).
 - ~~GND ground pour~~ — added (B.Cu). One pad (U5 GND pad 42) has only 1

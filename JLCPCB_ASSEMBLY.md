@@ -40,7 +40,7 @@ hand-solder after the assembled board arrives:
 - **RS2** (0.033Ω 1% shunt, 2512) — value unconfirmed at *any* distributor; either track down `CRA2512-FZ-R033ELF` yourself, or substitute a confirmed 0.030Ω/0.025Ω part and adjust the INA226 calibration constant in firmware
 - **Y1** (25MHz XO91-style oscillator) — exact EuroQuartz part confirmed to exist elsewhere, not pinned to a Mouser or LCSC SKU this pass
 
-These 4, plus the always-hand-soldered THT parts (J0–J3, TP1, TP2, SW1–SW3, C1,
+These 4, plus the always-hand-soldered THT parts (J0–J3, TP1–TP14, SW1–SW3, C1,
 U5/Pico), are the same set flagged in `BOM.md`.
 
 ## Notable per-part caveats (already reflected in the BOM, just so you know why)
