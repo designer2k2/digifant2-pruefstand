@@ -40,6 +40,7 @@ part sits on the board).
 | R5, R10, R15, RPU1 | 4 | 1kΩ, 0805 | Yageo / RC0805FR-071KL | [RC0805FR-071KL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-071KL) | Verified |
 | R16, R19, R22, R23, R24 | 5 | 100kΩ, 0805 | Yageo / RC0805FR-07100KL | [RC0805FR-07100KL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-07100KL) | Verified |
 | R2, R3, R4 | 3 | 220Ω, 0805 | Yageo / RC0805FR-07220RL | [RC0805FR-07220RL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-07220RL) | Verified |
+| R20 | 1 | 20kΩ, 0805 | Yageo / RC0805FR-0720KL | [RC0805FR-0720KL](https://www.mouser.com/en/ProductDetail/YAGEO/RC0805FR-0720KL) | Verified — added late, was missing from the original pass entirely |
 | R9, R11, R17 | 3 | 330Ω, 0805 | Yageo / RC0805FR-07330RL | — | Pattern-matched (same verified RC0805 series) — confirm on mouser.com before ordering |
 | R12 | 1 | 200Ω, 0805 | Yageo / RC0805FR-07200RL | — | Pattern-matched — confirm on mouser.com before ordering |
 | RG1 | 1 | 100Ω, 0805 | Yageo / RC0805FR-07100RL | — | Pattern-matched — confirm on mouser.com before ordering |
@@ -58,5 +59,5 @@ part numbers into a cart as given:
 - **Y1** (25MHz XO91 oscillator) — exists at other distributors, Mouser SKU not confirmed this pass; search `XO91050UITA` on mouser.com.
 - **F1, C1, Q1/Q3/Q5** — generic/second-sourced parts; only a Mouser *category* was confirmed, pick a specific in-stock SKU yourself (any should work electrically).
 
-Everything else (24 of 30 line items, 44 of 56 placed parts) has a specific,
+Everything else (25 of 31 line items, 45 of 56 placed parts) has a specific,
 Mouser-verified part number above.
