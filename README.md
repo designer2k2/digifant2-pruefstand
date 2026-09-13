@@ -11,7 +11,11 @@ The schematic is generated from Python with
 and autorouted headless (`pcbnew` + Freerouting).
 
 **[`DESIGN.md`](DESIGN.md) — what every block does, part-selection rationale, the
-GPIO / I²C / VW-harness maps.** `article-draft.md` has the wider project background.
+GPIO / I²C / VW-harness maps.** [`USE_CASES.md`](USE_CASES.md) traces every real
+bench use case through the schematic to concrete numbers (voltage/current/timing
+headroom) — a requirements/test matrix for the hardware, and where the AD9833
+decoupling-cap gap turned up before it got fixed. `article-draft.md` has the
+wider project background.
 
 ## Layout
 
