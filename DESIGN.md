@@ -272,6 +272,16 @@ header) has its own ~40 mm clear band at the bottom, isolated from every other
 part, so a 0.96″ module can plug in flat without overhanging D2/J2. General
 passives are 0805 for hand assembly.
 
+**PROTO1** — a 12×16 grid of isolated 1.6 mm/0.8 mm-drill THT pads (2.54 mm /
+0.1″ pitch, ~30×38 mm) in the empty area bottom-right of J0, below where J0's
+own footprint ends (y > 92 mm) and clear of the H4 mounting hole's keepout.
+Perfboard-style: every pad is its own net (unconnected), solder in whatever
+you need for one-off additions or bodge wires. PCB-only, like the mounting
+holes — no schematic symbol, since it's not part of the actual circuit
+(`extra_footprint` is the one expected DRC warning this produces, matching
+what H1–H4 would also show if their `exclude_from_bom`/`exclude_from_pos_files`
+attributes didn't already suppress it).
+
 **Netclasses** (2026-09-11, following a deep layout review): `Power` (0.8 mm
 track — VIN_12V, +12V_PROT, +12V_POST_D1, +12V_ECU, +12V_ECU_SW,
 VW_PIN23_VALVE_RETURN) and `Gnd` (0.5 mm track — GND) are now real KiCad

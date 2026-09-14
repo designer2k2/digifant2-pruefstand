@@ -78,7 +78,8 @@ further additions. Remaining warnings are cosmetic (silkscreen overlap,
 lib_footprint_mismatch, and one starved_thermal note on a single Pico GND
 pad with only 1 pour spoke instead of 2 — connected fine, just a slightly
 weaker thermal/mechanical joint). Thermal copper for D1/Q2 still optional to
-add by hand. Not yet fabbed.
+add by hand. Added a 12×16 perfboard-style proto area (PROTO1, isolated THT
+pads on 0.1″ pitch) in the empty space bottom-right of J0. Not yet fabbed.
 
 ## License
 
