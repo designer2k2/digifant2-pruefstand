@@ -373,10 +373,10 @@ def knock_sim(vcc_3v3, gnd, spi_sck, spi_mosi, spi_cs):
     r12[2] += load
     c2[1] += load
     tp1 = Component("Connector_Generic:Conn_01x01", ref="TP1", value="KNOCK OUT (to VW-4)",
-                     footprint="TestPoint:TestPoint_Pad_D1.5mm")
+                     footprint="TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm")
     tp1[1] += load
     tp2 = Component("Connector_Generic:Conn_01x01", ref="TP2", value="KNOCK GND (to VW-5)",
-                     footprint="TestPoint:TestPoint_Pad_D1.5mm")
+                     footprint="TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm")
     tp2[1] += gnd
     c2[2] += gnd
 
@@ -384,14 +384,18 @@ def knock_sim(vcc_3v3, gnd, spi_sck, spi_mosi, spi_cs):
 def debug_test_points(gp_crank, gp_thr_idle, gp_ignition, gp_injector,
                        gp_spi_cs, gp_spi_sck, gp_spi_mosi, sda, scl,
                        gp_led_data, ecu_12v, ecu_sw):
-    """Bare 1.5mm test pads (TestPoint_Pad_D1.5mm, same footprint as the
-    knock-output TP1/TP2) on the signals a scope is actually likely to probe
-    while debugging firmware: the GPIO-driven digital lines, both buses, and
-    the two 12V rails. Not exhaustive -- +3V3 was tried at four different
-    anchor points and every one routed through the same congested corridor
-    near the Pico, so it was dropped rather than fight that further; +3V3 is
-    already exposed at many existing component pins (R6/R7, C2-C6, any of the
-    INA226 VS pins) if you need to probe it."""
+    """THT test pads (TestPoint_THTPad_D1.5mm_Drill0.7mm, same footprint as
+    the knock-output TP1/TP2 -- a real drilled hole for a hook probe, not a
+    bare SMD pad) on the signals a scope is actually likely to probe while
+    debugging firmware: the GPIO-driven digital lines, both buses, and the
+    two 12V rails. Placed clear of the Pico module's own footprint (its real
+    courtyard is a physical keepout once it's soldered on -- a test point
+    inside it is unreachable, not just visually crowded). Not exhaustive --
+    +3V3 was tried at four different anchor points and every one routed
+    through the same congested corridor near the Pico, so it was dropped
+    rather than fight that further; +3V3 is already exposed at many existing
+    component pins (R6/R7, C2-C6, any of the INA226 VS pins) if you need to
+    probe it."""
     nets = [
         ("TP3", "GP2_CRANK", gp_crank), ("TP4", "GP6_THROTTLE_IDLE_SW", gp_thr_idle),
         ("TP5", "GP14_IGN_CAPTURE", gp_ignition), ("TP6", "GP15_INJ_CAPTURE", gp_injector),
@@ -402,7 +406,7 @@ def debug_test_points(gp_crank, gp_thr_idle, gp_ignition, gp_injector,
     ]
     for ref, label, net in nets:
         tp = Component("Connector_Generic:Conn_01x01", ref=ref, value=f"TP {label}",
-                        footprint="TestPoint:TestPoint_Pad_D1.5mm")
+                        footprint="TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm")
         tp[1] += net
 
 

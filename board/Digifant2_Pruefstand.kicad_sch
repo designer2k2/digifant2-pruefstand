@@ -8138,7 +8138,7 @@
 		)
 		(property
 			"Footprint"
-			"TestPoint:TestPoint_Pad_D1.5mm"
+			"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 			(at 58.42 319.88 0)
 			(effects
 				(font
@@ -9023,7 +9023,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 77.47 319.88 0)
 				(effects
 					(font
@@ -9080,7 +9080,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 396.24 60.80000000000001 0)
 				(effects
 					(font
@@ -9137,7 +9137,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 421.64 60.80000000000001 0)
 				(effects
 					(font
@@ -9194,7 +9194,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 447.04 60.80000000000001 0)
 				(effects
 					(font
@@ -9251,7 +9251,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 472.44 60.80000000000001 0)
 				(effects
 					(font
@@ -9308,7 +9308,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 497.84000000000003 60.80000000000001 0)
 				(effects
 					(font
@@ -9365,7 +9365,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 523.24 60.80000000000001 0)
 				(effects
 					(font
@@ -9422,7 +9422,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 396.24 86.19999999999999 0)
 				(effects
 					(font
@@ -9479,7 +9479,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 421.64 86.19999999999999 0)
 				(effects
 					(font
@@ -9536,7 +9536,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 447.04 86.19999999999999 0)
 				(effects
 					(font
@@ -9593,7 +9593,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 472.44 86.19999999999999 0)
 				(effects
 					(font
@@ -9650,7 +9650,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 497.84000000000003 86.19999999999999 0)
 				(effects
 					(font
@@ -9707,7 +9707,7 @@
 			)
 			(property
 				"Footprint"
-				"TestPoint:TestPoint_Pad_D1.5mm"
+				"TestPoint:TestPoint_THTPad_D1.5mm_Drill0.7mm"
 				(at 523.24 86.19999999999999 0)
 				(effects
 					(font

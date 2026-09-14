@@ -34,7 +34,7 @@ FP_MODS=(
   "Resistor_SMD.pretty/R_2512_6332Metric"
   "TerminalBlock.pretty/TerminalBlock_MaiXu_MX126-5.0-15P_1x15_P5.00mm"
   "TerminalBlock.pretty/TerminalBlock_bornier-2_P5.08mm"
-  "TestPoint.pretty/TestPoint_Pad_D1.5mm"
+  "TestPoint.pretty/TestPoint_THTPad_D1.5mm_Drill0.7mm"
 )
 
 mkdir -p kicad-symbols kicad-footprints

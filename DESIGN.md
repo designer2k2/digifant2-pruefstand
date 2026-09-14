@@ -139,18 +139,24 @@ plugged in flat would otherwise overhang neighbouring parts. **SW1–SW3** are
 momentary buttons to ground on `GP20 / GP21 / GP22` (menu / − / +).
 
 ### `debug_test_points` — scope probe points (TP3–TP14)
-Bare 1.5 mm test pads (same `TestPoint_Pad_D1.5mm` footprint as the knock
-output's TP1/TP2) on the signals most likely to get probed while debugging
-firmware: crank drive (TP3), idle-switch drive (TP4), ignition/injector
-capture (TP5/TP6), the SPI bus to the AD9833 (TP7 CS / TP8 SCK / TP9 MOSI),
-the I²C bus (TP10 SDA / TP11 SCL), the status LED data line (TP12), and both
-12 V rails — sensed (TP13, `+12V_ECU`) and switched (TP14, `+12V_ECU_SW`).
-**+3V3 was deliberately left without a dedicated point**: it was tried at four
-different anchor locations (three different Pico pins, then a decoupling
-cap elsewhere) and every one routed through the same congested corridor near
-the Pico, each time producing a real but hard-to-pin-down clearance/short
-against unrelated nets. Not worth forcing — +3V3 is already exposed at many
-existing pins (R6/R7, C2–C6, any INA226 `VS` pin) if you need to probe it.
+THT test pads (`TestPoint_THTPad_D1.5mm_Drill0.7mm` — a real 0.7 mm drilled
+hole, same as the knock output's TP1/TP2; **not** the bare SMD pad this board
+used earlier, corrected after review) on the signals most likely to get
+probed while debugging firmware: crank drive (TP3), idle-switch drive (TP4),
+ignition/injector capture (TP5/TP6), the SPI bus to the AD9833 (TP7 CS / TP8
+SCK / TP9 MOSI), the I²C bus (TP10 SDA / TP11 SCL), the status LED data line
+(TP12), and both 12 V rails — sensed (TP13, `+12V_ECU`) and switched (TP14,
+`+12V_ECU_SW`). TP3–TP12 sit in the clear margin strip west of the Pico
+module (x < 10 mm) rather than near their signal's own Pico pin — the Pico's
+real footprint courtyard is a physical keepout once it's soldered down, and
+the first placement pass put 10 of these test points *underneath* it,
+unreachable with a probe. **+3V3 was deliberately left without a dedicated
+point**: it was tried at four different anchor locations (three different
+Pico pins, then a decoupling cap elsewhere) and every one routed through the
+same congested corridor near the Pico, each time producing a real
+clearance/short against unrelated nets. Not worth forcing — +3V3 is already
+exposed at many existing pins (R6/R7, C2–C6, any INA226 `VS` pin) if you need
+to probe it.
 
 ### `status_led` — one addressable RGB pixel (D2)
 **SK6812** (5050) on a single GPIO (`GP10`), driven by the Pico's PIO. SK6812 is
@@ -330,14 +336,20 @@ pull-up / polarity option), not just different firmware on this board.
 
 ## Known open points
 
-- Adding TP3–TP14 (debug test points) reopened one real but imprecisely
-  located `shorting_items`/`clearance` pair between `GP10_LED_DATA` and
-  `GND` — the actual pad-to-pad distances involved (TP12 to the nearest GND
-  pad) are ~2 mm, well outside any normal clearance rule, so the true
-  conflict is somewhere along the newly-routed copper itself, not at a
-  pad. KiCad's interactive router will show the exact offending trace
-  visually where a script can't easily locate it — same manual-nudge
-  treatment as the other pockets on this board.
+- ~~TP12/GND "imprecisely located" shorting_items~~ — turned out to have a
+  real root cause, found and fixed: every footprint cloned via
+  `pcbnew.FOOTPRINT(template)` this session (C7/C8, then all of TP1–TP14)
+  inherited the **same UUID as the template**, since that constructor doesn't
+  auto-generate a new one. All 14 TP footprints (and C7/C8) shared one UUID
+  each with their siblings — which doesn't break connectivity, but corrupts
+  DRC's item-identity tracking, so violations got reported against whichever
+  sibling happened to be resolved first, at wildly wrong distances (one
+  report cited two footprints 70mm apart as a "courtyard overlap"). Fixed
+  with `footprint.ResetUuid()` (and each pad's) on every affected clone.
+  **If you ever see a DRC violation citing two items an implausible distance
+  apart, check for duplicate UUIDs before trusting the reported pairing** —
+  `pcbnew.FOOTPRINT(existing_object)` needs an explicit `ResetUuid()` call
+  after cloning, every time.
 - ~~DRC violations around U1/U3/RS1/RS2~~ — fixed by hand in KiCad's
   interactive router; DRC is now clean (0 unconnected/shorts/clearance).
 - ~~GND ground pour~~ — added (B.Cu). One pad (U5 GND pad 42) has only 1

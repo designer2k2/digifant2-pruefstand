@@ -65,14 +65,20 @@ corrupting the current reading — this reopened one small pocket at U3 pin 9
 hand-routing/Freerouting attempts, same class of residual as the historical
 U1/U3/RS1/RS2 items). Gave the AD9833 knock output a defined path out
 (TP1/TP2 test points for VW-4/VW-5) instead of a dead end. Added 12 more
-scope-probe test points (TP3–TP14) on the main GPIO signals, both buses, and
-both 12 V rails — one of these (TP12, LED data) reopened a real but
-imprecisely-located `shorting_items` pair near GND, left for the same manual
-nudge as the other pockets. Remaining warnings are cosmetic (silkscreen
-overlap, lib_footprint_mismatch, and one starved_thermal note on a single
-Pico GND pad with only 1 pour spoke instead of 2 — connected fine, just a
-slightly weaker thermal/mechanical joint). Thermal copper for D1/Q2 still
-optional to add by hand. Not yet fabbed.
+THT scope-probe test points (TP3–TP14, real drilled holes — an earlier pass
+used bare SMD pads and put 10 of them physically underneath the Pico module,
+both corrected) on the main GPIO signals, both buses, and both 12 V rails.
+Found and fixed a real bug along the way: footprints cloned via
+`pcbnew.FOOTPRINT(template)` inherit the template's UUID unless you
+explicitly reset it, which had corrupted DRC's item-identity tracking for
+every cloned part this session (C7/C8 and all of TP1–TP14) — several
+"violations" turned out to be real defects reported against the wrong
+footprint. See DESIGN.md's "Known open points" for details if you script
+further additions. Remaining warnings are cosmetic (silkscreen overlap,
+lib_footprint_mismatch, and one starved_thermal note on a single Pico GND
+pad with only 1 pour spoke instead of 2 — connected fine, just a slightly
+weaker thermal/mechanical joint). Thermal copper for D1/Q2 still optional to
+add by hand. Not yet fabbed.
 
 ## License
 
