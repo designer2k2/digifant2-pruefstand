@@ -13233,4 +13233,146 @@
 			(page "1")
 		)
 	)
+	(symbol
+		(lib_id Device:C)
+		(at 368.3 120.65 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid 67460387-3e88-4db2-8167-ea540cd0f9b1)
+		(property
+			"Reference"
+			"C9"
+			(at 368.3 115.57000000000001 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"100nF"
+			(at 368.3 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Capacitor_SMD:C_0805_2012Metric"
+			(at 368.3 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference C9)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(global_label
+		+3V3
+		(at 368.3 116.84 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid a5967321-5f59-41b0-9051-d08f93684391)
+	)
+	(global_label
+		GND
+		(at 368.3 124.46000000000001 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 9a85ca2d-70ed-465b-af77-2bb911550a51)
+	)
+	(symbol
+		(lib_id Device:C)
+		(at 157.48 166.37 0)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid e0d81da2-cb57-4c93-be97-3af1d00f2ff4)
+		(property
+			"Reference"
+			"C10"
+			(at 157.48 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Value"
+			"100nF"
+			(at 157.48 171.45000000000002 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property
+			"Footprint"
+			"Capacitor_SMD:C_0805_2012Metric"
+			(at 157.48 176.53 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project
+				"circuit"
+				(path
+					"/"
+					(reference C10)
+					(unit 1)
+				)
+			)
+		)
+	)
+	(global_label
+		+3V3
+		(at 157.48 162.56 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid 0e5c052b-0a8b-4179-aeb2-62ed7cd9dc36)
+	)
+	(global_label
+		GND
+		(at 157.48 170.18 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid 9b060744-d6c3-450a-af04-3b66a3fa7d75)
+	)
 )

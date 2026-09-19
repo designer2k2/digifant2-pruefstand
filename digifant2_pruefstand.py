@@ -133,6 +133,9 @@ def ecu_current_sense(post_shunt_hi, post_shunt_lo, gnd, vcc_3v3, sda, scl):
     # ALERT (open-drain) intentionally unused -- leave unconnected, add a manual
     # no-connect flag in KiCad (same as the Pico's unused GPIOs; circuit-synth
     # has no NC-flag API in this version).
+    c9 = Component("Device:C", ref="C9", value="100nF", footprint="Capacitor_SMD:C_0805_2012Metric")
+    c9[1] += vcc_3v3
+    c9[2] += gnd
 
 
 def idle_valve(drive_12v, valve_return_sense, valve_return_ecu, gnd, vcc_3v3, sda, scl):
@@ -183,6 +186,9 @@ def idle_valve(drive_12v, valve_return_sense, valve_return_ecu, gnd, vcc_3v3, sd
     u3["SDA"] += sda
     u3["SCL"] += scl
     # ALERT intentionally unused, same as U1 -- see note there.
+    c10 = Component("Device:C", ref="C10", value="100nF", footprint="Capacitor_SMD:C_0805_2012Metric")
+    c10[1] += vcc_3v3
+    c10[2] += gnd
 
 
 def afm_ref_sense(vw_pin17, gnd, adc):

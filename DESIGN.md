@@ -50,6 +50,10 @@ U1 (RS1 sees the switch plus every downstream load).
 ### `ecu_current_sense` — total ECU current (U1)
 INA226 across RS1, I²C address **0x40** (A0 = A1 = GND). Reads bus voltage and
 current for the whole switched rail. `VS` from 3 V3. `ALERT` unused (NC).
+**C9 (100 nF)** bypasses `VS` to GND, per the INA226 datasheet's layout
+guidance — added late (U1 originally had none, unlike U2/U4 which always had
+theirs); tapped off the +3 V3 trunk and the GND pour a few mm south of the
+packed U1/U3/RS1/RS2 pocket since there's no free room right at the pins.
 
 ### `idle_valve` — real N71 valve as load, low-side current sense (U3)
 The bench-mounted real idle-air-control valve plugs into **J2** (JST-XH,
@@ -72,6 +76,7 @@ when the ECU driver is on). U3's IN+ stays on VW-23's net (the pin that
 already had a routed path to J0) and IN− moved to the valve-side node
 (`VALVE_RETURN_SENSE`) — current-reading sign is a firmware convention either
 way, and keeping IN+ where it was avoided re-routing a long existing run.
+**C10 (100 nF)** bypasses `VS`, same reasoning and placement approach as U1's C9.
 
 ### `dac_analog_sim` — sensor spoofing (U2)
 MCP4728, 4-channel 12-bit I²C DAC, address **0x60**, `~LDAC` low. Each output goes
@@ -157,6 +162,44 @@ same congested corridor near the Pico, each time producing a real
 clearance/short against unrelated nets. Not worth forcing — +3V3 is already
 exposed at many existing pins (R6/R7, C2–C6, any INA226 `VS` pin) if you need
 to probe it.
+
+**Resorting TP3–TP12 to declutter (avoid crossing traces)**: the original
+placement order didn't match the Pico pins' physical top-to-bottom order,
+guaranteeing crossing wires in the west margin. Resorted to
+`TP3, TP10, TP11, TP4, TP12, TP9, TP8, TP5, TP6, TP7` (matching pin order) and
+ripped up all 10 nets to reroute clean. The user hand-routed 7 of them; the
+last 3 (TP9/GP19_SPI_MOSI, TP8/GP18_SPI_SCK, TP7/GP16_SPI_CS — all on U5's
+*east* side, the far side of the Pico from the TP margin) needed real
+pathfinding, not hand-placement — direct probing confirmed the Pico's pin
+column (x≈12.16) has **zero** usable gap anywhere along its length for a
+second trace: adjacent pins are 2.54mm apart, and while two bare THT pads
+alone would in theory leave a 0.49mm gap at the midpoint, every one of those
+gaps is already occupied by some other GPIO's own escape trace by this point
+in the board's routing, closing it off entirely. Both TP8 and TP9 had to
+detour around the *south* end of the Pico footprint (the only other opening,
+confirmed the same way), and since even that detour corridor is only wide
+enough for one trace, they needed genuinely different crossing points, not
+parallel lanes 0.4mm apart.
+
+Routed with a purpose-built A* pathfinder (0.1mm grid, spatial-bucket-indexed
+obstacle lookup for speed, shortcutting the raw grid path down to a handful of
+straight segments afterward) rather than more manual attempts, after
+Freerouting's auto-router reliably completed in ~3 minutes but then hung
+indefinitely in its own route-optimization phase on this exact 10-net batch
+(tried 180s/400s/580s timeouts, never produced a `.ses`). Two bugs in the
+pathfinder's own clearance model cost real iteration time and are worth
+remembering for any future scripted routing here:
+1. **Non-circular pads approximated by half-width, not half-diagonal** — a
+   1.7×1.7mm square pad modeled as a r=0.85mm circle understates its real
+   reach along the diagonal (true corner distance ≈1.2mm), so a track that
+   looked clear by ~0.14mm was actually a real DRC short once diagonal
+   approach was accounted for.
+2. **Hole-to-hole spacing wasn't checked for a net's own via near its own
+   pad** — same-net copper can touch/overlap freely for *clearance* purposes,
+   but a via's *drill hole* still needs the board's minimum hole-to-hole
+   spacing from any other hole, including one on the same net (TestPoint THT
+   pad ⌀0.7mm + via drill ⌀0.3mm need ≥0.65mm center-to-center, not just
+   >0mm).
 
 ### `status_led` — one addressable RGB pixel (D2)
 **SK6812** (5050) on a single GPIO (`GP10`), driven by the Pico's PIO. SK6812 is
@@ -265,7 +308,13 @@ shield), 8, 16 (A/C), 20 (MIL).
 
 ## Board
 
-144 × 169 mm, 2-layer, 4 × M3 corner holes (non-plated, 4.5 mm inset). U5's USB
+144 × 150 mm, 2-layer, 4 × M3 corner holes (non-plated, 4.5 mm inset). Was
+144 × 169 mm — trimmed 19mm off the bottom, which was entirely empty (bare
+GND pour, no components or traces below PROTO1/J3 at y≈135 until the old
+mounting holes at y=164.5). H3/H4 moved up to y=145.5 to keep the same
+4.5mm hole-to-edge margin as H1/H2; GND zone outline and fill updated to
+match, verified DRC-clean (99 violations, same pre-existing cosmetic set,
+zero new issues). U5's USB
 end has a 23 mm clear band above it toward J1 (was only ~7.5 mm, X-overlapping —
 a plugged-in USB cable would have fouled J1's screw terminal). J3 (OLED
 header) has its own ~40 mm clear band at the bottom, isolated from every other
@@ -314,9 +363,21 @@ router, same as the historical INA226-fanout items.
 ripped up and re-routed directly from Q2's tab as part of the same autoroute
 pass, ~65 mm point-to-point.
 
-**Thermal copper** for D1/Q2 is not yet added — do this by hand too (small
-filled zone on F.Cu, on their nets, butted against the pads) once you can see
-the board; scripted attempts here also landed disconnected from the pad.
+**Thermal copper** added for D1 and Q2 (F.Cu zones, `ZONE_CONNECTION_FULL`
+so they're solidly tied to the pad, not thermal-relief spokes). D1 got the
+generous treatment (~7mm×9mm and ~5mm×9mm either side of its two pads) since
+it's the documented real risk — F1 and RS1 sit on the same nets as D1's two
+pads with open board space between them, so each pour spans pad-to-neighbor
+with room to spare. Verified electrically connected via
+`GetConnectivity().GetConnectedItems()`, not just visually overlapping
+(a previous scripted attempt landed disconnected from the pad — this time
+filled only the two/three new zones directly, `ZONE_FILLER.Fill([zone,
+...])`, rather than a whole-board refill, and confirmed connectivity before
+accepting it). Q2's pour is much smaller (~2.7mm×2.8mm) — the DPAK tab area is
+boxed in on every side by other nets' traces (Q2_GATE, +12V_ECU,
++12V_POST_D1) with almost no clear board space, so this is a modest
+supplement on top of the footprint's own 5-pad thermal tab design (which is
+the primary heatsinking mechanism for a TO-252 part) rather than a real pour.
 
 ## Ideas from the user's own HiL notes, not yet in this design
 
