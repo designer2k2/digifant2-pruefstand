@@ -28,6 +28,8 @@ wider project background.
 | `add_nc_flags.py` | stamps `no_connect` flags from an ERC report (circuit-synth has no NC API) |
 | `fix_layout.py` | post-route layout surgery (real netclasses, GND/Kelvin re-routing) — see the header comment for the 2-phase, 2-process invocation it needs |
 | `reroute_missing.py` | re-exports a Specctra DSN from a partially-ripped-up board so Freerouting only has to fill the reopened ratsnest |
+| [`firmware/`](firmware/README.md) | Pico firmware (Pico SDK, C): USB serial command protocol, build/flash instructions, what's implemented vs. stubbed |
+| `host/bench.py` | PC-side client for the firmware protocol: interactive prompt, one-shot CLI, or importable `Bench` class |
 | `board/` | the current KiCad project (144×150 mm, 2-layer, 4× M3 corner holes, isolated OLED + USB clearance zones) |
 | [`board/bom_output/bom.html`](board/bom_output/bom.html) | interactive BOM ([InteractiveHtmlBom](https://github.com/openscopeproject/InteractiveHtmlBom)) — click a part to highlight it on the board, no KiCad needed |
 | [`BOM.md`](BOM.md) | Mouser sourcing: part numbers for every line item, with confidence notes — 6 of 30 need manual confirmation, see the file |
