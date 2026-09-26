@@ -57,9 +57,10 @@ static void cmd_ping(int argc, char **argv) {
 
 static void cmd_status(int argc, char **argv) {
     (void)argc; (void)argv;
-    printf("OK fw=%s ecu=%s idle=%s rpm=%lu", FW_VERSION,
+    printf("OK fw=%s ecu=%s idle=%s rpm=%lu crank_ppr=%lu crank_duty=%lu", FW_VERSION,
            on_off(board_get_ecu_power()), on_off(board_get_idle_switch()),
-           (unsigned long)crank_get_rpm());
+           (unsigned long)crank_get_rpm(), (unsigned long)crank_get_ppr(),
+           (unsigned long)crank_get_duty());
     for (int s = 0; s < SENSOR_COUNT; s++) {
         printf(" sensor_%s=%s", board_sensor_name((sensor_t)s),
                board_get_sensor_connected((sensor_t)s) ? "conn" : "open");
@@ -128,6 +129,22 @@ static void cmd_rpm(int argc, char **argv) {
     printf("OK rpm=%lu\n", (unsigned long)rpm);
 }
 
+static void cmd_crank(int argc, char **argv) {
+    (void)argc;
+    uint32_t v;
+    bool is_ppr = strcmp(argv[1], "ppr") == 0;
+    if (!is_ppr && strcmp(argv[1], "duty") != 0) {
+        printf("ERR expected ppr|duty\n");
+        return;
+    }
+    if (!parse_uint(argv[2], &v) || !(is_ppr ? crank_set_ppr(v) : crank_set_duty(v))) {
+        if (is_ppr) printf("ERR ppr must be 1..%d\n", CRANK_PPR_MAX);
+        else printf("ERR duty must be 1..99\n");
+        return;
+    }
+    printf("OK crank_%s=%lu\n", argv[1], (unsigned long)v);
+}
+
 static void cmd_dac(int argc, char **argv) {
     (void)argc;
     dac_channel_t ch;
@@ -171,6 +188,7 @@ static const cmd_t commands[] = {
     {"idle",   1, cmd_idle,   "idle on|off"},
     {"sensor", 2, cmd_sensor, "sensor air|water|lambda conn|open"},
     {"rpm",    1, cmd_rpm,    "rpm <0..8000>"},
+    {"crank",  2, cmd_crank,  "crank ppr|duty <n>"},
     {"dac",    2, cmd_dac,    "dac air|water|afm|lambda <mV 0..3300>"},
     {"knock",  1, cmd_knock,  "knock off|<hz>"},
 };

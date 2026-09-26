@@ -12,16 +12,20 @@ add_executable(pruefstand
     src/cmd.c
     src/board.c
     src/crank.c
+    src/crank_timing.c
     src/dac.c
     src/sense.c
     src/knock.c
 )
+
+pico_generate_pio_header(pruefstand ${CMAKE_CURRENT_LIST_DIR}/src/crank.pio)
 
 target_compile_options(pruefstand PRIVATE -Wall -Wextra)
 
 target_link_libraries(pruefstand
     pico_stdlib
     hardware_adc
+    hardware_pio
     hardware_i2c
     hardware_spi
 )

@@ -1,0 +1,19 @@
+; Crank / Hall square wave on GP2. Each TX FIFO word is one phase length; words
+; alternate pin-high / pin-low phases. A phase with loop count N lasts N + 4
+; cycles (pull, mov, set, then N + 1 passes of jmp x--).
+;
+; GP2 drives Q1, an open-drain pull-down: the pin-high phase is VW-18 LOW.
+
+.program crank
+.wrap_target
+    pull block
+    mov x, osr
+    set pins, 1
+high_loop:
+    jmp x-- high_loop
+    pull block
+    mov x, osr
+    set pins, 0
+low_loop:
+    jmp x-- low_loop
+.wrap
