@@ -14,6 +14,7 @@ add_executable(pruefstand
     src/crank.c
     src/crank_timing.c
     src/dac.c
+    src/dac_codec.c
     src/sense.c
     src/knock.c
 )

@@ -69,13 +69,13 @@ static void cmd_status(int argc, char **argv) {
         printf(" dac_%s=%lu", dac_channel_name((dac_channel_t)ch),
                (unsigned long)dac_get_mv((dac_channel_t)ch));
     }
-    printf(" knock_hz=%lu", (unsigned long)knock_get_hz());
+    printf(" dac_i2c=%s knock_hz=%lu", dac_i2c_ok() ? "ok" : "err",
+           (unsigned long)knock_get_hz());
 
     printf(" stubs=");
     bool first = true;
     const struct { const char *name; bool impl; } mods[] = {
         {"crank", crank_is_implemented()},
-        {"dac", dac_is_implemented()},
         {"sense", sense_is_implemented()},
         {"knock", knock_is_implemented()},
     };
@@ -153,8 +153,14 @@ static void cmd_dac(int argc, char **argv) {
         return;
     }
     uint32_t mv;
-    if (!parse_uint(argv[2], &mv) || !dac_set_mv(ch, mv)) {
-        printf("ERR mv must be 0..%d\n", DAC_MV_MAX);
+    dac_result_t r = parse_uint(argv[2], &mv) ? dac_set_mv(ch, mv) : DAC_OUT_OF_RANGE;
+    if (r == DAC_OUT_OF_RANGE) {
+        printf("ERR %s mv must be 0..%lu\n", dac_channel_name(ch),
+               (unsigned long)dac_max_mv(ch));
+        return;
+    }
+    if (r == DAC_I2C_ERROR) {
+        printf("ERR dac not responding on i2c\n");
         return;
     }
     printf("OK dac_%s=%lu\n", dac_channel_name(ch), (unsigned long)mv);
@@ -189,7 +195,7 @@ static const cmd_t commands[] = {
     {"sensor", 2, cmd_sensor, "sensor air|water|lambda conn|open"},
     {"rpm",    1, cmd_rpm,    "rpm <0..8000>"},
     {"crank",  2, cmd_crank,  "crank ppr|duty <n>"},
-    {"dac",    2, cmd_dac,    "dac air|water|afm|lambda <mV 0..3300>"},
+    {"dac",    2, cmd_dac,    "dac air|water|afm|lambda <mV>"},
     {"knock",  1, cmd_knock,  "knock off|<hz>"},
 };
 
