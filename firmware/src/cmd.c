@@ -75,8 +75,6 @@ static void cmd_status(int argc, char **argv) {
     printf(" stubs=");
     bool first = true;
     const struct { const char *name; bool impl; } mods[] = {
-        {"crank", crank_is_implemented()},
-        {"sense", sense_is_implemented()},
         {"knock", knock_is_implemented()},
     };
     for (size_t i = 0; i < sizeof mods / sizeof mods[0]; i++) {

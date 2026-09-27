@@ -2,7 +2,8 @@
 
 USB serial command protocol plus the hardware blocks behind it. The PC side
 (`../host/bench.py`) and later Claude Code drive the bench through this.
-Milestones so far: 1 skeleton and protocol, 2 crank signal, 3 sensor DAC.
+Milestones so far: 1 skeleton and protocol, 2 crank signal, 3 sensor DAC,
+4 current/voltage sensing.
 
 ## Build and flash
 
@@ -27,7 +28,7 @@ hold BOOTSEL while plugging in the Pico and copy `build/pruefstand.uf2` onto the
 | VW-17 reference (`read` → `afm_ref_mv`) | **real** | GP26/ADC0, ×3 divider |
 | Crank / Hall signal (`rpm`, `crank`) | **real** | GP2 → Q1, PIO0 SM0 |
 | Sensor DACs (`dac`) | **real** | MCP4728 @ 0x60 |
-| Current/voltage sense (`read` → `ecu_*`, `valve_*`) | stub, reports `na` | INA226 @ 0x40 / 0x41 |
+| Current/voltage sense (`read` → `ecu_*`, `valve_*`) | **real** | INA226 @ 0x40 / 0x41 |
 | Knock DDS (`knock`) | stub, stores setpoint | AD9833 on SPI0 |
 
 `status` lists the modules that are still stubs under `stubs=`.
@@ -99,6 +100,28 @@ sit above the setpoint. That offset needs calibrating against the real ECU
 (measure the pin with the sensor switched to `open`, then again under load)
 before `dac` values can be mapped to temperatures.
 
+## Current and voltage sense (INA226)
+
+| `read` field | Chip | Measures |
+|---|---|---|
+| `ecu_a` | U1 @ 0x40, RS1 0.020 Ω | total ECU current, 0.125 mA steps, up to 4.09 A |
+| `ecu_v` | U1 VBUS | `+12V_ECU`, upstream of the Q2 switch (~0.1 V above VW-14) |
+| `valve_a` | U3 @ 0x41, RS2 0.033 Ω | idle-valve current, 0.076 mA steps, up to 2.48 A |
+| `valve_v` | U3 VBUS | `+12V_ECU_SW`, the valve feed |
+
+Current is computed directly from the shunt-voltage register (V_shunt / R_shunt),
+so the chip's calibration and current registers aren't used. U3's IN+ sits on
+the ECU side of RS2, so its raw reading is negative for normal valve current;
+the firmware flips the sign so `valve_a` is positive.
+
+Each chip averages 64 samples of 1.1 ms shunt + 1.1 ms bus conversions, giving
+one new result every ~141 ms. That smooths the idle valve's PWM into an average
+current; reading `read` faster than that just returns the same result again.
+
+A chip is only configured after it answers with TI's manufacturer ID (0x5449).
+If one is missing or stops answering, its fields read `na`, and it's retried on
+the next `read`.
+
 ## Protocol
 
 ASCII over USB CDC (baud rate is ignored). One command per line (`\n` or `\r\n`),
@@ -107,7 +130,7 @@ case-insensitive. Every command gets exactly one reply line: `OK ...` with
 
 | Command | Reply |
 |---|---|
-| `ping` | `OK pong fw=0.3.0` |
+| `ping` | `OK pong fw=0.4.0` |
 | `help` | `OK <usage of every command>` |
 | `status` | `OK fw=… ecu=on/off idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=… stubs=…` |
 | `read` | `OK afm_ref_mv=… ecu_v=… ecu_a=… valve_v=… valve_a=…` (`na` if not available) |
@@ -121,13 +144,13 @@ case-insensitive. Every command gets exactly one reply line: `OK ...` with
 
 ## Testing without hardware
 
-`cmd.c`, `crank_timing.c` and `dac_codec.c` have no Pico dependencies, so they
-build for the PC against the fakes in `test/` (in-memory state, VW-17 fixed at
-5000 mV):
+`cmd.c` and the `*_codec.c` / `crank_timing.c` files have no Pico dependencies,
+so they build for the PC against the fakes in `test/` (in-memory state, VW-17
+fixed at 5000 mV, ECU reading fixed at 12 V / 0.5 A, valve INA226 "missing"):
 
 ```sh
 gcc -Isrc -o /tmp/bench-sim test/host_main.c test/fake_board.c test/fake_crank.c \
-    test/fake_dac.c src/cmd.c src/crank_timing.c src/dac_codec.c src/sense.c src/knock.c
+    test/fake_dac.c test/fake_sense.c src/cmd.c src/crank_timing.c src/dac_codec.c src/knock.c
 printf 'ecu on\nstatus\n' | /tmp/bench-sim
 
 # crank timing math, and the PIO program in an emulator:
@@ -137,11 +160,15 @@ python3 test/emu_crank_pio.py
 # MCP4728 frame bytes, decoded back to volts with the datasheet formula:
 gcc -Isrc -o /tmp/test_dac test/test_dac_codec.c src/dac_codec.c && /tmp/test_dac
 
+# INA226 register conversions and the shunt/current math:
+gcc -Isrc -o /tmp/test_sense test/test_sense_codec.c src/sense_codec.c -lm && /tmp/test_sense
+
 # or behind a virtual serial port, to exercise host/bench.py too:
 socat PTY,link=/tmp/ttyBench,raw,echo=0 EXEC:/tmp/bench-sim,pty,raw,echo=0 &
 python3 ../host/bench.py --port /tmp/ttyBench "rpm 850" read
 ```
 
-That's how milestones 1–3 were checked. Nothing has run on a real Pico
-yet: the crank wave needs a scope check on GP2/VW-18 and the DAC a multimeter
-check on each VOUT once the board is built.
+That's how milestones 1–4 were checked. Nothing has run on a real Pico
+yet. Once the board is built: scope the crank wave on GP2/VW-18, multimeter
+each DAC VOUT, and check `read` against a known load and a multimeter on the
+12 V rail.

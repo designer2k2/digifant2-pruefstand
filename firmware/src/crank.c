@@ -109,4 +109,3 @@ bool crank_set_duty(uint32_t pct) {
 
 uint32_t crank_get_duty(void) { return duty; }
 
-bool crank_is_implemented(void) { return true; }

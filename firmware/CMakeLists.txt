@@ -16,6 +16,7 @@ add_executable(pruefstand
     src/dac.c
     src/dac_codec.c
     src/sense.c
+    src/sense_codec.c
     src/knock.c
 )
 

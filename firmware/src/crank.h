@@ -22,4 +22,3 @@ uint32_t crank_get_ppr(void);
 bool crank_set_duty(uint32_t pct);  // % of each period VW-18 is high, 1..99
 uint32_t crank_get_duty(void);
 
-bool crank_is_implemented(void);
