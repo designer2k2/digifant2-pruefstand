@@ -4,7 +4,7 @@ USB serial command protocol plus the hardware blocks behind it. The PC side
 (`../host/bench.py`) and later Claude Code drive the bench through this.
 Milestones so far: 1 skeleton and protocol, 2 crank signal, 3 sensor DAC,
 4 current/voltage sensing, 5 knock generator, 6 ignition/injector capture,
-7 crank-synchronised knock bursts.
+7 crank-synchronised knock bursts, 8 OLED and button menu.
 Every hardware block on the board now has a real driver.
 
 ## Build and flash
@@ -33,6 +33,7 @@ hold BOOTSEL while plugging in the Pico and copy `build/pruefstand.uf2` onto the
 | Current/voltage sense (`read` → `ecu_*`, `valve_*`) | **real** | INA226 @ 0x40 / 0x41 |
 | Knock DDS (`knock`, `burst`) | **real**, continuous or crank-synced bursts | AD9833 on SPI0 |
 | Ignition / injector capture (`capture`) | **real** | GP14 / GP15, crank reference on GP2 |
+| OLED + buttons | **real** | SSD1306 @ 0x3C on J3, SW1–SW3 on GP20–22 |
 
 Power-up state, set before any pin becomes an output: ECU **off**, idle switch
 **open**, all three sensors **connected**, crank stopped (VW-18 high). The bench keeps its
@@ -199,6 +200,37 @@ ignition edge is the spark (probably the end of the low phase, i.e.
 `ign_rise_deg`). Both edges are reported, so nothing is lost either way, only
 the offset between them changes.
 
+## Standalone operation: OLED and buttons
+
+![OLED screen, rendered on the PC with test data](docs/oled_preview.png)
+
+A 0.96″ **SSD1306 128×64** I²C OLED on J3 shows the bench's state, refreshed
+every 200 ms and immediately after a button press. The top four rows are the
+adjustable items; the selected one is drawn inverted:
+
+| Item | − / + |
+|---|---|
+| `RPM` | ±50 rpm, 0–8000 (held: auto-repeat) |
+| `ECU` | − off, + on (no toggle, no repeat) |
+| `IDLE` | − off, + on (no toggle, no repeat) |
+| `KN` | ±500 Hz knock tone, down to off; `*` = burst mode |
+| `AIR`, `WAT`, `AFM`, `LAM` | ±50 mV on that DAC channel |
+
+**MENU** (SW1) steps to the next item. Buttons are debounced (20 ms) and
+repeat after 400 ms, then every 100 ms. The bottom four rows are readouts: ECU
+current and supply, idle-valve current and supply, ignition edge angles (or its
+low time with the crank stopped), and injector pulse width and angle.
+
+Buttons and USB commands change the same state, so either can be used at any
+time. Without a display the buttons still work, and the display is picked up
+within 2 s if it's plugged in later. The panel is assumed to be an SSD1306;
+1.3″ modules often use an SH1106 instead, which needs a different init and
+column offset.
+
+Rendering and the menu logic are in `ui_core.c` (no hardware), the SSD1306
+driver in `oled.c` (init sequence as in Adafruit's SSD1306 library), and the
+font is the Adafruit GFX 5×7 font (BSD, see `NOTICE`).
+
 ## Protocol
 
 ASCII over USB CDC (baud rate is ignored). One command per line (`\n` or `\r\n`),
@@ -207,7 +239,7 @@ case-insensitive. Every command gets exactly one reply line: `OK ...` with
 
 | Command | Reply |
 |---|---|
-| `ping` | `OK pong fw=0.7.0` |
+| `ping` | `OK pong fw=0.8.0` |
 | `help` | `OK <usage of every command>` |
 | `status` | `OK fw=… ecu=on/off idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=… burst=on/off burst_start_deg=… burst_len_deg=… burst_every=…` |
 | `read` | `OK afm_ref_mv=… ecu_v=… ecu_a=… valve_v=… valve_a=…` (`na` if not available) |
@@ -252,6 +284,13 @@ gcc -Isrc -o /tmp/test_knock test/test_knock_codec.c src/knock_codec.c && /tmp/t
 gcc -Itest/fake_sdk -Isrc -o /tmp/test_burst test/test_knock_burst.c test/fake_sdk/sim.c \
     src/knock.c src/knock_codec.c && /tmp/test_burst
 
+# button debounce/repeat, menu actions, and the OLED framebuffer (ASCII art +
+# a PBM image; convert with e.g. `convert /tmp/oled.pbm -negate -scale 500% oled.png`):
+gcc -Itest/fake_sdk -Isrc -o /tmp/test_ui test/test_ui.c test/fake_sdk/sim.c \
+    test/fake_board.c test/fake_crank.c test/fake_dac.c test/fake_sense.c test/fake_capture.c \
+    src/ui_core.c src/gfx.c src/crank_timing.c src/dac_codec.c src/knock.c src/knock_codec.c \
+    -lm && /tmp/test_ui /tmp/oled.pbm
+
 # capture bookkeeping against a simulated 850 rpm engine:
 gcc -Isrc -o /tmp/test_cap test/test_capture_core.c src/capture_core.c -lm && /tmp/test_cap
 
@@ -260,8 +299,8 @@ socat PTY,link=/tmp/ttyBench,raw,echo=0 EXEC:/tmp/bench-sim,pty,raw,echo=0 &
 python3 ../host/bench.py --port /tmp/ttyBench "rpm 850" read
 ```
 
-That's how milestones 1–7 were checked. Nothing has run on a real Pico
+That's how milestones 1–8 were checked. Nothing has run on a real Pico
 yet. Once the board is built: scope the crank wave on GP2/VW-18, multimeter
 each DAC VOUT, check `read` against a known load and a multimeter on the
-12 V rail, scope the knock tone and bursts on TP1 against VW-18, and compare `capture` against a scope
-on VW-25/VW-12 with the ECU running.
+12 V rail, scope the knock tone and bursts on TP1 against VW-18, compare `capture` against a scope
+on VW-25/VW-12 with the ECU running, and check the OLED and buttons.

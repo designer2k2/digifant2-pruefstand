@@ -24,3 +24,15 @@ License: CC-BY-SA-4.0 with the KiCad Library Exception — using these symbols
 The custom symbols in kicad-symbols/Custom_Digifant2.kicad_sym were authored
 for this project (pinouts transcribed from the respective manufacturer
 datasheets) and are covered by the MIT license.
+
+------------------------------------------------------------------------------
+5x7 bitmap font
+  firmware/src/font5x7.h (ASCII 32-126 subset of glcdfont.c)
+Source:  https://github.com/adafruit/Adafruit-GFX-Library
+License: BSD (Copyright (c) 2012 Adafruit Industries; full notice in the file)
+
+------------------------------------------------------------------------------
+Pico SDK CMake import helper
+  firmware/pico_sdk_import.cmake (copied unmodified from the Pico SDK)
+Source:  https://github.com/raspberrypi/pico-sdk
+License: BSD-3-Clause (Copyright (c) 2020 Raspberry Pi (Trading) Ltd.)

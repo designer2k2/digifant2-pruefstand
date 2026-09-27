@@ -8,6 +8,7 @@
 #include "knock.h"
 #include "pico/stdlib.h"
 #include "sense.h"
+#include "ui.h"
 
 static void poll_serial(void) {
     static char line[CMD_LINE_MAX];
@@ -40,10 +41,12 @@ int main(void) {
     sense_init();
     knock_init();
     capture_init();
+    ui_init();
     stdio_init_all();
 
     while (true) {
         poll_serial();
+        ui_poll();
         tight_loop_contents();
     }
 }
