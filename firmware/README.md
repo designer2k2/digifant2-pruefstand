@@ -1,6 +1,8 @@
 # Pruefstand firmware (Raspberry Pi Pico, Pico SDK / C)
 
-USB serial command protocol plus the hardware blocks behind it. The PC side
+USB serial command protocol plus the hardware blocks behind it. **To use the
+bench, start with [`OPERATION.md`](OPERATION.md)** (display, buttons, PC
+control, how to read the measurements); this file is the developer reference. The PC side
 (`../host/bench.py`) and later Claude Code drive the bench through this.
 Milestones so far: 1 skeleton and protocol, 2 crank signal, 3 sensor DAC,
 4 current/voltage sensing, 5 knock generator, 6 ignition/injector capture,

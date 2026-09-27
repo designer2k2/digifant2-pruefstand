@@ -81,9 +81,33 @@ if command -v socat >/dev/null; then
     else
         echo "FAILED"; cat "$OUT/bench.log"; failed=1
     fi
+    printf '%-22s ' "rpm_sweep.py example"
+    if python3 "$REPO/host/examples/rpm_sweep.py" --port "$OUT/tty" --out "$OUT/sweep.csv" \
+           --stop 1100 --settle 0 >"$OUT/sweep.log" 2>&1 &&
+       [ "$(wc -l <"$OUT/sweep.csv")" -eq 3 ]; then
+        echo "ok"
+    else
+        echo "FAILED"; cat "$OUT/sweep.log"; failed=1
+    fi
 else
     skip "no socat"
 fi
+
+# The OPERATION.md screen renderer still builds against the UI code and runs.
+run_render() {
+    printf '%-22s ' "docs screen renderer"
+    if gcc "${CFLAGS[@]}" -Itest/fake_sdk -o "$OUT/render" docs/render_screens.c \
+           test/fake_sdk/sim.c test/fake_board.c test/fake_crank.c test/fake_dac.c \
+           src/ui_core.c src/gfx.c src/ecu.c src/knock.c src/knock_codec.c \
+           src/crank_timing.c src/dac_codec.c -lm >"$OUT/render.log" 2>&1 &&
+       mkdir -p "$OUT/screens" && "$OUT/render" "$OUT/screens" >>"$OUT/render.log" 2>&1 &&
+       [ "$(find "$OUT/screens" -name '*.pbm' | wc -l)" -eq 8 ]; then
+        echo "ok"
+    else
+        echo "FAILED"; cat "$OUT/render.log"; failed=1
+    fi
+}
+run_render
 
 # The assembled PIO program in an independent emulator.
 printf '%-22s ' "crank.pio emulator"
