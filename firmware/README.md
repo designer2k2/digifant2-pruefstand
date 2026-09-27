@@ -3,7 +3,8 @@
 USB serial command protocol plus the hardware blocks behind it. The PC side
 (`../host/bench.py`) and later Claude Code drive the bench through this.
 Milestones so far: 1 skeleton and protocol, 2 crank signal, 3 sensor DAC,
-4 current/voltage sensing.
+4 current/voltage sensing, 5 knock generator. Every hardware block on the board
+now has a real driver.
 
 ## Build and flash
 
@@ -29,9 +30,7 @@ hold BOOTSEL while plugging in the Pico and copy `build/pruefstand.uf2` onto the
 | Crank / Hall signal (`rpm`, `crank`) | **real** | GP2 → Q1, PIO0 SM0 |
 | Sensor DACs (`dac`) | **real** | MCP4728 @ 0x60 |
 | Current/voltage sense (`read` → `ecu_*`, `valve_*`) | **real** | INA226 @ 0x40 / 0x41 |
-| Knock DDS (`knock`) | stub, stores setpoint | AD9833 on SPI0 |
-
-`status` lists the modules that are still stubs under `stubs=`.
+| Knock DDS (`knock`) | **real**, continuous tone | AD9833 on SPI0 |
 
 Power-up state, set before any pin becomes an output: ECU **off**, idle switch
 **open**, all three sensors **connected**, crank stopped (VW-18 high). The bench keeps its
@@ -122,6 +121,31 @@ A chip is only configured after it answers with TI's manufacturer ID (0x5449).
 If one is missing or stops answering, its fields read `na`, and it's retried on
 the next `read`.
 
+## Knock generator (AD9833)
+
+`knock <hz>` outputs a continuous sine at 1–20000 Hz on TP1 (to VW-4), `knock
+off` stops it. The AD9833 runs from Y1's 25 MHz clock, so the frequency step is
+0.093 Hz. Each change holds the chip in reset, loads FREQ0 as two 14-bit halves,
+zeroes PHASE0 and releases reset, so the tone always starts at phase 0. Off
+means held in reset: the output sits at a DC midscale level with no AC.
+
+SPI0 runs at 1 MHz in mode 2 (clock idles high, data clocked in on the falling
+edge), with FSYNC (GP16) toggled per 16-bit word. The register layout follows
+the AD9833 datasheet, cross-checked against the Linux kernel's `ad9834` driver
+and the RobTillaart Arduino library, since the datasheet PDF couldn't be fetched
+from this sandbox.
+
+Two things this doesn't do yet:
+
+- **No crank-synchronised bursts.** Real knock shows up as short bursts at a
+  particular crank angle. That needs the crank edge timing that comes with
+  ignition capture, so it's a later milestone; for now it's a steady tone.
+- **No amplitude control.** The AD9833's output amplitude is fixed. On top of
+  that, R12 (200 Ω) and C2 (100 nF to ground) form a low-pass filter with its
+  corner at ~8 kHz, so the level reaching TP1 drops across the knock band:
+  about 85% of full at 5 kHz, 62% at 10 kHz, 47% at 15 kHz, 37% at 20 kHz.
+  Frequency and amplitude are coupled until the hardware changes.
+
 ## Protocol
 
 ASCII over USB CDC (baud rate is ignored). One command per line (`\n` or `\r\n`),
@@ -130,9 +154,9 @@ case-insensitive. Every command gets exactly one reply line: `OK ...` with
 
 | Command | Reply |
 |---|---|
-| `ping` | `OK pong fw=0.4.0` |
+| `ping` | `OK pong fw=0.5.0` |
 | `help` | `OK <usage of every command>` |
-| `status` | `OK fw=… ecu=on/off idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=… stubs=…` |
+| `status` | `OK fw=… ecu=on/off idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=…` |
 | `read` | `OK afm_ref_mv=… ecu_v=… ecu_a=… valve_v=… valve_a=…` (`na` if not available) |
 | `ecu on\|off` | `OK ecu=…` |
 | `idle on\|off` | `OK idle=…` |
@@ -150,7 +174,8 @@ fixed at 5000 mV, ECU reading fixed at 12 V / 0.5 A, valve INA226 "missing"):
 
 ```sh
 gcc -Isrc -o /tmp/bench-sim test/host_main.c test/fake_board.c test/fake_crank.c \
-    test/fake_dac.c test/fake_sense.c src/cmd.c src/crank_timing.c src/dac_codec.c src/knock.c
+    test/fake_dac.c test/fake_sense.c test/fake_knock.c \
+    src/cmd.c src/crank_timing.c src/dac_codec.c src/knock_codec.c
 printf 'ecu on\nstatus\n' | /tmp/bench-sim
 
 # crank timing math, and the PIO program in an emulator:
@@ -163,12 +188,15 @@ gcc -Isrc -o /tmp/test_dac test/test_dac_codec.c src/dac_codec.c && /tmp/test_da
 # INA226 register conversions and the shunt/current math:
 gcc -Isrc -o /tmp/test_sense test/test_sense_codec.c src/sense_codec.c -lm && /tmp/test_sense
 
+# AD9833 SPI word sequences:
+gcc -Isrc -o /tmp/test_knock test/test_knock_codec.c src/knock_codec.c && /tmp/test_knock
+
 # or behind a virtual serial port, to exercise host/bench.py too:
 socat PTY,link=/tmp/ttyBench,raw,echo=0 EXEC:/tmp/bench-sim,pty,raw,echo=0 &
 python3 ../host/bench.py --port /tmp/ttyBench "rpm 850" read
 ```
 
-That's how milestones 1–4 were checked. Nothing has run on a real Pico
+That's how milestones 1–5 were checked. Nothing has run on a real Pico
 yet. Once the board is built: scope the crank wave on GP2/VW-18, multimeter
-each DAC VOUT, and check `read` against a known load and a multimeter on the
-12 V rail.
+each DAC VOUT, check `read` against a known load and a multimeter on the
+12 V rail, and scope the knock tone on TP1.

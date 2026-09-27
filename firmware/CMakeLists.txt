@@ -18,6 +18,7 @@ add_executable(pruefstand
     src/sense.c
     src/sense_codec.c
     src/knock.c
+    src/knock_codec.c
 )
 
 pico_generate_pio_header(pruefstand ${CMAKE_CURRENT_LIST_DIR}/src/crank.pio)

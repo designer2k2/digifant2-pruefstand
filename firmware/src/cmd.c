@@ -71,18 +71,6 @@ static void cmd_status(int argc, char **argv) {
     }
     printf(" dac_i2c=%s knock_hz=%lu", dac_i2c_ok() ? "ok" : "err",
            (unsigned long)knock_get_hz());
-
-    printf(" stubs=");
-    bool first = true;
-    const struct { const char *name; bool impl; } mods[] = {
-        {"knock", knock_is_implemented()},
-    };
-    for (size_t i = 0; i < sizeof mods / sizeof mods[0]; i++) {
-        if (mods[i].impl) continue;
-        printf("%s%s", first ? "" : ",", mods[i].name);
-        first = false;
-    }
-    if (first) printf("none");
     printf("\n");
 }
 
