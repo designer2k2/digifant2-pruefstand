@@ -2,6 +2,7 @@
 
 #include "hardware/gpio.h"
 #include "hardware/sync.h"
+#include "knock.h"
 #include "pico/stdlib.h"
 #include "pins.h"
 
@@ -12,7 +13,10 @@ static cap_state_t state;
 static void edge_isr(uint gpio, uint32_t events) {
     uint32_t now = time_us_32();
     if (gpio == PIN_CRANK) {
-        if (events & GPIO_IRQ_EDGE_RISE) cap_on_ref(&state, now);
+        if (events & GPIO_IRQ_EDGE_RISE) {
+            cap_on_ref(&state, now);
+            knock_on_crank_ref(now, state.ref_period_us);
+        }
         return;
     }
     cap_channel_t ch = gpio == PIN_IGN_CAPTURE ? CAP_IGN : CAP_INJ;

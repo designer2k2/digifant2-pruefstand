@@ -3,7 +3,8 @@
 USB serial command protocol plus the hardware blocks behind it. The PC side
 (`../host/bench.py`) and later Claude Code drive the bench through this.
 Milestones so far: 1 skeleton and protocol, 2 crank signal, 3 sensor DAC,
-4 current/voltage sensing, 5 knock generator, 6 ignition/injector capture.
+4 current/voltage sensing, 5 knock generator, 6 ignition/injector capture,
+7 crank-synchronised knock bursts.
 Every hardware block on the board now has a real driver.
 
 ## Build and flash
@@ -30,7 +31,7 @@ hold BOOTSEL while plugging in the Pico and copy `build/pruefstand.uf2` onto the
 | Crank / Hall signal (`rpm`, `crank`) | **real** | GP2 → Q1, PIO0 SM0 |
 | Sensor DACs (`dac`) | **real** | MCP4728 @ 0x60 |
 | Current/voltage sense (`read` → `ecu_*`, `valve_*`) | **real** | INA226 @ 0x40 / 0x41 |
-| Knock DDS (`knock`) | **real**, continuous tone | AD9833 on SPI0 |
+| Knock DDS (`knock`, `burst`) | **real**, continuous or crank-synced bursts | AD9833 on SPI0 |
 | Ignition / injector capture (`capture`) | **real** | GP14 / GP15, crank reference on GP2 |
 
 Power-up state, set before any pin becomes an output: ECU **off**, idle switch
@@ -130,22 +131,41 @@ off` stops it. The AD9833 runs from Y1's 25 MHz clock, so the frequency step is
 zeroes PHASE0 and releases reset, so the tone always starts at phase 0. Off
 means held in reset: the output sits at a DC midscale level with no AC.
 
-SPI0 runs at 1 MHz in mode 2 (clock idles high, data clocked in on the falling
+SPI0 runs at 8 MHz in mode 2 (clock idles high, data clocked in on the falling
 edge), with FSYNC (GP16) toggled per 16-bit word. The register layout follows
 the AD9833 datasheet, cross-checked against the Linux kernel's `ad9834` driver
 and the RobTillaart Arduino library, since the datasheet PDF couldn't be fetched
 from this sandbox.
 
-Two things this doesn't do yet:
+### Crank-synchronised bursts
 
-- **No crank-synchronised bursts.** Real knock shows up as short bursts at a
-  particular crank angle. That needs the crank edge timing that comes with
-  ignition capture, so it's a later milestone; for now it's a steady tone.
-- **No amplitude control.** The AD9833's output amplitude is fixed. On top of
-  that, R12 (200 Ω) and C2 (100 nF to ground) form a low-pass filter with its
-  corner at ~8 kHz, so the level reaching TP1 drops across the knock band:
-  about 85% of full at 5 kHz, 62% at 10 kHz, 47% at 15 kHz, 37% at 20 kHz.
-  Frequency and amplitude are coupled until the hardware changes.
+`burst <start_deg> <len_deg> [every]` switches from a continuous tone to bursts:
+on each crank reference (VW-18 falling edge, the same one `capture` uses) the
+tone starts `start_deg` crank degrees later and runs for `len_deg`. With
+`every` = N only every Nth reference gets a burst, e.g. `every 2` at 2 ppr is
+once per crank revolution, like a single knocking cylinder on a 4-cylinder.
+`knock <hz>` still sets the frequency and `knock off` silences everything;
+`burst off` goes back to a continuous tone.
+
+Degrees are converted to microseconds with the *measured* reference period,
+so bursts follow RPM changes from the next reference on. A burst has to start
+and end within one reference period (start + len < 360/ppr, i.e. < 180° at the
+default 2 ppr), so it can never overlap the next one. If the RPM rises suddenly
+and a reference arrives while a burst is still on, it's cut off at that
+reference and the next one is scheduled with the new period.
+
+Timing: the capture interrupt handles the reference edge and arms a hardware
+alarm for the burst start; the alarm fires again for the stop. Starting or
+stopping is a single 16-bit SPI word (~2 µs at 8 MHz), and releasing reset
+starts the tone at phase 0, so every burst has the same waveform. If the start
+time has already passed by the time the reference is handled (start 0°), the
+burst starts immediately rather than being skipped.
+
+**Amplitude is still fixed.** The AD9833's output level can't be set, and R12
+(200 Ω) with C2 (100 nF to ground) low-pass the output with a corner near
+8 kHz, so the level at TP1 falls across the knock band: about 85% of full at
+5 kHz, 62% at 10 kHz, 47% at 15 kHz, 37% at 20 kHz. Knock *intensity* can't be
+varied independently of frequency without a hardware change.
 
 ## Ignition and injector capture
 
@@ -187,9 +207,9 @@ case-insensitive. Every command gets exactly one reply line: `OK ...` with
 
 | Command | Reply |
 |---|---|
-| `ping` | `OK pong fw=0.6.0` |
+| `ping` | `OK pong fw=0.7.0` |
 | `help` | `OK <usage of every command>` |
-| `status` | `OK fw=… ecu=on/off idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=…` |
+| `status` | `OK fw=… ecu=on/off idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=… burst=on/off burst_start_deg=… burst_len_deg=… burst_every=…` |
 | `read` | `OK afm_ref_mv=… ecu_v=… ecu_a=… valve_v=… valve_a=…` (`na` if not available) |
 | `capture` | `OK ign_n=… ign_period_us=… ign_low_us=… ign_fall_deg=… ign_rise_deg=… inj_…` (same fields for `inj_`) |
 | `ecu on\|off` | `OK ecu=…` |
@@ -199,17 +219,20 @@ case-insensitive. Every command gets exactly one reply line: `OK ...` with
 | `crank ppr <1..60>` / `crank duty <1..99>` | `OK crank_ppr=…` / `OK crank_duty=…` |
 | `dac air\|water\|afm\|lambda <mV>` | `OK dac_<name>=…` (ranges per channel, see above) |
 | `knock off\|<1..20000 Hz>` | `OK knock_hz=…` |
+| `burst <start_deg> <len_deg> [every]` / `burst off` | `OK burst=on burst_start_deg=… …` / `OK burst=off` |
 
 ## Testing without hardware
 
 `cmd.c` and the `*_codec.c` / `crank_timing.c` files have no Pico dependencies,
 so they build for the PC against the fakes in `test/` (in-memory state, VW-17
-fixed at 5000 mV, ECU reading fixed at 12 V / 0.5 A, valve INA226 "missing"):
+fixed at 5000 mV, ECU reading fixed at 12 V / 0.5 A, valve INA226 "missing").
+`knock.c` itself runs on the PC against `test/fake_sdk/`, a small simulated
+Pico SDK with a settable clock, one hardware alarm and a log of every SPI word:
 
 ```sh
-gcc -Isrc -o /tmp/bench-sim test/host_main.c test/fake_board.c test/fake_crank.c \
-    test/fake_dac.c test/fake_sense.c test/fake_knock.c test/fake_capture.c \
-    src/cmd.c src/crank_timing.c src/dac_codec.c src/knock_codec.c
+gcc -Itest/fake_sdk -Isrc -o /tmp/bench-sim test/host_main.c test/fake_sdk/sim.c \
+    test/fake_board.c test/fake_crank.c test/fake_dac.c test/fake_sense.c test/fake_capture.c \
+    src/cmd.c src/crank_timing.c src/dac_codec.c src/knock.c src/knock_codec.c
 printf 'ecu on\nstatus\n' | /tmp/bench-sim
 
 # crank timing math, and the PIO program in an emulator:
@@ -225,6 +248,10 @@ gcc -Isrc -o /tmp/test_sense test/test_sense_codec.c src/sense_codec.c -lm && /t
 # AD9833 SPI word sequences:
 gcc -Isrc -o /tmp/test_knock test/test_knock_codec.c src/knock_codec.c && /tmp/test_knock
 
+# burst timing math, and knock.c's alarm state machine on a simulated clock:
+gcc -Itest/fake_sdk -Isrc -o /tmp/test_burst test/test_knock_burst.c test/fake_sdk/sim.c \
+    src/knock.c src/knock_codec.c && /tmp/test_burst
+
 # capture bookkeeping against a simulated 850 rpm engine:
 gcc -Isrc -o /tmp/test_cap test/test_capture_core.c src/capture_core.c -lm && /tmp/test_cap
 
@@ -233,8 +260,8 @@ socat PTY,link=/tmp/ttyBench,raw,echo=0 EXEC:/tmp/bench-sim,pty,raw,echo=0 &
 python3 ../host/bench.py --port /tmp/ttyBench "rpm 850" read
 ```
 
-That's how milestones 1–6 were checked. Nothing has run on a real Pico
+That's how milestones 1–7 were checked. Nothing has run on a real Pico
 yet. Once the board is built: scope the crank wave on GP2/VW-18, multimeter
 each DAC VOUT, check `read` against a known load and a multimeter on the
-12 V rail, scope the knock tone on TP1, and compare `capture` against a scope
+12 V rail, scope the knock tone and bursts on TP1 against VW-18, and compare `capture` against a scope
 on VW-25/VW-12 with the ECU running.

@@ -20,3 +20,19 @@ size_t ad9833_sequence(uint32_t hz, uint32_t mclk_hz, uint16_t out[AD9833_SEQ_MA
     out[4] = AD9833_B28;
     return 5;
 }
+
+bool knock_burst_valid(uint32_t start_deg, uint32_t len_deg, uint32_t every, uint32_t ppr) {
+    if (ppr == 0 || len_deg == 0 || every == 0) return false;
+    return ((uint64_t)start_deg + len_deg) * ppr < 360;
+}
+
+bool knock_burst_timing(const knock_burst_t *b, uint32_t ref_index, uint32_t ref_period_us,
+                        uint32_t ppr, uint32_t *start_us, uint32_t *len_us) {
+    if (!b->enabled || ref_period_us == 0) return false;
+    if (!knock_burst_valid(b->start_deg, b->len_deg, b->every, ppr)) return false;
+    if (ref_index % b->every != 0) return false;
+    // One reference period spans 360/ppr crank degrees.
+    *start_us = (uint32_t)((uint64_t)ref_period_us * b->start_deg * ppr / 360u);
+    *len_us = (uint32_t)((uint64_t)ref_period_us * b->len_deg * ppr / 360u);
+    return true;
+}

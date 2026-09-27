@@ -19,7 +19,7 @@ typedef void (*cmd_handler_t)(int argc, char **argv);
 
 typedef struct {
     const char *name;
-    int argc;  // expected argument count after the command name
+    int argc_min, argc_max;  // argument count after the command name
     cmd_handler_t handler;
     const char *usage;
 } cmd_t;
@@ -70,8 +70,10 @@ static void cmd_status(int argc, char **argv) {
         printf(" dac_%s=%lu", dac_channel_name((dac_channel_t)ch),
                (unsigned long)dac_get_mv((dac_channel_t)ch));
     }
-    printf(" dac_i2c=%s knock_hz=%lu", dac_i2c_ok() ? "ok" : "err",
-           (unsigned long)knock_get_hz());
+    knock_burst_t b = knock_get_burst();
+    printf(" dac_i2c=%s knock_hz=%lu burst=%s burst_start_deg=%lu burst_len_deg=%lu burst_every=%lu",
+           dac_i2c_ok() ? "ok" : "err", (unsigned long)knock_get_hz(), on_off(b.enabled),
+           (unsigned long)b.start_deg, (unsigned long)b.len_deg, (unsigned long)b.every);
     printf("\n");
 }
 
@@ -164,6 +166,27 @@ static void cmd_knock(int argc, char **argv) {
     printf("OK knock_hz=%lu\n", (unsigned long)hz);
 }
 
+static void cmd_burst(int argc, char **argv) {
+    if (argc == 2) {
+        if (strcmp(argv[1], "off") != 0) {
+            printf("ERR usage: burst off|<start_deg> <len_deg> [every]\n");
+            return;
+        }
+        knock_burst_off();
+        printf("OK burst=off\n");
+        return;
+    }
+    uint32_t start, len, every = 1;
+    if (!parse_uint(argv[1], &start) || !parse_uint(argv[2], &len) ||
+        (argc == 4 && !parse_uint(argv[3], &every)) || !knock_set_burst(start, len, every)) {
+        printf("ERR need len>0, every>0 and start+len < %lu deg (360/ppr)\n",
+               (unsigned long)(360 / crank_get_ppr()));
+        return;
+    }
+    printf("OK burst=on burst_start_deg=%lu burst_len_deg=%lu burst_every=%lu\n",
+           (unsigned long)start, (unsigned long)len, (unsigned long)every);
+}
+
 static void cmd_read(int argc, char **argv) {
     (void)argc; (void)argv;
     printf("OK afm_ref_mv=%lu", (unsigned long)board_read_afm_ref_mv());
@@ -190,18 +213,19 @@ static void cmd_capture(int argc, char **argv) {
 }
 
 static const cmd_t commands[] = {
-    {"ping",   0, cmd_ping,   "ping"},
-    {"help",   0, cmd_help,   "help"},
-    {"status", 0, cmd_status, "status"},
-    {"read",   0, cmd_read,   "read"},
-    {"capture", 0, cmd_capture, "capture"},
-    {"ecu",    1, cmd_ecu,    "ecu on|off"},
-    {"idle",   1, cmd_idle,   "idle on|off"},
-    {"sensor", 2, cmd_sensor, "sensor air|water|lambda conn|open"},
-    {"rpm",    1, cmd_rpm,    "rpm <0..8000>"},
-    {"crank",  2, cmd_crank,  "crank ppr|duty <n>"},
-    {"dac",    2, cmd_dac,    "dac air|water|afm|lambda <mV>"},
-    {"knock",  1, cmd_knock,  "knock off|<hz>"},
+    {"ping",    0, 0, cmd_ping,     "ping"},
+    {"help",    0, 0, cmd_help,     "help"},
+    {"status",  0, 0, cmd_status,   "status"},
+    {"read",    0, 0, cmd_read,     "read"},
+    {"capture", 0, 0, cmd_capture,  "capture"},
+    {"ecu",     1, 1, cmd_ecu,      "ecu on|off"},
+    {"idle",    1, 1, cmd_idle,     "idle on|off"},
+    {"sensor",  2, 2, cmd_sensor,   "sensor air|water|lambda conn|open"},
+    {"rpm",     1, 1, cmd_rpm,      "rpm <0..8000>"},
+    {"crank",   2, 2, cmd_crank,    "crank ppr|duty <n>"},
+    {"dac",     2, 2, cmd_dac,      "dac air|water|afm|lambda <mV>"},
+    {"knock",   1, 1, cmd_knock,    "knock off|<hz>"},
+    {"burst",   1, 3, cmd_burst,    "burst off|<start_deg> <len_deg> [every]"},
 };
 
 #define NUM_COMMANDS (sizeof commands / sizeof commands[0])
@@ -228,7 +252,7 @@ void cmd_process_line(char *line) {
 
     for (size_t i = 0; i < NUM_COMMANDS; i++) {
         if (strcmp(argv[0], commands[i].name) != 0) continue;
-        if (argc - 1 != commands[i].argc) {
+        if (argc - 1 < commands[i].argc_min || argc - 1 > commands[i].argc_max) {
             printf("ERR usage: %s\n", commands[i].usage);
             return;
         }
