@@ -3,8 +3,8 @@
 USB serial command protocol plus the hardware blocks behind it. The PC side
 (`../host/bench.py`) and later Claude Code drive the bench through this.
 Milestones so far: 1 skeleton and protocol, 2 crank signal, 3 sensor DAC,
-4 current/voltage sensing, 5 knock generator. Every hardware block on the board
-now has a real driver.
+4 current/voltage sensing, 5 knock generator, 6 ignition/injector capture.
+Every hardware block on the board now has a real driver.
 
 ## Build and flash
 
@@ -31,6 +31,7 @@ hold BOOTSEL while plugging in the Pico and copy `build/pruefstand.uf2` onto the
 | Sensor DACs (`dac`) | **real** | MCP4728 @ 0x60 |
 | Current/voltage sense (`read` → `ecu_*`, `valve_*`) | **real** | INA226 @ 0x40 / 0x41 |
 | Knock DDS (`knock`) | **real**, continuous tone | AD9833 on SPI0 |
+| Ignition / injector capture (`capture`) | **real** | GP14 / GP15, crank reference on GP2 |
 
 Power-up state, set before any pin becomes an output: ECU **off**, idle switch
 **open**, all three sensors **connected**, crank stopped (VW-18 high). The bench keeps its
@@ -146,6 +147,38 @@ Two things this doesn't do yet:
   about 85% of full at 5 kHz, 62% at 10 kHz, 47% at 15 kHz, 37% at 20 kHz.
   Frequency and amplitude are coupled until the hardware changes.
 
+## Ignition and injector capture
+
+`capture` reads back what the ECU is doing on VW-25 (ignition, GP14) and VW-12
+(injector, GP15). Both are low-side outputs pulled up to 3V3, so a pulse is the
+**low** phase: injector open time, and probably ignition dwell.
+
+| Field (`ign_` / `inj_`) | Meaning |
+|---|---|
+| `_n` | completed pulses since boot |
+| `_period_us` | falling edge to falling edge |
+| `_low_us` | width of the last pulse |
+| `_fall_deg`, `_rise_deg` | crank degrees from the last VW-18 falling edge to the pulse's falling / rising edge |
+
+Values read `na` if no pulse has ended in the last 2 s, and the angles also
+need the bench's own crank signal running (`rpm` > 0).
+
+One GPIO interrupt timestamps every edge on GP14, GP15 and GP2 with the 1 µs
+hardware timer. GP2 is driven by the crank PIO, but its pad input still sees
+the level, so the crank reference is timestamped by the same interrupt path as
+the ECU outputs. Angle = delay since the reference ÷ reference period ×
+360 / `ppr`, using the *measured* reference period rather than the setpoint.
+Both edges of a pulse are measured from the reference that came before the
+falling edge, so a pulse straddling a reference reads e.g. 170° → 200°, not
+170° → 20°. Interrupt latency adds a few µs; one crank degree at 6000 rpm is
+27.8 µs.
+
+**Two conventions still need confirming on the real ECU:** which VW-18 edge
+Digifant-2 uses as its reference (the falling edge is used here), and which
+ignition edge is the spark (probably the end of the low phase, i.e.
+`ign_rise_deg`). Both edges are reported, so nothing is lost either way, only
+the offset between them changes.
+
 ## Protocol
 
 ASCII over USB CDC (baud rate is ignored). One command per line (`\n` or `\r\n`),
@@ -154,10 +187,11 @@ case-insensitive. Every command gets exactly one reply line: `OK ...` with
 
 | Command | Reply |
 |---|---|
-| `ping` | `OK pong fw=0.5.0` |
+| `ping` | `OK pong fw=0.6.0` |
 | `help` | `OK <usage of every command>` |
 | `status` | `OK fw=… ecu=on/off idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=…` |
 | `read` | `OK afm_ref_mv=… ecu_v=… ecu_a=… valve_v=… valve_a=…` (`na` if not available) |
+| `capture` | `OK ign_n=… ign_period_us=… ign_low_us=… ign_fall_deg=… ign_rise_deg=… inj_…` (same fields for `inj_`) |
 | `ecu on\|off` | `OK ecu=…` |
 | `idle on\|off` | `OK idle=…` |
 | `sensor air\|water\|lambda conn\|open` | `OK sensor_<name>=…` |
@@ -174,7 +208,7 @@ fixed at 5000 mV, ECU reading fixed at 12 V / 0.5 A, valve INA226 "missing"):
 
 ```sh
 gcc -Isrc -o /tmp/bench-sim test/host_main.c test/fake_board.c test/fake_crank.c \
-    test/fake_dac.c test/fake_sense.c test/fake_knock.c \
+    test/fake_dac.c test/fake_sense.c test/fake_knock.c test/fake_capture.c \
     src/cmd.c src/crank_timing.c src/dac_codec.c src/knock_codec.c
 printf 'ecu on\nstatus\n' | /tmp/bench-sim
 
@@ -191,12 +225,16 @@ gcc -Isrc -o /tmp/test_sense test/test_sense_codec.c src/sense_codec.c -lm && /t
 # AD9833 SPI word sequences:
 gcc -Isrc -o /tmp/test_knock test/test_knock_codec.c src/knock_codec.c && /tmp/test_knock
 
+# capture bookkeeping against a simulated 850 rpm engine:
+gcc -Isrc -o /tmp/test_cap test/test_capture_core.c src/capture_core.c -lm && /tmp/test_cap
+
 # or behind a virtual serial port, to exercise host/bench.py too:
 socat PTY,link=/tmp/ttyBench,raw,echo=0 EXEC:/tmp/bench-sim,pty,raw,echo=0 &
 python3 ../host/bench.py --port /tmp/ttyBench "rpm 850" read
 ```
 
-That's how milestones 1–5 were checked. Nothing has run on a real Pico
+That's how milestones 1–6 were checked. Nothing has run on a real Pico
 yet. Once the board is built: scope the crank wave on GP2/VW-18, multimeter
 each DAC VOUT, check `read` against a known load and a multimeter on the
-12 V rail, and scope the knock tone on TP1.
+12 V rail, scope the knock tone on TP1, and compare `capture` against a scope
+on VW-25/VW-12 with the ECU running.

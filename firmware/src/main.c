@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "board.h"
+#include "capture.h"
 #include "cmd.h"
 #include "crank.h"
 #include "dac.h"
@@ -38,6 +39,7 @@ int main(void) {
     dac_init();
     sense_init();
     knock_init();
+    capture_init();
     stdio_init_all();
 
     while (true) {

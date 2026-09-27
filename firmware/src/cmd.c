@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "board.h"
+#include "capture.h"
 #include "crank.h"
 #include "dac.h"
 #include "knock.h"
@@ -171,11 +172,29 @@ static void cmd_read(int argc, char **argv) {
     printf("\n");
 }
 
+static void cmd_capture(int argc, char **argv) {
+    (void)argc; (void)argv;
+    printf("OK");
+    for (int ch = 0; ch < CAP_COUNT; ch++) {
+        const char *n = capture_name((cap_channel_t)ch);
+        cap_result_t r = capture_get((cap_channel_t)ch, crank_get_ppr());
+        printf(" %s_n=%lu", n, (unsigned long)r.count);
+        if (r.valid && r.period_us) printf(" %s_period_us=%lu", n, (unsigned long)r.period_us);
+        else printf(" %s_period_us=na", n);
+        if (r.valid) printf(" %s_low_us=%lu", n, (unsigned long)r.low_us);
+        else printf(" %s_low_us=na", n);
+        if (r.have_angle) printf(" %s_fall_deg=%.1f %s_rise_deg=%.1f", n, r.fall_deg, n, r.rise_deg);
+        else printf(" %s_fall_deg=na %s_rise_deg=na", n, n);
+    }
+    printf("\n");
+}
+
 static const cmd_t commands[] = {
     {"ping",   0, cmd_ping,   "ping"},
     {"help",   0, cmd_help,   "help"},
     {"status", 0, cmd_status, "status"},
     {"read",   0, cmd_read,   "read"},
+    {"capture", 0, cmd_capture, "capture"},
     {"ecu",    1, cmd_ecu,    "ecu on|off"},
     {"idle",   1, cmd_idle,   "idle on|off"},
     {"sensor", 2, cmd_sensor, "sensor air|water|lambda conn|open"},

@@ -11,6 +11,8 @@ add_executable(pruefstand
     src/main.c
     src/cmd.c
     src/board.c
+    src/capture.c
+    src/capture_core.c
     src/crank.c
     src/crank_timing.c
     src/dac.c

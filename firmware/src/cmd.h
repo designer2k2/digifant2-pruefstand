@@ -1,6 +1,6 @@
 #pragma once
 
-#define FW_VERSION "0.5.0"
+#define FW_VERSION "0.6.0"
 #define CMD_LINE_MAX 128
 
 // Parses and executes one command line (modified in place), prints exactly one
