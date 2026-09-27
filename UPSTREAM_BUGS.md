@@ -1,87 +1,38 @@
-# circuit-synth upstream bug reports (draft)
+# circuit-synth upstream bug reports
 
-Both confirmed present in v0.12.1 source (`git f52f491`, "Bump version to 0.12.1"),
-in the free/MIT schematic-generation path. Checked against
-`src/circuit_synth/kicad/sch_gen/`. No existing duplicate issue found
-(searched hierarchical-label / sheet-pin / pin-number issues; closest are
-#517, #539, #551, #554, #562 — all different).
+Bugs found in [circuit-synth](https://github.com/circuit-synth/circuit-synth)
+while generating this board's schematic, and what became of them.
 
-Repo: https://github.com/circuit-synth/circuit-synth/issues/new
+## Filed
 
----
+### #619: pins sharing a name collapse into one connection
 
-## Issue 1 — Sheet pin and its hierarchical label are placed 1.27 mm apart, breaking sheet connectivity
+https://github.com/circuit-synth/circuit-synth/issues/619 (filed 2026-09-27)
 
-**File:** `src/circuit_synth/kicad/sch_gen/schematic_writer.py`, in the sheet-pin
-creation loop (~lines 1719–1745 in v0.12.1).
+`src/circuit_synth/kicad/sch_gen/circuit_loader.py` identifies a connected
+pin by its **name** before its **number**. Names repeat (USB-C: two `D+`,
+two `D-`; a Pico module: eight `GND`), so all same-named pins of a component
+collapse into one connection and only one of them gets wired. Reproduced on
+v0.12.1 (unchanged on `main` 3aaff18) with a USB-C connector: pin B6 (second
+`D+`) is left unconnected, confirmed by KiCad 10 ERC. Fix: prefer the pin
+number; verified locally. Probably also the root cause of upstream #35.
 
-The sheet pin is created at `pin_x - 1.27`:
+## Not filed
 
-```python
-sheet_pin = SheetPin(
-    ...
-    position=Point(pin_x - 1.27, pin_y),
-)
-```
+### Sheet pin placed 1.27 mm from its hierarchical label (false alarm)
 
-but the hierarchical `Label` meant to land on it is created at `pin_x`:
+`schematic_writer.py` writes each sheet pin 1.27 mm inside the sheet's right
+edge while its hierarchical label sits on the edge. This looked like broken
+connectivity, but KiCad snaps sheet pins onto the sheet border when it loads
+the file, so the pin and label do coincide. A two-sheet reproduction on
+v0.12.1 passes KiCad 10 ERC without any sheet-pin errors, and moving the
+label to the pin's written position actually breaks the connection. Harmless
+as far as KiCad is concerned; not reported.
 
-```python
-label_x = pin_x            # <-- should be pin_x - 1.27
-label = Label(
-    ...
-    position=Point(label_x, pin_y),
-    label_type=LabelType.HIERARCHICAL,
-)
-```
+### Fixed upstream / out of scope
 
-KiCad only treats two items as electrically connected when their connection
-points are exactly coincident (or joined by a wire). A 1.27 mm (50 mil) gap
-means every sheet pin is left unconnected to its label, so no net crosses the
-sheet boundary. ERC reports the nets as unconnected / not driven on both sides.
-
-**Fix:** `label_x = pin_x - 1.27` (match the sheet-pin x), or draw a wire
-segment between the two points.
-
-**Repro:** generate any multi-sheet (non-flattened) project and open it in
-KiCad 7/8/9 — inter-sheet nets show as unconnected; the label sits one grid
-step off the pin.
-
----
-
-## Issue 2 — Net rebuild prefers pin *name* over pin *number*, collapsing multi-pin nets (e.g. all GND pins of a module)
-
-**File:** `src/circuit_synth/kicad/sch_gen/circuit_loader.py`, ~lines 282–304 in v0.12.1.
-
-```python
-# Enhanced pin identification - store the most specific identifier available
-pin_identifier = None
-if "name" in pin_data and pin_data["name"] != "~":
-    pin_identifier = pin_data["name"]          # <-- name chosen first
-elif "number" in pin_data:
-    pin_identifier = str(pin_data["number"])
-```
-
-Pin **name** is not a unique identifier — many real symbols have several pins
-with the same name (a Raspberry Pi Pico module symbol has 8 pins named `GND`;
-regulators, connectors, FPGAs similarly). Pin **number** is always unique.
-
-Because connections are appended as `(comp_ref, pin_identifier)` tuples, using
-the name makes all same-named pins collapse to a single tuple. Only one of the
-module's GND pins ends up connected; the rest are silently dropped and show up
-in ERC as `power_pin_not_driven` / unconnected.
-
-**Fix:** prefer `number` when present, fall back to `name`, then `pin_id`:
-
-```python
-if "number" in pin_data and pin_data["number"] not in (None, ""):
-    pin_identifier = str(pin_data["number"])
-elif "name" in pin_data and pin_data["name"] != "~":
-    pin_identifier = pin_data["name"]
-else:
-    pin_identifier = str(pin_data.get("pin_id", ""))
-```
-
-**Repro:** create a `Component` for any symbol with ≥2 identically-named pins,
-connect all of them to one net, generate the project — only one pin is wired in
-the output `.kicad_sch`.
+Found on the old PyPI release 0.1.0 and fixed by v0.12.1: pin-level labels
+of the wrong type, a `(ratsnest ...)` token KiCad can't open, and a
+duplicated `(paper ...)` token. Default paper size and placement overflow
+belong to the PCB/placement code, which v0.12.1 no longer ships in the open
+version.
