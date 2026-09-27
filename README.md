@@ -13,6 +13,9 @@ The schematic is generated from Python with
 [circuit-synth](https://github.com/circuit-synth/circuit-synth); the PCB is placed
 and autorouted headless (`pcbnew` + Freerouting).
 
+**[`BRINGUP.md`](BRINGUP.md) — step-by-step first power-on checklist, tools
+needed, and the open questions to settle on the bench.**
+
 **[`DESIGN.md`](DESIGN.md) — what every block does, part-selection rationale, the
 GPIO / I²C / VW-harness maps.** [`USE_CASES.md`](USE_CASES.md) traces every real
 bench use case through the schematic to concrete numbers (voltage/current/timing

@@ -377,8 +377,7 @@ socat PTY,link=/tmp/ttyBench,raw,echo=0 EXEC:/tmp/bench-sim,pty,raw,echo=0 &
 python3 ../host/bench.py --port /tmp/ttyBench "rpm 850" read
 ```
 
-That's how milestones 1–8 and the 0.9 fixes were checked. Nothing has run on a real Pico
-yet. Once the board is built: scope the crank wave on GP2/VW-18, multimeter
-each DAC VOUT, check `read` against a known load and a multimeter on the
-12 V rail, scope the knock tone and bursts on TP1 against VW-18, compare `capture` against a scope
-on VW-25/VW-12 with the ECU running, and check the OLED and buttons.
+That's how milestones 1–8 and the 0.9 fixes were checked. Nothing has run on a
+real Pico yet. For the first power-on on real hardware, follow
+[`../BRINGUP.md`](../BRINGUP.md), a staged checklist with expected values for
+every block.
