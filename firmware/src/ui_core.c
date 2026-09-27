@@ -6,6 +6,7 @@
 #include "capture.h"
 #include "crank.h"
 #include "dac.h"
+#include "ecu.h"
 #include "gfx.h"
 #include "knock.h"
 #include "sense.h"
@@ -26,7 +27,11 @@ static void adjust_dac(dac_channel_t ch, int dir) {
 void ui_adjust(ui_state_t *ui, int dir) {
     switch (ui->selected) {
     case UI_RPM: crank_set_rpm(step(crank_get_rpm(), dir, UI_RPM_STEP, CRANK_RPM_MAX)); break;
-    case UI_ECU: board_set_ecu_power(dir > 0); break;
+    case UI_ECU:
+        // After a trip, - acknowledges it (the ECU is already off); + then works again.
+        if (dir < 0 && ecu_tripped()) ecu_reset_fault();
+        else ecu_set_power(dir > 0);
+        break;
     case UI_IDLE: board_set_idle_switch(dir > 0); break;
     case UI_KNOCK: knock_set_hz(step(knock_get_hz(), dir, UI_KNOCK_STEP, KNOCK_HZ_MAX)); break;
     case UI_AIR: adjust_dac(DAC_AIR, dir); break;
@@ -54,7 +59,8 @@ void ui_render(const ui_state_t *ui, uint8_t *fb) {
 
     snprintf(s, sizeof s, "RPM %4lu", (unsigned long)crank_get_rpm());
     field(fb, ui, UI_RPM, 0, 0, s);
-    field(fb, ui, UI_ECU, 12, 0, board_get_ecu_power() ? "ECU on" : "ECU off");
+    field(fb, ui, UI_ECU, 12, 0,
+          ecu_tripped() ? "ECU TRIP" : ecu_get_power() ? "ECU on" : "ECU off");
 
     field(fb, ui, UI_IDLE, 0, 1, board_get_idle_switch() ? "IDLE on" : "IDLE off");
     uint32_t hz = knock_get_hz();

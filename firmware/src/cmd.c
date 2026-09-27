@@ -10,6 +10,7 @@
 #include "capture.h"
 #include "crank.h"
 #include "dac.h"
+#include "ecu.h"
 #include "knock.h"
 #include "sense.h"
 
@@ -24,11 +25,20 @@ typedef struct {
     const char *usage;
 } cmd_t;
 
+static const char *boot_reason = "power";
+
+void cmd_set_boot_reason(const char *reason) { boot_reason = reason; }
+
+// Decimal digits only: strtoul would also take a sign ("-1" wraps to a huge
+// value) and saturate or truncate on overflow depending on the platform.
 static bool parse_uint(const char *s, uint32_t *out) {
     if (*s == '\0') return false;
-    char *end;
-    unsigned long v = strtoul(s, &end, 10);
-    if (*end != '\0') return false;
+    uint64_t v = 0;
+    for (; *s; s++) {
+        if (!isdigit((unsigned char)*s)) return false;
+        v = v * 10 + (uint64_t)(*s - '0');
+        if (v > UINT32_MAX) return false;
+    }
     *out = (uint32_t)v;
     return true;
 }
@@ -58,8 +68,11 @@ static void cmd_ping(int argc, char **argv) {
 
 static void cmd_status(int argc, char **argv) {
     (void)argc; (void)argv;
-    printf("OK fw=%s ecu=%s idle=%s rpm=%lu crank_ppr=%lu crank_duty=%lu", FW_VERSION,
-           on_off(board_get_ecu_power()), on_off(board_get_idle_switch()),
+    printf("OK fw=%s boot=%s ecu=%s ecu_fault=%s ecu_trip_ma=%lu idle=%s rpm=%lu crank_ppr=%lu "
+           "crank_duty=%lu",
+           FW_VERSION, boot_reason, on_off(ecu_get_power()),
+           ecu_tripped() ? "overcurrent" : "none", (unsigned long)ecu_get_trip_ma(),
+           on_off(board_get_idle_switch()),
            (unsigned long)crank_get_rpm(), (unsigned long)crank_get_ppr(),
            (unsigned long)crank_get_duty());
     for (int s = 0; s < SENSOR_COUNT; s++) {
@@ -78,10 +91,28 @@ static void cmd_status(int argc, char **argv) {
 }
 
 static void cmd_ecu(int argc, char **argv) {
-    (void)argc;
+    if (argc == 3) {
+        uint32_t ma;
+        if (strcmp(argv[1], "trip") != 0) { printf("ERR usage: ecu on|off|reset|trip <mA>\n"); return; }
+        if (!parse_uint(argv[2], &ma) || !ecu_set_trip_ma(ma)) {
+            printf("ERR trip must be %d..%d mA\n", ECU_TRIP_MA_MIN, ECU_TRIP_MA_MAX);
+            return;
+        }
+        printf("OK ecu_trip_ma=%lu\n", (unsigned long)ma);
+        return;
+    }
+    if (strcmp(argv[1], "reset") == 0) {
+        ecu_reset_fault();
+        printf("OK ecu_fault=none\n");
+        return;
+    }
     bool on;
-    if (!parse_on_off(argv[1], &on)) { printf("ERR expected on|off\n"); return; }
-    board_set_ecu_power(on);
+    if (!parse_on_off(argv[1], &on)) { printf("ERR usage: ecu on|off|reset|trip <mA>\n"); return; }
+    if (!ecu_set_power(on)) {
+        printf("ERR ecu tripped at %lu mA, send 'ecu reset' first\n",
+               (unsigned long)ecu_trip_reading_ma());
+        return;
+    }
     printf("OK ecu=%s\n", on_off(on));
 }
 
@@ -111,8 +142,13 @@ static void cmd_sensor(int argc, char **argv) {
 static void cmd_rpm(int argc, char **argv) {
     (void)argc;
     uint32_t rpm;
-    if (!parse_uint(argv[1], &rpm) || !crank_set_rpm(rpm)) {
+    if (!parse_uint(argv[1], &rpm) || rpm > CRANK_RPM_MAX) {
         printf("ERR rpm must be 0..%d\n", CRANK_RPM_MAX);
+        return;
+    }
+    if (!crank_set_rpm(rpm)) {
+        printf("ERR rpm %lu not possible at crank_ppr=%lu crank_duty=%lu\n", (unsigned long)rpm,
+               (unsigned long)crank_get_ppr(), (unsigned long)crank_get_duty());
         return;
     }
     printf("OK rpm=%lu\n", (unsigned long)rpm);
@@ -126,9 +162,21 @@ static void cmd_crank(int argc, char **argv) {
         printf("ERR expected ppr|duty\n");
         return;
     }
-    if (!parse_uint(argv[2], &v) || !(is_ppr ? crank_set_ppr(v) : crank_set_duty(v))) {
+    if (!parse_uint(argv[2], &v) || (is_ppr ? v == 0 || v > CRANK_PPR_MAX : v == 0 || v > 99)) {
         if (is_ppr) printf("ERR ppr must be 1..%d\n", CRANK_PPR_MAX);
         else printf("ERR duty must be 1..99\n");
+        return;
+    }
+    // A running burst must still fit inside one reference period.
+    knock_burst_t b = knock_get_burst();
+    if (is_ppr && b.enabled && !knock_burst_valid(b.start_deg, b.len_deg, b.every, v)) {
+        printf("ERR burst %lu+%lu deg doesn't fit in %lu deg at ppr %lu, change or stop it first\n",
+               (unsigned long)b.start_deg, (unsigned long)b.len_deg, (unsigned long)(360 / v),
+               (unsigned long)v);
+        return;
+    }
+    if (!(is_ppr ? crank_set_ppr(v) : crank_set_duty(v))) {
+        printf("ERR not possible at rpm=%lu\n", (unsigned long)crank_get_rpm());
         return;
     }
     printf("OK crank_%s=%lu\n", argv[1], (unsigned long)v);
@@ -201,7 +249,7 @@ static void cmd_capture(int argc, char **argv) {
     for (int ch = 0; ch < CAP_COUNT; ch++) {
         const char *n = capture_name((cap_channel_t)ch);
         cap_result_t r = capture_get((cap_channel_t)ch, crank_get_ppr());
-        printf(" %s_n=%lu", n, (unsigned long)r.count);
+        printf(" %s_n=%lu %s_glitch=%lu", n, (unsigned long)r.count, n, (unsigned long)r.glitches);
         if (r.valid && r.period_us) printf(" %s_period_us=%lu", n, (unsigned long)r.period_us);
         else printf(" %s_period_us=na", n);
         if (r.valid) printf(" %s_low_us=%lu", n, (unsigned long)r.low_us);
@@ -218,7 +266,7 @@ static const cmd_t commands[] = {
     {"status",  0, 0, cmd_status,   "status"},
     {"read",    0, 0, cmd_read,     "read"},
     {"capture", 0, 0, cmd_capture,  "capture"},
-    {"ecu",     1, 1, cmd_ecu,      "ecu on|off"},
+    {"ecu",     1, 2, cmd_ecu,      "ecu on|off|reset|trip <mA>"},
     {"idle",    1, 1, cmd_idle,     "idle on|off"},
     {"sensor",  2, 2, cmd_sensor,   "sensor air|water|lambda conn|open"},
     {"rpm",     1, 1, cmd_rpm,      "rpm <0..8000>"},

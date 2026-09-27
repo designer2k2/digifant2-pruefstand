@@ -17,7 +17,10 @@ static uint32_t hz_setpoint;
 static knock_burst_t burst;
 static uint32_t ref_index;
 static uint alarm_num;
+static bool output_enabled;        // false while the ECU is off: chip held in reset
+static bool alarm_active;          // an alarm we still want is armed
 static bool stop_pending;          // the armed alarm is the burst's stop, not its start
+static absolute_time_t alarm_at;   // when the armed alarm is due
 static absolute_time_t stop_at;
 
 // FSYNC frames each 16-bit word; it's a plain GPIO since GP16 isn't SPI0's CSn.
@@ -34,24 +37,41 @@ static void write_word(uint16_t w) { write_words(&w, 1); }
 
 static void cancel_burst(void) {
     hardware_alarm_cancel(alarm_num);
+    alarm_active = false;
     stop_pending = false;
+}
+
+// Arms the alarm for t; returns true if t has already passed (nothing armed).
+static bool arm(absolute_time_t t) {
+    alarm_at = t;
+    alarm_active = true;
+    return hardware_alarm_set_target(alarm_num, t);
 }
 
 // Alarm fires twice per burst: first to start the tone, then to stop it.
 static void alarm_isr(uint num) {
     (void)num;
+    // The SDK can deliver a callback that is stale or early: cancel and
+    // set_target don't clear an alarm IRQ the NVIC already latched (e.g. the
+    // previous stop firing while the crank-reference IRQ ran), and the SDK
+    // handler only compares the high word of the target. Ignore callbacks
+    // for a cancelled alarm and re-arm ones that arrive before their time.
+    if (!alarm_active) return;
+    if (time_us_64() < to_us_since_boot(alarm_at) && !arm(alarm_at)) return;
+    alarm_active = false;
     if (!stop_pending) {
         write_word(WORD_RUN);
         stop_pending = true;
-        if (!hardware_alarm_set_target(alarm_num, stop_at)) return;
+        if (!arm(stop_at)) return;
         // Stop time already passed (burst shorter than our latency): stop now.
+        alarm_active = false;
     }
     write_word(WORD_RESET);
     stop_pending = false;
 }
 
 void knock_on_crank_ref(uint32_t now_us, uint32_t ref_period_us) {
-    if (!burst.enabled || hz_setpoint == 0) return;
+    if (!burst.enabled || hz_setpoint == 0 || !output_enabled) return;
     if (stop_pending) write_word(WORD_RESET);  // never let a burst run into the next one
     cancel_burst();
 
@@ -64,7 +84,7 @@ void knock_on_crank_ref(uint32_t now_us, uint32_t ref_period_us) {
     uint32_t wait = start_us > elapsed ? start_us - elapsed : 0;
     absolute_time_t start_at = make_timeout_time_us(wait);
     stop_at = delayed_by_us(start_at, len_us);
-    if (hardware_alarm_set_target(alarm_num, start_at)) alarm_isr(alarm_num);
+    if (arm(start_at)) alarm_isr(alarm_num);
 }
 
 void knock_init(void) {
@@ -84,13 +104,15 @@ void knock_init(void) {
     write_word(WORD_RESET);
 }
 
-// Brings the chip in line with hz_setpoint and the burst mode. In burst mode
-// the frequency is loaded but the chip stays in reset until a burst starts.
+// Brings the chip in line with hz_setpoint, the burst mode and whether the ECU
+// is powered. In burst mode the frequency is loaded but the chip stays in
+// reset until a burst starts.
 static void apply_output(void) {
     cancel_burst();
+    uint32_t hz = output_enabled ? hz_setpoint : 0;
     uint16_t words[AD9833_SEQ_MAX];
-    size_t n = ad9833_sequence(hz_setpoint, KNOCK_MCLK_HZ, words);
-    if (hz_setpoint > 0 && burst.enabled) n--;  // drop the final "release reset"
+    size_t n = ad9833_sequence(hz, KNOCK_MCLK_HZ, words);
+    if (hz > 0 && burst.enabled) n--;  // drop the final "release reset"
     write_words(words, n);
 }
 
@@ -124,3 +146,10 @@ void knock_burst_off(void) {
 }
 
 knock_burst_t knock_get_burst(void) { return burst; }
+
+void knock_set_output_enabled(bool enabled) {
+    uint32_t irq = save_and_disable_interrupts();
+    output_enabled = enabled;
+    apply_output();
+    restore_interrupts(irq);
+}

@@ -22,6 +22,9 @@ uint32_t knock_get_hz(void);
 bool knock_set_burst(uint32_t start_deg, uint32_t len_deg, uint32_t every);
 void knock_burst_off(void);
 knock_burst_t knock_get_burst(void);
+// Parks the output (chip in reset) while the ECU is unpowered, so the tone
+// can't feed an unpowered input; the setpoint and burst settings are kept.
+void knock_set_output_enabled(bool enabled);
 
 // Called from the capture interrupt on every crank reference edge.
 void knock_on_crank_ref(uint32_t now_us, uint32_t ref_period_us);

@@ -7,9 +7,12 @@
 #include "board.h"
 #include "crank.h"
 #include "dac.h"
+#include "ecu.h"
 #include "gfx.h"
 #include "knock.h"
 #include "ui_core.h"
+
+extern float fake_ecu_current_a;
 
 static int failures;
 
@@ -76,6 +79,17 @@ int main(int argc, char **argv) {
     press(&ui, -1, 1);
     check("ECU: - switches off", !board_get_ecu_power());
     check("ECU and IDLE don't auto-repeat", !ui_item_repeats(UI_ECU) && !ui_item_repeats(UI_IDLE));
+
+    press(&ui, +1, 1);
+    fake_ecu_current_a = 3.0f;
+    for (uint32_t t = 1; t <= ECU_TRIP_SAMPLES; t++) ecu_poll(t * ECU_POLL_MS);
+    fake_ecu_current_a = 0.5f;
+    press(&ui, +1, 1);
+    check("ECU tripped: + can't switch it back on", ecu_tripped() && !board_get_ecu_power());
+    press(&ui, -1, 1);
+    press(&ui, +1, 1);
+    check("ECU: - acknowledges the trip, then + works", !ecu_tripped() && board_get_ecu_power());
+    press(&ui, -1, 1);
 
     ui.selected = UI_LAMBDA;
     press(&ui, +1, 41);

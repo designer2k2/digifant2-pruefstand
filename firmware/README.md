@@ -4,7 +4,8 @@ USB serial command protocol plus the hardware blocks behind it. The PC side
 (`../host/bench.py`) and later Claude Code drive the bench through this.
 Milestones so far: 1 skeleton and protocol, 2 crank signal, 3 sensor DAC,
 4 current/voltage sensing, 5 knock generator, 6 ignition/injector capture,
-7 crank-synchronised knock bursts, 8 OLED and button menu.
+7 crank-synchronised knock bursts, 8 OLED and button menu, 0.9 review fixes
+(ECU over-current trip, output parking, watchdog, capture/burst timing).
 Every hardware block on the board now has a real driver.
 
 ## Build and flash
@@ -22,11 +23,14 @@ Needs `cmake` and `gcc-arm-none-eabi` (plus `libnewlib-arm-none-eabi`). To flash
 hold BOOTSEL while plugging in the Pico and copy `build/pruefstand.uf2` onto the
 `RPI-RP2` drive.
 
+The whole program is linked to run from RAM (`copy_to_ram`, ~60 KB of 264 KB),
+so interrupt handlers never wait on flash-cache misses.
+
 ## What is real and what is a stub
 
 | Module | State | Hardware |
 |---|---|---|
-| ECU power, idle switch, sensor disconnect | **real** | GP13, GP6, GP8/9/11 |
+| ECU power with over-current trip, idle switch, sensor disconnect | **real** | GP13 + U1, GP6, GP8/9/11 |
 | VW-17 reference (`read` → `afm_ref_mv`) | **real** | GP26/ADC0, ×3 divider |
 | Crank / Hall signal (`rpm`, `crank`) | **real** | GP2 → Q1, PIO0 SM0 |
 | Sensor DACs (`dac`) | **real** | MCP4728 @ 0x60 |
@@ -36,8 +40,35 @@ hold BOOTSEL while plugging in the Pico and copy `build/pruefstand.uf2` onto the
 | OLED + buttons | **real** | SSD1306 @ 0x3C on J3, SW1–SW3 on GP20–22 |
 
 Power-up state, set before any pin becomes an output: ECU **off**, idle switch
-**open**, all three sensors **connected**, crank stopped (VW-18 high). The bench keeps its
-state if USB is unplugged.
+**open**, all three sensors **connected**, crank stopped (VW-18 high), DAC
+outputs at 0 V. USB is the Pico's only power (VSYS/VBUS aren't wired to the
+board), so unplugging it resets the bench to this state; R16 keeps the ECU off
+while the Pico is unpowered.
+
+A 2 s watchdog resets the Pico if the main loop hangs (e.g. a hard fault),
+which also drops the ECU rail. `status` reports `boot=watchdog` after such a
+reset, `boot=power` otherwise.
+
+## ECU power and over-current trip
+
+`ecu on|off` switches the ECU rail (Q2). While it's on, the main loop reads U1
+every 150 ms (one new INA226 result each time); two results in a row above the
+trip current switch the ECU off and latch a fault: `status` shows
+`ecu_fault=overcurrent`, `ecu on` is refused, and the OLED shows `ECU TRIP`
+until `ecu reset` (or − on the ECU menu item). `ecu trip <mA>` sets the limit,
+100–4000 mA, default **2500 mA** (ECU ~0.6 A plus a cold idle valve ~1.8 A,
+below F1's 3 A).
+
+U1 averages over ~141 ms, so this catches a harness short or a failing ECU
+within about 0.3 s, not short spikes; F1 is still the fast protection. If U1
+isn't answering there is no trip (`read` then shows `ecu_a=na`).
+
+While the ECU is off, the sensor DACs are held at 0 V and the knock generator
+in reset, so they can't feed current into the unpowered ECU's inputs through
+its protection diodes. Setpoints are kept (and shown by `status`) and applied
+when the ECU is switched on: rail first, then the outputs; on switch-off the
+outputs are parked first. So to check a DAC output with a multimeter, switch
+the ECU on (with or without an ECU connected).
 
 Signal polarities to keep in mind (see `src/pins.h`): GP2 high pulls VW-18
 *low* (Q1 is an open-drain pull-down), and the ignition/injector capture inputs
@@ -91,8 +122,14 @@ Every write is an MCP4728 Multi-Write (datasheet DS22187E, fig. 5-8) that
 carries the reference and gain bits along with the value. The chip powers up
 from its own EEPROM settings, so this way a DAC reset can't leave a channel
 silently mis-scaled. EEPROM is never written. At boot all four channels are set
-to 0 V. `status` shows `dac_i2c=ok|err` for the last transaction, and a failed
-write returns `ERR dac not responding on i2c`.
+to 0 V. A failed write returns `ERR dac not responding on i2c` and leaves the
+old setpoint; after any failure (including at boot) the firmware rewrites all
+four channels once a second until the chip answers. `status` shows
+`dac_i2c=ok` only while the chip holds the values shown.
+
+At boot, before the I²C peripheral starts, SCL is clocked until SDA is released
+and a STOP is sent, in case a Pico reset interrupted a transfer and left a chip
+holding the bus.
 
 **`dac` sets the DAC output pin, not the voltage the ECU measures.** There's a
 series resistor between them (220 Ω, or 1 kΩ for lambda), so the two only match
@@ -130,7 +167,9 @@ the next `read`.
 off` stops it. The AD9833 runs from Y1's 25 MHz clock, so the frequency step is
 0.093 Hz. Each change holds the chip in reset, loads FREQ0 as two 14-bit halves,
 zeroes PHASE0 and releases reset, so the tone always starts at phase 0. Off
-means held in reset: the output sits at a DC midscale level with no AC.
+means held in reset: the output sits at a DC midscale level with no AC. While
+the ECU is off the chip is held in reset whatever `knock` is set to (see "ECU
+power"); the tone starts when the ECU is switched on.
 
 SPI0 runs at 8 MHz in mode 2 (clock idles high, data clocked in on the falling
 edge), with FSYNC (GP16) toggled per 16-bit word. The register layout follows
@@ -160,7 +199,11 @@ alarm for the burst start; the alarm fires again for the stop. Starting or
 stopping is a single 16-bit SPI word (~2 µs at 8 MHz), and releasing reset
 starts the tone at phase 0, so every burst has the same waveform. If the start
 time has already passed by the time the reference is handled (start 0°), the
-burst starts immediately rather than being skipped.
+burst starts immediately rather than being skipped. The alarm callback checks
+that its alarm is still wanted and actually due before touching the chip: an
+alarm interrupt that fired while the reference interrupt was running stays
+latched and runs right after it, and the SDK only checks the high word of the
+target, so without that check it could start a burst early or cut one short.
 
 **Amplitude is still fixed.** The AD9833's output level can't be set, and R12
 (200 Ω) with C2 (100 nF to ground) low-pass the output with a corner near
@@ -177,6 +220,7 @@ varied independently of frequency without a hardware change.
 | Field (`ign_` / `inj_`) | Meaning |
 |---|---|
 | `_n` | completed pulses since boot |
+| `_glitch` | pulses shorter than the interrupt latency, ignored |
 | `_period_us` | falling edge to falling edge |
 | `_low_us` | width of the last pulse |
 | `_fall_deg`, `_rise_deg` | crank degrees from the last VW-18 falling edge to the pulse's falling / rising edge |
@@ -185,9 +229,18 @@ Values read `na` if no pulse has ended in the last 2 s, and the angles also
 need the bench's own crank signal running (`rpm` > 0).
 
 One GPIO interrupt timestamps every edge on GP14, GP15 and GP2 with the 1 µs
-hardware timer. GP2 is driven by the crank PIO, but its pad input still sees
-the level, so the crank reference is timestamped by the same interrupt path as
-the ECU outputs. Angle = delay since the reference ÷ reference period ×
+hardware timer, reading the clock once on entry so every edge handled in that
+interrupt gets the same time. GP2 is driven by the crank PIO, but its pad input
+still sees the level, so the crank reference is timestamped by the same
+interrupt path as the ECU outputs. An ECU edge latched together with a
+reference is counted as just before it (angle ≈ 360/`ppr`). If both edges of a
+pulse arrive within one interrupt, the pin level decides: low means a pulse
+ended and the next began; high means a pulse shorter than the interrupt
+latency, which is counted in `_glitch` and otherwise ignored. The capture pins'
+internal pull-downs are off, so only the external pull-ups set the high level.
+Timestamps are 64-bit, and a reference more than 2 s after the previous one
+(crank stopped and restarted) doesn't produce a period, so angles resume from
+the second reference after a restart. Angle = delay since the reference ÷ reference period ×
 360 / `ppr`, using the *measured* reference period rather than the setpoint.
 Both edges of a pulse are measured from the reference that came before the
 falling edge, so a pulse straddling a reference reads e.g. 170° → 200°, not
@@ -235,20 +288,23 @@ font is the Adafruit GFX 5×7 font (BSD, see `NOTICE`).
 
 ASCII over USB CDC (baud rate is ignored). One command per line (`\n` or `\r\n`),
 case-insensitive. Every command gets exactly one reply line: `OK ...` with
-`key=value` fields, or `ERR <reason>`. No echo.
+`key=value` fields, or `ERR <reason>`. No echo. Numbers are plain decimal
+digits (no sign). `bench.py` drops any unread input before sending a command,
+so a reply that arrives after a timeout isn't mistaken for the next answer.
 
 | Command | Reply |
 |---|---|
-| `ping` | `OK pong fw=0.8.0` |
+| `ping` | `OK pong fw=0.9.0` |
 | `help` | `OK <usage of every command>` |
-| `status` | `OK fw=… ecu=on/off idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=… burst=on/off burst_start_deg=… burst_len_deg=… burst_every=…` |
+| `status` | `OK fw=… boot=power/watchdog ecu=on/off ecu_fault=none/overcurrent ecu_trip_ma=… idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=… burst=on/off burst_start_deg=… burst_len_deg=… burst_every=…` |
 | `read` | `OK afm_ref_mv=… ecu_v=… ecu_a=… valve_v=… valve_a=…` (`na` if not available) |
-| `capture` | `OK ign_n=… ign_period_us=… ign_low_us=… ign_fall_deg=… ign_rise_deg=… inj_…` (same fields for `inj_`) |
-| `ecu on\|off` | `OK ecu=…` |
+| `capture` | `OK ign_n=… ign_glitch=… ign_period_us=… ign_low_us=… ign_fall_deg=… ign_rise_deg=… inj_…` (same fields for `inj_`) |
+| `ecu on\|off` | `OK ecu=…`, or `ERR ecu tripped …` while a fault is latched |
+| `ecu reset` / `ecu trip <100..4000 mA>` | `OK ecu_fault=none` / `OK ecu_trip_ma=…` |
 | `idle on\|off` | `OK idle=…` |
 | `sensor air\|water\|lambda conn\|open` | `OK sensor_<name>=…` |
-| `rpm <0..8000>` | `OK rpm=…` |
-| `crank ppr <1..60>` / `crank duty <1..99>` | `OK crank_ppr=…` / `OK crank_duty=…` |
+| `rpm <0..8000>` | `OK rpm=…` (very low rpm at 1 ppr and extreme duty can exceed the 32-bit phase counter and is rejected) |
+| `crank ppr <1..60>` / `crank duty <1..99>` | `OK crank_ppr=…` / `OK crank_duty=…`; a `ppr` that an active burst wouldn't fit is refused |
 | `dac air\|water\|afm\|lambda <mV>` | `OK dac_<name>=…` (ranges per channel, see above) |
 | `knock off\|<1..20000 Hz>` | `OK knock_hz=…` |
 | `burst <start_deg> <len_deg> [every]` / `burst off` | `OK burst=on burst_start_deg=… …` / `OK burst=off` |
@@ -257,15 +313,22 @@ case-insensitive. Every command gets exactly one reply line: `OK ...` with
 
 `cmd.c` and the `*_codec.c` / `crank_timing.c` files have no Pico dependencies,
 so they build for the PC against the fakes in `test/` (in-memory state, VW-17
-fixed at 5000 mV, ECU reading fixed at 12 V / 0.5 A, valve INA226 "missing").
-`knock.c` itself runs on the PC against `test/fake_sdk/`, a small simulated
-Pico SDK with a settable clock, one hardware alarm and a log of every SPI word:
+fixed at 5000 mV, ECU reading 12 V / 0.5 A unless a test changes it, valve
+INA226 "missing"). `knock.c` and `dac.c` themselves run on the PC against
+`test/fake_sdk/`, a small simulated Pico SDK with a settable clock, one
+hardware alarm, and logs of every SPI word and I²C write. It runs no real
+interrupts, so concurrency is not tested; a stale, latched alarm interrupt is
+modelled by calling the alarm callback directly:
 
 ```sh
 gcc -Itest/fake_sdk -Isrc -o /tmp/bench-sim test/host_main.c test/fake_sdk/sim.c \
     test/fake_board.c test/fake_crank.c test/fake_dac.c test/fake_sense.c test/fake_capture.c \
-    src/cmd.c src/crank_timing.c src/dac_codec.c src/knock.c src/knock_codec.c
+    src/cmd.c src/crank_timing.c src/dac_codec.c src/ecu.c src/knock.c src/knock_codec.c
 printf 'ecu on\nstatus\n' | /tmp/bench-sim
+
+# ECU over-current trip and output parking order:
+gcc -Isrc -o /tmp/test_ecu test/test_ecu.c src/ecu.c test/fake_board.c test/fake_sense.c \
+    && /tmp/test_ecu
 
 # crank timing math, and the PIO program in an emulator:
 gcc -Isrc -o /tmp/test_crank test/test_crank_timing.c src/crank_timing.c && /tmp/test_crank
@@ -274,13 +337,18 @@ python3 test/emu_crank_pio.py
 # MCP4728 frame bytes, decoded back to volts with the datasheet formula:
 gcc -Isrc -o /tmp/test_dac test/test_dac_codec.c src/dac_codec.c && /tmp/test_dac
 
+# dac.c: parking at 0 V while the ECU is off, and rewriting after a failed write:
+gcc -Itest/fake_sdk -Isrc -o /tmp/test_dacd test/test_dac_driver.c src/dac.c src/dac_codec.c \
+    test/fake_sdk/sim.c && /tmp/test_dacd
+
 # INA226 register conversions and the shunt/current math:
 gcc -Isrc -o /tmp/test_sense test/test_sense_codec.c src/sense_codec.c -lm && /tmp/test_sense
 
 # AD9833 SPI word sequences:
 gcc -Isrc -o /tmp/test_knock test/test_knock_codec.c src/knock_codec.c && /tmp/test_knock
 
-# burst timing math, and knock.c's alarm state machine on a simulated clock:
+# burst timing math, and knock.c's alarm state machine on a simulated clock
+# (including interrupt latency and stale alarm callbacks):
 gcc -Itest/fake_sdk -Isrc -o /tmp/test_burst test/test_knock_burst.c test/fake_sdk/sim.c \
     src/knock.c src/knock_codec.c && /tmp/test_burst
 
@@ -288,10 +356,11 @@ gcc -Itest/fake_sdk -Isrc -o /tmp/test_burst test/test_knock_burst.c test/fake_s
 # a PBM image; convert with e.g. `convert /tmp/oled.pbm -negate -scale 500% oled.png`):
 gcc -Itest/fake_sdk -Isrc -o /tmp/test_ui test/test_ui.c test/fake_sdk/sim.c \
     test/fake_board.c test/fake_crank.c test/fake_dac.c test/fake_sense.c test/fake_capture.c \
-    src/ui_core.c src/gfx.c src/crank_timing.c src/dac_codec.c src/knock.c src/knock_codec.c \
-    -lm && /tmp/test_ui /tmp/oled.pbm
+    src/ui_core.c src/gfx.c src/crank_timing.c src/dac_codec.c src/ecu.c src/knock.c \
+    src/knock_codec.c -lm && /tmp/test_ui /tmp/oled.pbm
 
-# capture bookkeeping against a simulated 850 rpm engine:
+# capture bookkeeping against a simulated 850 rpm engine, plus stop/restart,
+# edges latched together, and glitches:
 gcc -Isrc -o /tmp/test_cap test/test_capture_core.c src/capture_core.c -lm && /tmp/test_cap
 
 # or behind a virtual serial port, to exercise host/bench.py too:
@@ -299,7 +368,7 @@ socat PTY,link=/tmp/ttyBench,raw,echo=0 EXEC:/tmp/bench-sim,pty,raw,echo=0 &
 python3 ../host/bench.py --port /tmp/ttyBench "rpm 850" read
 ```
 
-That's how milestones 1–8 were checked. Nothing has run on a real Pico
+That's how milestones 1–8 and the 0.9 fixes were checked. Nothing has run on a real Pico
 yet. Once the board is built: scope the crank wave on GP2/VW-18, multimeter
 each DAC VOUT, check `read` against a known load and a multimeter on the
 12 V rail, scope the knock tone and bursts on TP1 against VW-18, compare `capture` against a scope

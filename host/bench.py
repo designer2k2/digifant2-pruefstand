@@ -54,6 +54,10 @@ class Bench:
         self.ser.reset_input_buffer()
 
     def raw(self, command):
+        # Strictly one reply per command, so anything already waiting is a late
+        # reply to an earlier command that timed out: drop it, or it would be
+        # taken as the answer to this one.
+        self.ser.reset_input_buffer()
         self.ser.write((command.strip() + "\n").encode())
         line = self.ser.readline().decode(errors="replace").strip()
         if not line:
@@ -88,7 +92,11 @@ def main():
         if args.commands:
             failed = False
             for c in args.commands:
-                line = bench.raw(c)
+                try:
+                    line = bench.raw(c)
+                except BenchError as e:
+                    print(f"error: {e}", file=sys.stderr)
+                    sys.exit(1)
                 print(line)
                 failed |= line.startswith("ERR")
             sys.exit(1 if failed else 0)

@@ -17,6 +17,7 @@ add_executable(pruefstand
     src/crank_timing.c
     src/dac.c
     src/dac_codec.c
+    src/ecu.c
     src/sense.c
     src/sense_codec.c
     src/knock.c
@@ -31,12 +32,17 @@ pico_generate_pio_header(pruefstand ${CMAKE_CURRENT_LIST_DIR}/src/crank.pio)
 
 target_compile_options(pruefstand PRIVATE -Wall -Wextra)
 
+# Run entirely from RAM (the image is ~50 KB of 264 KB): no flash-cache misses
+# adding jitter to the crank refill, capture timestamps and knock bursts.
+pico_set_binary_type(pruefstand copy_to_ram)
+
 target_link_libraries(pruefstand
     pico_stdlib
     hardware_adc
     hardware_pio
     hardware_i2c
     hardware_spi
+    hardware_watchdog
 )
 
 pico_enable_stdio_usb(pruefstand 1)

@@ -73,6 +73,10 @@ int main(void) {
     knock_init();
     knock_set_hz(7000);
     clear_log();
+    knock_set_output_enabled(true);
+    check("ECU on: parked chip starts the 7000 Hz tone",
+          sim_log_n == 5 && sim_log_word[sim_log_n - 1] == 0x2000);
+    clear_log();
 
     knock_set_burst(30, 20, 1);
     const uint16_t loaded[] = {0x2100, 0x659A, 0x4004, 0xC000};
@@ -132,13 +136,65 @@ int main(void) {
     check("burst still on at the next reference is cut off there, next one rescheduled", ok);
     if (!ok) dump_log();
 
+    // Latency: the reference is handled 40 us after its edge. The start alarm
+    // must still land at ref + 5882, not 40 us late.
+    knock_set_burst(30, 20, 1);
+    clear_log();
+    uint64_t r5 = r3 + 5 * (uint64_t)P;
+    advance_to(r5 + 40);
+    knock_on_crank_ref((uint32_t)r5, P);
+    advance_to(r5 + P);
+    const uint16_t wl[] = {0x2000, 0x2100};
+    const uint64_t tl[] = {r5 + 5882, r5 + 5882 + 3921};
+    ok = log_is(wl, tl, 2);
+    check("reference handled 40 us late: burst still starts at ref + 30 deg", ok);
+    if (!ok) dump_log();
+
+    // Stale alarm IRQ: on hardware, an alarm that fired while the reference
+    // IRQ ran stays latched and runs right after it, before the new target.
+    // It must neither start the burst early nor disturb the real schedule.
+    clear_log();
+    uint64_t r6 = r5 + 5 * (uint64_t)P;
+    ref_at(r6, P);
+    sim_now_us = r6 + 3;
+    sim_alarm_cb(0);  // stale callback, alarm is armed for r6 + 5882
+    check("stale alarm callback before the start time writes nothing and re-arms",
+          sim_log_n == 0 && sim_alarm_armed && sim_alarm_target == r6 + 5882);
+    advance_to(r6 + 5882 + 3);
+    sim_alarm_cb(0);  // stale again, now before the stop time
+    advance_to(r6 + P);
+    const uint16_t ws[] = {0x2000, 0x2100};
+    const uint64_t ts[] = {r6 + 5882, r6 + 5882 + 3921};
+    ok = log_is(ws, ts, 2);
+    check("stale callback during the burst doesn't cut it short", ok);
+    if (!ok) dump_log();
+
+    // A stale callback after the burst was cancelled (knock setting changed)
+    // must not start a tone.
+    ref_at(r6 + P, P);
+    knock_set_hz(7000);
+    clear_log();
+    sim_now_us = r6 + P + 10000;
+    sim_alarm_cb(0);
+    check("stale callback after a cancel writes nothing", sim_log_n == 0);
+
+    // ECU off parks the chip: references don't start bursts, settings are kept.
+    knock_set_output_enabled(false);
+    clear_log();
+    uint64_t r7 = r6 + 5 * (uint64_t)P;
+    ref_at(r7, P);
+    advance_to(r7 + P);
+    check("ECU off: no bursts, setpoint kept",
+          sim_log_n == 0 && knock_get_hz() == 7000 && knock_get_burst().enabled);
+    knock_set_output_enabled(true);
+
     // Burst off returns to a continuous tone; no more words at references.
     knock_burst_off();
     const uint16_t cont_tail = 0x2000;
     check("burst off: full sequence ending in RUN (continuous tone)",
           sim_log_n >= 5 && sim_log_word[sim_log_n - 1] == cont_tail);
     clear_log();
-    uint64_t r4 = r3 + 10 * (uint64_t)P;
+    uint64_t r4 = r3 + 30 * (uint64_t)P;
     ref_at(r4, P);
     advance_to(r4 + P);
     check("burst off: references no longer touch the chip", sim_log_n == 0 && !sim_alarm_armed);

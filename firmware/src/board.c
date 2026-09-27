@@ -26,6 +26,39 @@ static void output_init(uint pin, bool level) {
     gpio_set_dir(pin, GPIO_OUT);
 }
 
+// ECU outputs are pulled up externally (10k / 1k); the RP2040's default
+// ~50k pull-down would drag the ignition input's high level to ~2.7 V.
+static void capture_input_init(uint pin) {
+    gpio_init(pin);
+    gpio_set_dir(pin, GPIO_IN);
+    gpio_disable_pulls(pin);
+}
+
+// A Pico reset in the middle of a transfer can leave a chip holding SDA low
+// until it gets the rest of its byte. Clock SCL until SDA is released, then
+// send a STOP (I2C-bus spec UM10204, 3.1.16). Open-drain by switching the
+// pin direction; the 4.7k bus pull-ups do the high level.
+static void i2c_bus_recover(void) {
+    gpio_init(PIN_I2C_SDA);
+    gpio_init(PIN_I2C_SCL);
+    gpio_put(PIN_I2C_SDA, 0);
+    gpio_put(PIN_I2C_SCL, 0);
+    for (int i = 0; i < 9 && !gpio_get(PIN_I2C_SDA); i++) {
+        gpio_set_dir(PIN_I2C_SCL, GPIO_OUT);
+        sleep_us(5);
+        gpio_set_dir(PIN_I2C_SCL, GPIO_IN);
+        sleep_us(5);
+    }
+    gpio_set_dir(PIN_I2C_SCL, GPIO_OUT);
+    sleep_us(5);
+    gpio_set_dir(PIN_I2C_SDA, GPIO_OUT);
+    sleep_us(5);
+    gpio_set_dir(PIN_I2C_SCL, GPIO_IN);
+    sleep_us(5);
+    gpio_set_dir(PIN_I2C_SDA, GPIO_IN);
+    sleep_us(5);
+}
+
 static void button_init(uint pin) {
     gpio_init(pin);
     gpio_set_dir(pin, GPIO_IN);
@@ -40,15 +73,14 @@ void board_init(void) {
         output_init(sensor_pins[s], true);
     }
 
-    gpio_init(PIN_IGN_CAPTURE);
-    gpio_set_dir(PIN_IGN_CAPTURE, GPIO_IN);
-    gpio_init(PIN_INJ_CAPTURE);
-    gpio_set_dir(PIN_INJ_CAPTURE, GPIO_IN);
+    capture_input_init(PIN_IGN_CAPTURE);
+    capture_input_init(PIN_INJ_CAPTURE);
 
     button_init(PIN_BTN_MENU);
     button_init(PIN_BTN_MINUS);
     button_init(PIN_BTN_PLUS);
 
+    i2c_bus_recover();
     i2c_init(I2C_PORT, 400 * 1000);
     gpio_set_function(PIN_I2C_SDA, GPIO_FUNC_I2C);
     gpio_set_function(PIN_I2C_SCL, GPIO_FUNC_I2C);

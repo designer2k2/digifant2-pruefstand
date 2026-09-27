@@ -15,3 +15,6 @@ dac_result_t dac_set_mv(dac_channel_t ch, uint32_t mv) {
 uint32_t dac_get_mv(dac_channel_t ch) { return setpoint_mv[ch]; }
 
 bool dac_i2c_ok(void) { return true; }
+
+void dac_poll(uint32_t now_ms) { (void)now_ms; }
+void dac_set_output_enabled(bool enabled) { (void)enabled; }
