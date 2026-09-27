@@ -1,5 +1,8 @@
 # Digifant-2 Prüfstand
 
+[![CI](https://github.com/designer2k2/digifant2-pruefstand/actions/workflows/ci.yml/badge.svg)](https://github.com/designer2k2/digifant2-pruefstand/actions/workflows/ci.yml)
+[![Board](https://github.com/designer2k2/digifant2-pruefstand/actions/workflows/board.yml/badge.svg)](https://github.com/designer2k2/digifant2-pruefstand/actions/workflows/board.yml)
+
 Hardware for a fully-automated test bench for the VW Golf 1 Cabrio **Digifant-2** ECU:
 signal simulator + capture front-end, driven by a Raspberry Pi Pico, with a
 high-side load switch so the bench can cold-boot the ECU and cut power on
@@ -38,6 +41,7 @@ wider project background.
 | [`jlcpcb_bom.csv`](jlcpcb_bom.csv) / [`jlcpcb_cpl.csv`](jlcpcb_cpl.csv) | JLCPCB SMT-assembly BOM + pick-and-place, 42 of 46 SMD parts (real positions from `board/`, real LCSC part numbers) |
 | `UPSTREAM_BUGS.md` | circuit-synth bugs found, drafted for upstream filing |
 | `kicad-symbols/`, `kicad-footprints/` | libraries — custom/community committed, stock via `./fetch_libs.sh` |
+| `.github/workflows/` | CI: firmware build + tests, spell check, KiCad ERC/DRC, firmware releases (see below) |
 
 ## Build
 
@@ -173,6 +177,24 @@ KiCad's Page Settings, not a silkscreen re-edit. Verified the variables
 resolve correctly (checked the exported SVG's embedded text, since this
 sandbox can't render the actual glyphs) and confirmed zero new DRC
 violations. Not yet fabbed.
+
+## Continuous integration
+
+Every push and pull request runs on GitHub Actions:
+
+| Workflow | What it checks |
+|---|---|
+| **CI** (`ci.yml`) | Builds the firmware with Pico SDK 2.1.1, warnings as errors, and uploads `pruefstand.uf2` as a build artifact. Runs `firmware/test/run_all.sh`: all PC unit tests, the command parser, `host/bench.py` over a virtual serial port, and the crank PIO program in an emulator. |
+| | Spell check with [codespell](https://github.com/codespell-project/codespell) over code, comments and docs (`.codespellrc`; the German `article-draft.md` is skipped). |
+| **Board** (`board.yml`, only when `board/` changes) | KiCad 10 ERC, and DRC with schematic parity. Fails on errors (unconnected nets, clearance, shorts); the known cosmetic warnings are only reported. Full reports are attached to the run. |
+
+Before opening a pull request, the same checks run locally with
+`firmware/test/run_all.sh` (after a firmware build) and `codespell`.
+
+**Firmware releases:** bump `FW_VERSION` in `firmware/src/cmd.h`, commit, then
+push a matching tag, e.g. `git tag fw-v0.9.0 && git push origin fw-v0.9.0`. CI
+checks the tag against `FW_VERSION`, runs everything above, and publishes a
+GitHub Release with `pruefstand-<version>.uf2` to download and flash.
 
 ## License
 

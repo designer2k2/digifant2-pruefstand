@@ -1,0 +1,126 @@
+# Firmware build + every no-hardware test, spell check, and firmware releases.
+# A tag like fw-v0.9.0 (matching FW_VERSION in firmware/src/cmd.h) publishes a
+# GitHub Release with the .uf2 attached.
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["fw-v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PICO_SDK_VERSION: "2.1.1"
+
+jobs:
+  firmware:
+    name: Firmware build and tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            cmake gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib socat
+          arm-none-eabi-gcc --version | head -1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: firmware/test/requirements-test.txt
+
+      - name: Install test dependencies
+        run: pip install -r firmware/test/requirements-test.txt
+
+      - name: Cache Pico SDK and picotool source
+        id: sdk-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/pico-sdk
+            ~/picotool-src
+          key: pico-sdk-${{ env.PICO_SDK_VERSION }}-${{ runner.os }}-v1
+
+      - name: Fetch Pico SDK
+        if: steps.sdk-cache.outputs.cache-hit != 'true'
+        run: |
+          git clone --depth 1 --branch "$PICO_SDK_VERSION" https://github.com/raspberrypi/pico-sdk.git ~/pico-sdk
+          git -C ~/pico-sdk submodule update --init --depth 1 lib/tinyusb
+
+      - name: Build firmware (warnings are errors)
+        run: |
+          export PICO_SDK_PATH="$HOME/pico-sdk"
+          cmake -S firmware -B firmware/build -DPICO_BOARD=pico -DPRUEFSTAND_WERROR=ON \
+            -DPICOTOOL_FETCH_FROM_GIT_PATH="$HOME/picotool-src"
+          cmake --build firmware/build -j "$(nproc)"
+          arm-none-eabi-size firmware/build/pruefstand.elf
+
+      - name: Tests (unit, command parser, bench.py, PIO emulator)
+        run: STRICT=1 firmware/test/run_all.sh firmware/build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pruefstand-firmware
+          path: |
+            firmware/build/pruefstand.uf2
+            firmware/build/pruefstand.elf
+          if-no-files-found: error
+
+  spelling:
+    name: Spell check
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install codespell==2.4.3
+      - name: codespell (config in .codespellrc)
+        run: codespell
+
+  release:
+    name: Release firmware
+    if: startsWith(github.ref, 'refs/tags/fw-v')
+    needs: [firmware, spelling]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check the tag matches FW_VERSION
+        id: version
+        run: |
+          fw="$(sed -n 's/^#define FW_VERSION "\(.*\)"$/\1/p' firmware/src/cmd.h)"
+          if [ "fw-v$fw" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::tag $GITHUB_REF_NAME doesn't match FW_VERSION \"$fw\" in firmware/src/cmd.h"
+            exit 1
+          fi
+          echo "fw=$fw" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: pruefstand-firmware
+          path: dist
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FW: ${{ steps.version.outputs.fw }}
+        run: |
+          mv dist/pruefstand.uf2 "dist/pruefstand-$FW.uf2"
+          mv dist/pruefstand.elf "dist/pruefstand-$FW.elf"
+          gh release create "$GITHUB_REF_NAME" "dist/pruefstand-$FW.uf2" "dist/pruefstand-$FW.elf" \
+            --title "Firmware $FW" --generate-notes \
+            --notes "Flash: hold BOOTSEL while plugging in the Pico, then copy pruefstand-$FW.uf2 onto the RPI-RP2 drive."

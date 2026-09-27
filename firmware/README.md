@@ -311,6 +311,15 @@ so a reply that arrives after a timeout isn't mistaken for the next answer.
 
 ## Testing without hardware
 
+Everything below runs in one go, as CI does (after building the firmware, for
+the PIO header; `pip install -r test/requirements-test.txt`, plus `socat`):
+
+```sh
+test/run_all.sh build
+```
+
+The individual steps:
+
 `cmd.c` and the `*_codec.c` / `crank_timing.c` files have no Pico dependencies,
 so they build for the PC against the fakes in `test/` (in-memory state, VW-17
 fixed at 5000 mV, ECU reading 12 V / 0.5 A unless a test changes it, valve

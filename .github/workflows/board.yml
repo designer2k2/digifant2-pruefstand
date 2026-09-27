@@ -1,0 +1,44 @@
+# KiCad ERC and DRC (with schematic parity) whenever the board changes.
+# Fails on errors only: unconnected nets, clearance/short violations, ERC
+# errors. The existing cosmetic warnings (silkscreen overlaps, library
+# footprint mismatches, generator net-name conflicts) are reported, not fatal.
+name: Board
+
+on:
+  push:
+    branches: [main]
+    paths: ["board/**", ".github/workflows/board.yml"]
+  pull_request:
+    paths: ["board/**", ".github/workflows/board.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  erc-drc:
+    name: KiCad ERC / DRC
+    runs-on: ubuntu-24.04
+    container:
+      image: kicad/kicad:10.0
+      options: --user root
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: ERC
+        run: |
+          kicad-cli version
+          kicad-cli sch erc --severity-all -o erc-all.rpt board/digifant2-pruefstand.kicad_sch
+          kicad-cli sch erc --severity-error --exit-code-violations -o erc.rpt board/digifant2-pruefstand.kicad_sch
+
+      - name: DRC with schematic parity
+        run: |
+          kicad-cli pcb drc --schematic-parity --severity-all -o drc-all.rpt board/digifant2-pruefstand.kicad_pcb
+          kicad-cli pcb drc --schematic-parity --severity-error --exit-code-violations \
+            -o drc.rpt board/digifant2-pruefstand.kicad_pcb
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: kicad-reports
+          path: "*.rpt"

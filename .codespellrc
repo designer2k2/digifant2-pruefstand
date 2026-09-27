@@ -1,0 +1,8 @@
+# Spell check for code, comments and docs (CI runs `codespell` at the repo root).
+# To add a word that's correct but flagged, append it (lowercase) to
+# ignore-words-list.
+[codespell]
+skip = ./.git,./kicad-symbols,./kicad-footprints,./board,./tools,./logs,./.ibom-src,./firmware/build,*/__pycache__,*.csv,*.png,*.kicad_*,*.net,*.html,./article-draft.md
+# THT = through-hole technology, DOUT = data-out pin, ser = pyserial handle
+ignore-words-list = tht,dout,ser
+check-hidden = yes

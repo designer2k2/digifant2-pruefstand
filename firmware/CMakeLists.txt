@@ -32,6 +32,12 @@ pico_generate_pio_header(pruefstand ${CMAKE_CURRENT_LIST_DIR}/src/crank.pio)
 
 target_compile_options(pruefstand PRIVATE -Wall -Wextra)
 
+# CI builds with -DPRUEFSTAND_WERROR=ON so new warnings fail the build.
+option(PRUEFSTAND_WERROR "Treat compiler warnings as errors" OFF)
+if (PRUEFSTAND_WERROR)
+    target_compile_options(pruefstand PRIVATE -Werror)
+endif()
+
 # Run entirely from RAM (the image is ~50 KB of 264 KB): no flash-cache misses
 # adding jitter to the crank refill, capture timestamps and knock bursts.
 pico_set_binary_type(pruefstand copy_to_ram)
