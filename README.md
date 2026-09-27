@@ -24,8 +24,7 @@ needed, and the open questions to settle on the bench.**
 GPIO / I²C / VW-harness maps.** [`USE_CASES.md`](USE_CASES.md) traces every real
 bench use case through the schematic to concrete numbers (voltage/current/timing
 headroom) — a requirements/test matrix for the hardware, and where the AD9833
-decoupling-cap gap turned up before it got fixed. `article-draft.md` has the
-wider project background.
+decoupling-cap gap turned up before it got fixed.
 
 ## Layout
 
@@ -192,7 +191,7 @@ Every push and pull request runs on GitHub Actions:
 | Workflow | What it checks |
 |---|---|
 | **CI** (`ci.yml`) | Builds the firmware with Pico SDK 2.1.1, warnings as errors, and uploads `pruefstand.uf2` as a build artifact. Runs `firmware/test/run_all.sh`: all PC unit tests, the command parser, `host/bench.py` over a virtual serial port, and the crank PIO program in an emulator. |
-| | Spell check with [codespell](https://github.com/codespell-project/codespell) over code, comments and docs (`.codespellrc`; the German `article-draft.md` is skipped). |
+| | Spell check with [codespell](https://github.com/codespell-project/codespell) over code, comments and docs (`.codespellrc`). |
 | **Board** (`board.yml`, only when `board/` changes) | KiCad 10 ERC, and DRC with schematic parity. Fails on errors (unconnected nets, clearance, shorts); the known cosmetic warnings are only reported. Full reports are attached to the run. |
 
 Before opening a pull request, the same checks run locally with
