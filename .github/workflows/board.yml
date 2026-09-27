@@ -23,7 +23,7 @@ jobs:
       image: kicad/kicad:10.0
       options: --user root
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: ERC
         run: |
@@ -37,7 +37,7 @@ jobs:
           kicad-cli pcb drc --schematic-parity --severity-error --exit-code-violations \
             -o drc.rpt board/digifant2-pruefstand.kicad_pcb
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: kicad-reports
