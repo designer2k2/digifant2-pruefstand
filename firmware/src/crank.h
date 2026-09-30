@@ -6,8 +6,10 @@
 #define CRANK_RPM_MAX 8000
 #define CRANK_PPR_MAX 60
 
-// Unconfirmed defaults: 4-cylinder distributor Hall sender (4 vanes at half
-// crank speed = 2 pulses per crank rev), 50% duty. Adjustable via `crank`.
+// Defaults per the user's own distributor HiL notes ("DIZZY_FOUR_CYLINDER":
+// 30 Hz square wave, 50% duty, at 900 rpm -> 2 pulses per crank rev).
+// Still worth a scope check on the real bench (see BRINGUP.md); adjustable
+// via `crank` either way.
 #define CRANK_PPR_DEFAULT 2
 #define CRANK_DUTY_DEFAULT 50
 

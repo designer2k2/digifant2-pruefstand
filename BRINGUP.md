@@ -226,9 +226,12 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
 
 **Settle the open questions** (write the answers in the table below):
 
-1. **Hall pulses per crank revolution and duty.** Most reliable: scope VW-18
-   on the real car at idle and read the rev counter. ppr = Hall frequency ÷
-   (rpm ÷ 60); duty = high time ÷ period. Set them with `crank ppr` / `crank duty`.
+1. **Hall pulses per crank revolution and duty.** Per the user's own
+   distributor HiL notes ("DIZZY_FOUR_CYLINDER"): a 30 Hz, 50% duty square
+   wave at 900 rpm, i.e. 2 pulses per crank rev -- matching the firmware
+   defaults already. Confirm anyway with a scope on VW-18 at idle: ppr = Hall
+   frequency ÷ (rpm ÷ 60); duty = high time ÷ period. At the expected idle of
+   800 rpm that's 26.7 Hz. Set them with `crank ppr` / `crank duty` if different.
 2. **Which VW-18 edge is the reference.** With the crank running, note
    `ign_fall_deg`/`ign_rise_deg` at `crank duty 50`, then at `crank duty 30`
    and `crank duty 70`. If the angles stay put, the ECU times from the falling
@@ -258,8 +261,8 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
 
 | Question | Result | Date |
 |---|---|---|
-| Hall pulses per crank revolution (firmware default 2) | | |
-| Hall duty, % high (default 50) | | |
+| Hall pulses per crank revolution (expected 2, per DIZZY_FOUR_CYLINDER notes) | | |
+| Hall duty, % high (expected 50, per DIZZY_FOUR_CYLINDER notes) | | |
 | Reference edge (firmware uses VW-18 falling) | | |
 | Spark edge (`ign_fall_deg` or `ign_rise_deg`) | | |
 | NTC pull-up in the ECU (V_open, R) — air / water | | |
