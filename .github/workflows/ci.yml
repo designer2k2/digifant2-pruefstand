@@ -61,7 +61,7 @@ jobs:
       - name: Build firmware (warnings are errors)
         run: |
           export PICO_SDK_PATH="$HOME/pico-sdk"
-          cmake -S firmware -B firmware/build -DPICO_BOARD=pico -DPRUEFSTAND_WERROR=ON \
+          cmake -S firmware -B firmware/build -DPICO_BOARD=pico2 -DPRUEFSTAND_WERROR=ON \
             -DPICOTOOL_FETCH_FROM_GIT_PATH="$HOME/picotool-src"
           cmake --build firmware/build -j "$(nproc)"
           arm-none-eabi-size firmware/build/pruefstand.elf

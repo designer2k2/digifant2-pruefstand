@@ -5,7 +5,7 @@ by `digifant2_pruefstand.py`; each function there is one block below.
 
 ## Overview
 
-A Raspberry Pi Pico drives a set of analog and digital front-ends that stand in
+A Raspberry Pi Pico 2 drives a set of analog and digital front-ends that stand in
 for every sensor and signal the Digifant-2 ECU expects, while two INA226 current
 monitors and a switchable 12 V rail let the bench watch what the ECU does and
 cut its power. Everything the ECU sees goes through **J0**, a 12-position 5 mm
@@ -227,8 +227,8 @@ correctly — and a drooping VW-17 is itself a useful fault indicator.
 **R20 (20 k) / R21 (10 k)** divide VW-17 (~5 V nominal, headroom to ~9 V) into
 the Pico's `GP26 / ADC0`; **C5 (100 nF)** filters. Ratio is 1:3 (not the
 original 1:2.5) so the stated 9 V worst case lands at 3.0 V — 0.6 V of real
-margin below the RP2040 ADC's absolute-max input rating, instead of landing
-right on it. Sense-only, ~30 kΩ load on
+margin below the ADC's absolute-max input rating (unchanged between RP2040 and
+RP2350: both clamp to VDDIO + ~0.3 V), instead of landing right on it. Sense-only, ~30 kΩ load on
 the ECU's reference.
 
 ### Bus-voltage measurement
@@ -239,7 +239,7 @@ VBUS to `+12V_ECU_SW` for the exact pin-14 voltage). **U3**'s VBUS is on the
 valve supply rail, so it reads the **voltage the idle valve is fed**. No extra
 parts — it's an INA226 register read.
 
-### Controller — Raspberry Pi Pico (U5)
+### Controller — Raspberry Pi Pico 2 (U5)
 Module footprint (castellated + through-hole). All 8 GND pins tied to the plane.
 `RUN` and `ADC_VREF` to 3 V3, `AGND` to GND. `VBUS / VSYS / 3V3_EN / SWCLK /
 SWDIO` left unconnected — the Pico is powered and programmed over its own USB.

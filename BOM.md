@@ -15,7 +15,7 @@ part sits on the board).
 
 | Ref(s) | Qty | Description | Mfr / Mfr P/N | Mouser P/N | Confidence |
 |---|---|---|---|---|---|
-| U5 | 1 | Raspberry Pi Pico (RP2040, THT/castellated) | Raspberry Pi / SC0915 | [SC0915](https://www.mouser.com/en/ProductDetail/Raspberry-Pi/SC0915) | Verified |
+| U5 | 1 | Raspberry Pi Pico 2 (RP2350, THT/castellated) | Raspberry Pi / SC1631 | [SC1631](https://www.mouser.com/en/ProductDetail/Raspberry-Pi/SC1631) | Mfr P/N confirmed against Digikey's listing (SC1631 = plain Pico 2, no wireless -- SC1632/3/4 are the H/W/WH variants); Mouser's own page timed out twice when checked automatically, so check it live before ordering. **The originally-ordered SC0915 (RP2040 Pico) is not used here anymore -- it's now a spare, a Pico 2 needs to be ordered separately.** |
 | U1, U3 | 2 | INA226 current/power monitor, MSOP-10 | TI / INA226AIDGST | [INA226AIDGST](https://www.mouser.com/en/ProductDetail/Texas-Instruments/INA226AIDGST) | Swapped to the `T` suffix (small reel, ~250 units) instead of `R` (standard reel, ~2500) — same die/package/pinout, just a smaller reel size that makes more sense for a qty-2 order |
 | U2 | 1 | MCP4728 quad 12-bit DAC, MSOP-10 | Microchip / MCP4728-E/UN | [MCP4728-E-UN](https://www.mouser.com/ProductDetail/Microchip-Technology/MCP4728-E-UN) | Verified |
 | U4 | 1 | AD9833 DDS waveform generator, MSOP-10 | Analog Devices / AD9833BRMZ-REEL7 | [AD9833BRMZ-REEL7](https://www.mouser.com/en/ProductDetail/Analog-Devices/AD9833BRMZ-REEL7) | Corrected by the user while ordering — plain AD9833BRMZ isn't orderable, needs the -REEL7 tape-and-reel suffix (same die, just packaging) |

@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.13)
 
+# The board carries a Raspberry Pi Pico 2 (RP2350), not the original Pico.
+# A plain (non-cache) set() shadows any -DPICO_BOARD passed on the command
+# line, so there's no accidental original-Pico build.
+set(PICO_BOARD pico2)
+
 include(pico_sdk_import.cmake)
 
 project(pruefstand C CXX ASM)

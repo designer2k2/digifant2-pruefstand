@@ -1,4 +1,4 @@
-# Pruefstand firmware (Raspberry Pi Pico, Pico SDK / C)
+# Pruefstand firmware (Raspberry Pi Pico 2, Pico SDK / C)
 
 USB serial command protocol plus the hardware blocks behind it. **To use the
 bench, start with [`OPERATION.md`](OPERATION.md)** (display, buttons, PC
@@ -17,13 +17,15 @@ git clone --depth 1 --branch 2.1.1 https://github.com/raspberrypi/pico-sdk.git ~
 (cd ~/pico-sdk && git submodule update --init --depth 1 lib/tinyusb)
 export PICO_SDK_PATH=~/pico-sdk
 
-cmake -S . -B build -DPICO_BOARD=pico
+cmake -S . -B build -DPICO_BOARD=pico2
 make -C build -j
 ```
 
-Needs `cmake` and `gcc-arm-none-eabi` (plus `libnewlib-arm-none-eabi`). To flash,
-hold BOOTSEL while plugging in the Pico and copy `build/pruefstand.uf2` onto the
-`RPI-RP2` drive.
+Needs `cmake` and `gcc-arm-none-eabi` (plus `libnewlib-arm-none-eabi`); the same
+toolchain covers the RP2350's Cortex-M33 (`PICO_BOARD` is forced to `pico2` in
+`CMakeLists.txt`, so `-DPICO_BOARD=pico` above is only for clarity, not required
+-- the original Pico/RP2040 isn't supported). To flash, hold BOOTSEL while
+plugging in the Pico 2 and copy `build/pruefstand.uf2` onto the `RP2350` drive.
 
 The whole program is linked to run from RAM (`copy_to_ram`, ~60 KB of 264 KB),
 so interrupt handlers never wait on flash-cache misses.
@@ -82,8 +84,10 @@ A PIO state machine generates the square wave on GP2 with cycle-exact timing.
 Each phase length is queued in the TX FIFO and topped up from an interrupt,
 so a busy main loop (e.g. USB output) can't stretch a period. Range: `rpm`
 0–8000, where 0 stops the wave with VW-18 held high. The 32-bit phase counters
-reach down to about 1 rpm, so cranking speeds are no problem (the RP2040's
-PWM block can't go below ~7 Hz, which is why it isn't used).
+reach down to about 1 rpm, so cranking speeds are no problem (the RP2350's
+PWM block has the same fundamental limit as the RP2040's -- an 8.4 fixed-point
+clock divider over a 16-bit counter -- and can't go below ~9 Hz, which is why
+it isn't used).
 
 Waveform, adjustable at runtime:
 
@@ -91,8 +95,10 @@ Waveform, adjustable at runtime:
   4-cylinder distributor Hall sender with 4 vanes, turning at half crank speed.
 - `crank duty <pct>`: percent of each period VW-18 is **high**. Default **50**.
 
-**Both defaults are assumptions and still need confirming against a real
-2H Hall sender or earlier HiL measurements.** They only change the timing;
+**Both defaults come from the user's own distributor HiL notes** (a 30 Hz,
+50% duty square wave at 900 rpm -- exactly 2 pulses per crank rev -- named
+"DIZZY_FOUR_CYLINDER"). Still worth a scope check against the real 2H sender
+(see `BRINGUP.md`) before trusting it blindly; they only change the timing,
 nothing else depends on them.
 
 A new `rpm`/`ppr`/`duty` takes effect once the phases already queued in the

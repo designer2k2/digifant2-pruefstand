@@ -4,7 +4,7 @@
 [![Board](https://github.com/designer2k2/digifant2-pruefstand/actions/workflows/board.yml/badge.svg)](https://github.com/designer2k2/digifant2-pruefstand/actions/workflows/board.yml)
 
 Hardware for a fully-automated test bench for the VW Golf 1 Cabrio **Digifant-2** ECU:
-signal simulator + capture front-end, driven by a Raspberry Pi Pico, with a
+signal simulator + capture front-end, driven by a Raspberry Pi Pico 2, with a
 high-side load switch so the bench can cold-boot the ECU and cut power on
 overcurrent. Scope here is the **Signal-Simulator + Erfassungseinheit** only — the
 EPROM emulator is a separate future board.

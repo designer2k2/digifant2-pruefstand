@@ -198,8 +198,8 @@ def afm_ref_sense(vw_pin17, gnd, adc):
     a drooping VW-17 is itself a useful fault indicator). R20/R21 divide VW-17
     (~5V nominal, up to ~9V worst case) into the Pico's 0-3.3V ADC; C5 filters.
     R20 20k (not 15k): ratio was 10k/25k=0.4, so the stated 9V worst case divided
-    to 3.6V -- right at the RP2040 ADC's absolute-max input rating (VDD+0.3V),
-    zero margin. 10k/30k=0.333 puts that same worst case at 3.0V (0.6V of real
+    to 3.6V -- right at the ADC's absolute-max input rating (VDD+0.3V, unchanged
+    between RP2040 and RP2350), zero margin. 10k/30k=0.333 puts that same worst case at 3.0V (0.6V of real
     margin) while nominal 5V still lands mid-range at 1.67V."""
     r20 = Component("Device:R", ref="R20", value="20k", footprint="Resistor_SMD:R_0805_2012Metric")
     r21 = Component("Device:R", ref="R21", value="10k", footprint="Resistor_SMD:R_0805_2012Metric")
@@ -533,7 +533,14 @@ def main_circuit():
     r7[1] += vcc_3v3
     r7[2] += scl
 
-    u5 = Component("MCU_RaspberryPi_and_Boards:Pico", ref="U5", value="Raspberry Pi Pico",
+    # Populated with a Raspberry Pi Pico 2 (RP2350), not the original Pico --
+    # the two are pin-compatible (same castellated module, same GPIO/power
+    # layout), so this needed no footprint or board change, just a firmware
+    # target change (see firmware/CMakeLists.txt). The symbol/footprint/value
+    # below are still generic "Pico" from the upstream library and comments
+    # written when this was an RP2040 board; harmless, since they're
+    # electrically identical for every net here.
+    u5 = Component("MCU_RaspberryPi_and_Boards:Pico", ref="U5", value="Raspberry Pi Pico 2",
                     footprint="RPi_Pico:RPi_Pico_SMD_TH")
     u5["3V3"] += vcc_3v3
     # The real Pico symbol exposes 7 physically separate GND pins (same name,
