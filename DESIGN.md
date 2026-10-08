@@ -245,6 +245,19 @@ Module footprint (castellated + through-hole). All 8 GND pins tied to the plane.
 SWDIO` left unconnected — the Pico is powered and programmed over its own USB.
 I²C pull-ups **R6 / R7 (4.7 k)** on `GP4` (SDA) / `GP5` (SCL).
 
+**Socketed, not soldered directly** (per the user's own assembly report,
+2026-10-08): solder two 1×20 + a short 1×3 female header strip into U5's
+existing through-hole pads instead of the module's own leads, so the Pico 2
+can be swapped without desoldering. The footprint (`RPi_Pico_SMD_TH`) was
+designed for direct solder, either castellated-edge SMD or through-hole, not
+specifically for header posts — but its pads happen to already be at the
+genuine 2.54 mm pitch and 17.78 mm row spacing, with a 1.02 mm drill that's
+close to (if a little tight for) a standard header pin. This works on the
+already-fabbed board as a practical retrofit; **test-fit one header pin in a
+spare hole first**, since the hole size was never dimensioned for this use.
+No footprint/board change was needed for it. See `BOM.md` for the header
+part.
+
 ## GPIO map
 
 | GP | function |
@@ -306,10 +319,56 @@ relay, switches ground — a nice future diagnostic LED per the user's own HiL:
 "Fuelpump Out BLUE, Pin 3 Masse geschalten"), 4/5/7 (knock sensor + / ground /
 shield), 8, 16 (A/C), 20 (MIL).
 
+## Schematic readability (open, 2026-10-08)
+
+**Confirmed unreadable, per a real assembly report** — rendered the current
+flat single-sheet schematic to check: nearly every connection is drawn as a
+disconnected net-label flag rather than a real wire (circuit-synth's flat
+placement output), so there's no signal flow to follow visually at all, just
+scattered text pairs to match by eye. No fix attempted yet; this needs its
+own dedicated, iteratively-verified session, not a rushed pass, because:
+- The obvious fix (hierarchical sheets, grouping by function) runs straight
+  into circuit-synth's hierarchical label/pin bugs (see `UPSTREAM_BUGS.md`,
+  issue #619 and the sheet-pin investigation) — real electrical risk if
+  applied without an ERC check after every change.
+- A safer flat-sheet reorganization (visually separated, labelled zones per
+  function; real wires for short local connections, net labels only for
+  genuinely long-distance ones) is still a large, component-by-component
+  manual job best done with its own ERC-verified passes, not scripted blind.
+
 ## Board
 
-144 × 150 mm, 2-layer, 4 × M3 corner holes (non-plated, 4.5 mm inset). Was
-144 × 169 mm — trimmed 19mm off the bottom, which was entirely empty (bare
+144 × 150 mm, 2-layer, 4 × M3 corner holes (non-plated, 4.5 mm inset) — plain
+clearance holes, no threads cut into the board itself; add your own M3
+standoffs and screws (see `BOM.md`). No board change needed, they were
+already there.
+
+**Silkscreen fixes (2026-10-08, from a real assembly report — PCB-level, so
+only on the *next* fab run, not retrofittable to a board already printed):**
+- **U6/U7/U8 (TS5A3159A, SOT-23-6) were missing their pin-1 marker.** The
+  stock `Package_TO_SOT_SMD:SOT-23-6` footprint has one (a small silkscreen
+  triangle); it was silently dropped when circuit-synth embedded its own
+  simplified copy of the footprint into the board, a known failure mode for
+  this tool (see `UPSTREAM_BUGS.md`). Restored directly in the `.kicad_pcb`
+  via a `pcbnew` script (not a full regeneration, which would also discard
+  the hand-routing and GND pour). **On the board you already have:** the
+  physical chip's own package marking (per TI's datasheet) is the reliable
+  way to find pin 1, not the PCB silkscreen.
+- **J0's per-pin function labels (`VW-25`, `GND`, …) sat on the side the
+  harness bundle lies across once wired**, becoming unreadable after
+  installation. Moved to the other side of the connector, clear of the
+  R21–R23/U6–U8 row beside it (one label, `+12V SW` at pin 8, shortened to
+  `+12VSW` and set 0.85 mm instead of 1.0 mm tall — the only spot too tight
+  for the full-size text). **On the board you already have:** use the VW
+  harness pin map above instead.
+- **J3 had no per-pin labels at all**, just the bare `J3` reference. Added
+  `GND`/`3V3`/`SCL`/`SDA` next to each pad (top to bottom, matching the
+  schematic). **On the board you already have:** pin 1 (top) is `GND`.
+
+All three checked DRC-clean (same pre-existing cosmetic violation count, zero
+new) and confirmed by rendering the actual silkscreen layer before committing.
+
+Was 144 × 169 mm — trimmed 19mm off the bottom, which was entirely empty (bare
 GND pour, no components or traces below PROTO1/J3 at y≈135 until the old
 mounting holes at y=164.5). H3/H4 moved up to y=145.5 to keep the same
 4.5mm hole-to-edge margin as H1/H2; GND zone outline and fill updated to

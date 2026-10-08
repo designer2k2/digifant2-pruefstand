@@ -1680,6 +1680,18 @@
 			(layer "F.SilkS")
 			(uuid "87dd7bab-d154-4075-ad2f-363b6df98cb8")
 		)
+		(fp_poly
+			(pts
+				(xy -1.3 -1.51) (xy -1.54 -1.84) (xy -1.06 -1.84)
+			)
+			(stroke
+				(width 0.15)
+				(type default)
+			)
+			(fill yes)
+			(layer "F.SilkS")
+			(uuid "8c31860d-5cc9-4319-9c00-c3d0cc1c88c0")
+		)
 		(fp_line
 			(start -2.05 -1.7)
 			(end -2.05 1.7)
@@ -11589,6 +11601,18 @@
 			(layer "F.SilkS")
 			(uuid "865ced6a-52df-43f5-badc-9fb1636274c5")
 		)
+		(fp_poly
+			(pts
+				(xy -1.3 -1.51) (xy -1.54 -1.84) (xy -1.06 -1.84)
+			)
+			(stroke
+				(width 0.15)
+				(type default)
+			)
+			(fill yes)
+			(layer "F.SilkS")
+			(uuid "2945625d-3be8-4a81-a2e3-5c3d21fcca51")
+		)
 		(fp_line
 			(start -2.05 -1.7)
 			(end -2.05 1.7)
@@ -14716,6 +14740,18 @@
 			)
 			(layer "F.SilkS")
 			(uuid "f9cceef5-4f56-425d-8e05-8e86de9f1aae")
+		)
+		(fp_poly
+			(pts
+				(xy -1.3 -1.51) (xy -1.54 -1.84) (xy -1.06 -1.84)
+			)
+			(stroke
+				(width 0.15)
+				(type default)
+			)
+			(fill yes)
+			(layer "F.SilkS")
+			(uuid "e6a97216-f0f3-45ac-8476-41d866135818")
 		)
 		(fp_line
 			(start -2.05 -1.7)
@@ -21172,8 +21208,68 @@
 		(layer "Edge.Cuts")
 		(uuid "8d0cb31a-e077-4441-b06c-7e486b605dc9")
 	)
+	(gr_text "+12VSW"
+		(at 125.6 51.025 0)
+		(layer "F.SilkS")
+		(uuid "0d8cadc4-81df-462e-a3fb-d4e2405c905b")
+		(effects
+			(font
+				(size 0.85 0.85)
+				(thickness 0.15)
+			)
+			(justify right)
+		)
+	)
+	(gr_text "GND"
+		(at 63.325 127.825 0)
+		(layer "F.SilkS")
+		(uuid "c9e9dadf-6d04-4b4d-9b42-b7530dca9b34")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left)
+		)
+	)
+	(gr_text "3V3"
+		(at 63.325 130.365 0)
+		(layer "F.SilkS")
+		(uuid "8fa262a9-1b62-4d82-9d35-d83650c27663")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left)
+		)
+	)
+	(gr_text "SCL"
+		(at 63.325 132.905 0)
+		(layer "F.SilkS")
+		(uuid "774e77f3-bee6-4093-b074-f15f4beb7ac3")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left)
+		)
+	)
+	(gr_text "SDA"
+		(at 63.325 135.445 0)
+		(layer "F.SilkS")
+		(uuid "ba1a6a76-9cc9-4d1d-9636-3c170f9e9a93")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+			(justify left)
+		)
+	)
 	(gr_text "VW-25"
-		(at 136.5 16.025 0)
+		(at 125.6 16.025 0)
 		(layer "F.SilkS")
 		(uuid "d8b6ceb8-82c7-4bae-ab93-28d3b00bc38f")
 		(effects
@@ -21181,11 +21277,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "VW-23"
-		(at 136.5 21.025 0)
+		(at 125.6 21.025 0)
 		(layer "F.SilkS")
 		(uuid "fcc44217-f46e-4693-8e40-4bf2020d08f3")
 		(effects
@@ -21193,11 +21289,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "+12V SW"
-		(at 136.5 26.025 0)
+		(at 125.6 26.025 0)
 		(layer "F.SilkS")
 		(uuid "e381338e-0e62-453e-9b7a-4d83855e81ab")
 		(effects
@@ -21205,11 +21301,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "VW-21"
-		(at 136.5 31.025 0)
+		(at 125.6 31.025 0)
 		(layer "F.SilkS")
 		(uuid "0dee53d2-bfdf-47c5-a41d-7c5a9d4284d4")
 		(effects
@@ -21217,11 +21313,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "GND"
-		(at 136.5 36.025 0)
+		(at 125.6 36.025 0)
 		(layer "F.SilkS")
 		(uuid "a9d9dace-62bd-4025-becb-aa5013669b0c")
 		(effects
@@ -21229,11 +21325,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "VW-18"
-		(at 136.5 41.025 0)
+		(at 125.6 41.025 0)
 		(layer "F.SilkS")
 		(uuid "efb3eaa0-abad-4603-b74b-301c20577c70")
 		(effects
@@ -21241,11 +21337,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "VW-17"
-		(at 136.5 46.025 0)
+		(at 125.6 46.025 0)
 		(layer "F.SilkS")
 		(uuid "884dd255-672c-4be2-b82c-1e3e7f9511f7")
 		(effects
@@ -21253,23 +21349,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
-		)
-	)
-	(gr_text "+12V SW"
-		(at 136.5 51.025 0)
-		(layer "F.SilkS")
-		(uuid "0d8cadc4-81df-462e-a3fb-d4e2405c905b")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "GND"
-		(at 136.5 56.025 0)
+		(at 125.6 56.025 0)
 		(layer "F.SilkS")
 		(uuid "5ae271b4-fbbc-4288-8d6c-637dda8e78d8")
 		(effects
@@ -21277,11 +21361,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "VW-12"
-		(at 136.5 61.025 0)
+		(at 125.6 61.025 0)
 		(layer "F.SilkS")
 		(uuid "a0d4a4f6-8c9b-4892-8388-d7c323113ede")
 		(effects
@@ -21289,11 +21373,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "VW-11"
-		(at 136.5 66.025 0)
+		(at 125.6 66.025 0)
 		(layer "F.SilkS")
 		(uuid "fefcbdaa-bb79-43cb-ab70-c3b14c5c7a79")
 		(effects
@@ -21301,11 +21385,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "VW-10"
-		(at 136.5 71.025 0)
+		(at 125.6 71.025 0)
 		(layer "F.SilkS")
 		(uuid "2ff8a58c-95fa-4aad-83fe-654b79c38a39")
 		(effects
@@ -21313,11 +21397,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "VW-9"
-		(at 136.5 76.025 0)
+		(at 125.6 76.025 0)
 		(layer "F.SilkS")
 		(uuid "4e1aea12-8e40-49ea-bc22-d8cee1bf3461")
 		(effects
@@ -21325,11 +21409,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "GND"
-		(at 136.5 81.025 0)
+		(at 125.6 81.025 0)
 		(layer "F.SilkS")
 		(uuid "6c096073-eb09-47e6-836c-e1cbabf4c715")
 		(effects
@@ -21337,11 +21421,11 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "VW-2"
-		(at 136.5 86.025 0)
+		(at 125.6 86.025 0)
 		(layer "F.SilkS")
 		(uuid "d8c0f3bf-699f-4d5a-acac-24ea026fb8b3")
 		(effects
@@ -21349,7 +21433,7 @@
 				(size 1 1)
 				(thickness 0.15)
 			)
-			(justify left)
+			(justify right)
 		)
 	)
 	(gr_text "${TITLE}"
