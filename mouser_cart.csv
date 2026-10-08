@@ -20,9 +20,14 @@ RC0805FR-071KL,4,1k 0805,"R5,R10,R15,RPU1"
 RC0805FR-07100KL,5,100k 0805,"R16,R19,R22,R23,R24"
 RC0805FR-07220RL,3,220R 0805,"R2,R3,R4"
 RC0805FR-0720KL,1,20k 0805,R20
+RC0805FR-07330RL,3,330R 0805,"R9,R11,R17"
+RC0805FR-07200RL,1,200R 0805,R12
+RC0805FR-07100RL,1,100R 0805,RG1
 CC0805JRX7R9BB103,1,10nF 0805 X7R 50V,C3
 CC0805KRX7R9BB104,8,100nF 0805 X7R 50V,"C2,C4,C5,C6,C7,C8,C9,C10"
 1935161,1,2-pos 5.08mm PCB terminal block (fixed; footprint wants pluggable -- check fit),J1
 39543-0015,1,15-pos 5.00mm screw terminal (pluggable vs fixed not confirmed),J0
 504-TR/3216FF3-R,1,3A fast-acting SMD fuse 1206/3216,F1
 80-ESH107M035AG3AA,1,100uF/35V radial electrolytic (35V not 25V -- safe upgrade),C1
+MTS-10S,4,M3x10mm nylon male-female hex standoff (not independently confirmed on Mouser -- check live),mounting
+PPPC361LFBN-RC,2,1x36 2.54mm female header break-away for socketing U5 (not independently confirmed on Mouser -- check live; test-fit before ordering more),U5

@@ -13,6 +13,16 @@ Also see [`board/bom_output/bom.html`](board/bom_output/bom.html) for the
 interactive per-footprint BOM (no Mouser data, but useful to see where each
 part sits on the board).
 
+**2026-10-08, cross-checked against a real assembly report:** `mouser_cart.csv`
+(the actual order file) had never included R9/R11/R17 (330Ω), R12 (200Ω) or
+RG1 (100Ω) — present in this table since the start, but missed when the cart
+was built, so they were never actually ordered. Fixed now; order these five
+separately if you've already placed the original cart. U1/U3 (qty 2 INA226)
+and U4 (AD9833) are, and have been since the 2026-09-20 correction pass,
+correct in `mouser_cart.csv` — if your kit is short on these, the order was
+likely placed from an older snapshot; check your own Mouser order history
+against the current file rather than re-ordering blind.
+
 | Ref(s) | Qty | Description | Mfr / Mfr P/N | Mouser P/N | Confidence |
 |---|---|---|---|---|---|
 | U5 | 1 | Raspberry Pi Pico 2 (RP2350, THT/castellated) | Raspberry Pi / SC1631 | [SC1631](https://www.mouser.com/en/ProductDetail/Raspberry-Pi/SC1631) | Mfr P/N confirmed against Digikey's listing (SC1631 = plain Pico 2, no wireless -- SC1632/3/4 are the H/W/WH variants); Mouser's own page timed out twice when checked automatically, so check it live before ordering. **The originally-ordered SC0915 (RP2040 Pico) is not used here anymore -- it's now a spare, a Pico 2 needs to be ordered separately.** |
@@ -25,7 +35,7 @@ part sits on the board).
 | Q2 | 1 | P-channel MOSFET, DPAK, ≤-30V, ≥5A (ECU high-side switch) | Vishay / SUD50P06-15-GE3 | [SUD50P06-15-GE3](https://www.mouser.com/ProductDetail/Vishay-Semiconductors/SUD50P06-15-GE3) | Verified — spec is well over-built (-60V/-50A) for a real, exact-package match; fine to use, or substitute a tighter-spec DPAK P-FET if you prefer |
 | Q1, Q3, Q5 | 3 | 2N7002 N-MOSFET, SOT-23 | onsemi / 2N7002 | [512-2N7002](https://www.mouser.com/ProductDetail/onsemi/2N7002) | Found by the user on Mouser |
 | D1 | 1 | SS54 Schottky diode, SMC/DO-214AB, 5A/40V | Diodes Inc. / SS54FSH | [821-SS54FSH](https://www.mouser.com/ProductDetail/Diodes-Incorporated/SS54FSH) | Found by the user on Mouser — Diodes Inc.'s SS54 in the same SMC package, confirms the originally-listed Comchip part just wasn't the right distributor. |
-| D2 | 1 | SK6812 addressable RGB LED, PLCC-4, 5.0×5.0mm | SK6812 **5050 RGB** (various — Opsco etc.) | — | **Confirmed by the user: not stocked on Mouser.** Source from LCSC, AliExpress, or Adafruit (search "SK6812 5050 RGB"). Must be the plain 5050 RGB variant — **not** SK6812MINI/MINI-E (3.5mm) or 2020/EC (2mm), which don't fit the footprint, and **not** RGBW (fits, but 32-bit data format the firmware would need to handle). WS2812B 5050 is the usual drop-in fallback — check pin 1 against its datasheet before soldering. Note: D2 runs from +3V3, below the typical SK6812 VDD spec (~3.5–5.3V); usually still works, blue/green may be dimmer. |
+| D2 | 1 | SK6812 addressable RGB LED, PLCC-4, 5.0×5.0mm, P3.2mm pad pitch | OPSCO / SK6812 | [LCSC C5378720](https://www.lcsc.com/product-detail/C5378720.html) | **Confirmed: not stocked on Mouser.** Best lead found: OPSCO's plain SK6812 (not RGBW) on LCSC, C5378720, 4-pin SMD-4P, in stock. Its listed body is 5.4×5.0mm vs our footprint's 5.0×5.0mm — **verify the 3.2mm pad pitch against its datasheet before ordering**; PLCC-4 SK6812 clones commonly share pad pitch despite small body differences, but this wasn't independently confirmed. Also usable: AliExpress or Adafruit (search "SK6812 5050 RGB") — **not** SK6812MINI/MINI-E (3.5mm) or 2020/EC (2mm), which don't fit the footprint, and **not** RGBW (fits mechanically, but is a 32-bit-per-pixel format the firmware would need to handle — Adafruit's own SK6812 boards are RGBW). WS2812B 5050 is the usual drop-in fallback if SK6812 can't be sourced — check pin 1 against its datasheet before soldering. Note: D2 runs from +3V3, below the typical SK6812 VDD spec (~3.5–5.3V); usually still works, blue/green may be dimmer. |
 | F1 | 1 | 3A fuse, 1206/3216 SMD | Bel Fuse / TR/3216FF3-R | [504-TR/3216FF3-R](https://www.mouser.com/ProductDetail/Bel-Fuse/TR-3216FF3-R) | Found by the user on Mouser — Bel's naming embeds the rating (FF3 = 3A fast-acting) |
 | C1 | 1 | 100µF/25V radial electrolytic, 8mm dia., 3.5mm pitch | Panasonic / ESH107M035AG3AA | [80-ESH107M035AG3AA](https://www.mouser.com/ProductDetail/Panasonic/ESH107M035AG3AA) | Found by the user on Mouser — decodes to 100µF/35V (not 25V as designed, but higher voltage rating is a safe substitute, pure margin upgrade) |
 | J1 | 1 | 2-pos 5.08mm PCB screw terminal, THT | Phoenix Contact / 1935161 | [1935161](https://www.mouser.com/ProductDetail/Phoenix-Contact/1935161) | Best match, not exact — this Phoenix part is a **fixed** 5.00mm block; the board footprint (`TerminalBlock_bornier-2_P5.08mm`) implies pluggable. Mechanically close (0.08mm off pitch), functionally fine, but check fit before ordering many. |
@@ -41,20 +51,24 @@ part sits on the board).
 | R16, R19, R22, R23, R24 | 5 | 100kΩ, 0805 | Yageo / RC0805FR-07100KL | [RC0805FR-07100KL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-07100KL) | Verified |
 | R2, R3, R4 | 3 | 220Ω, 0805 | Yageo / RC0805FR-07220RL | [RC0805FR-07220RL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-07220RL) | Verified |
 | R20 | 1 | 20kΩ, 0805 | Yageo / RC0805FR-0720KL | [RC0805FR-0720KL](https://www.mouser.com/en/ProductDetail/YAGEO/RC0805FR-0720KL) | Verified — added late, was missing from the original pass entirely |
-| R9, R11, R17 | 3 | 330Ω, 0805 | Yageo / RC0805FR-07330RL | — | Pattern-matched (same verified RC0805 series) — confirm on mouser.com before ordering |
-| R12 | 1 | 200Ω, 0805 | Yageo / RC0805FR-07200RL | — | Pattern-matched — confirm on mouser.com before ordering |
-| RG1 | 1 | 100Ω, 0805 | Yageo / RC0805FR-07100RL | — | Pattern-matched — confirm on mouser.com before ordering |
+| R9, R11, R17 | 3 | 330Ω, 0805 | Yageo / RC0805FR-07330RL | — | Pattern-matched (same verified RC0805 series) — confirm on mouser.com before ordering. **Never made it into `mouser_cart.csv` and so were missing from the actual order; added now.** |
+| R12 | 1 | 200Ω, 0805 | Yageo / RC0805FR-07200RL | — | Pattern-matched — confirm on mouser.com before ordering. **Also missing from the actual order; added to the cart now.** |
+| RG1 | 1 | 100Ω, 0805 | Yageo / RC0805FR-07100RL | — | Pattern-matched — confirm on mouser.com before ordering. **Also missing from the actual order; added to the cart now.** |
 | C3 | 1 | 10nF, 0805, X7R, 50V | Yageo / CC0805JRX7R9BB103 | [CC0805JRX7R9BB103](https://www.mouser.com/ProductDetail/YAGEO/CC0805JRX7R9BB103) | Verified |
 | C2, C4, C5, C6, C7, C8, C9, C10 | 8 | 100nF, 0805, X7R, 50V | Yageo / CC0805KRX7R9BB104 | [CC0805KRX7R9BB104](https://www.mouser.com/ProductDetail/YAGEO/CC0805KRX7R9BB104) | Verified — C9/C10 added late (INA226 `VS` decoupling for U1/U3), was missing from this row entirely until now |
 
+| — | 4 | M3×10mm male-female hex standoff, nylon (matches the board's 3.2mm non-plated mounting holes) | Essentra / MTS-10S | search "Essentra MTS-10S" on mouser.com | Not independently verified live on Mouser — confirm before ordering. Screw length into the standoff's female end depends on your enclosure/base; a separate M3 screw is also needed for the male end if there's no tapped base. |
+| — | 2 | 1×36 2.54mm female header strip, break-away (socket the Pico 2 instead of soldering it directly — see DESIGN.md "Controller") | Sullins / PPPC361LFBN-RC | search "Sullins PPPC361LFBN-RC" on mouser.com | Not independently verified live on Mouser — confirm before ordering. Break each strip to two 20-pin + a short 3-pin length per side to match U5's pad rows; **test-fit one pin in a spare board hole first** — the existing through-hole pads (1.02mm drill) weren't originally dimensioned for header posts, just happen to be at the right 2.54mm pitch. |
+
 ## Summary: not orderable as-is
 
-Just **D2** (SK6812 LED) — not stocked on Mouser at all, source from
-LCSC/Adafruit/etc. instead. Every other line item (30 of 31, 72 of 73 placed
-parts) now has a specific, real Mouser part number, largely thanks to the
-user checking the live site against each entry this pass — several of the
-original "Verified" entries turned out to be wrong or unorderable (wrong
-digit, missing packaging suffix, zero stock, wrong distributor) and got
-corrected in the process. Treat any *remaining* unedited "Verified" row with
-the same healthy skepticism if something doesn't match when you actually
-try to order it.
+Just **D2** (SK6812 LED) — not stocked on Mouser at all, a lead found on
+LCSC instead (see its row; pad pitch not independently confirmed). The two
+mounting-hardware rows (standoffs, Pico 2 socket headers) are new and also
+not independently confirmed live — everything else now has a specific, real
+Mouser part number, largely thanks to the user checking the live site
+against each entry — several of the original "Verified" entries turned out
+to be wrong or unorderable (wrong digit, missing packaging suffix, zero
+stock, wrong distributor) and got corrected in the process. Treat any
+*remaining* unedited "Verified" row with the same healthy skepticism if
+something doesn't match when you actually try to order it.
