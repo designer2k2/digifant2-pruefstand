@@ -9,7 +9,7 @@ CRA2512-FZ-R020ELF,1,0.02R 1% shunt 2512,RS1
 SUD50P06-15-GE3,1,P-MOS DPAK ECU load switch,Q2
 512-2N7002,3,2N7002 N-MOSFET SOT-23,"Q1,Q3,Q5"
 821-SS54FSH,1,SS54 Schottky diode SMC 5A/40V,D1
-972-XLH736025000000X,1,25MHz SMD oscillator 7x5mm 3.3V LVCMOS,Y1
+LFSPXO018077,1,25MHz SMD oscillator 7x5mm 3.3V HCMOS 4-pin (corrected -- old entry was a 6-pin Renesas part misattributed to IQD),Y1
 B2B-XH-ALFSN,1,JST XH 2-pos vertical header,J2
 TSW-104-07-G-S,1,4-pos 2.54mm vertical header,J3
 534-5011,14,THT test point (substitute for bare pad),"TP1,TP2,TP3,TP4,TP5,TP6,TP7,TP8,TP9,TP10,TP11,TP12,TP13,TP14"

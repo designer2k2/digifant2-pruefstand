@@ -281,11 +281,11 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
 | NTC pull-up in the ECU (V_open, R) — air / water | | |
 | ECU current at idle | 0.53–0.56 A at 11.65 V (`ecu_a`); VW-17 reference `afm_ref_mv` ≈ 5.83 V. Sensors set to a warm idle, injector pulse 3.5–4.6 ms. | 2026-10-28 |
 | `dac air 3300` actual output | | |
-| Knock amplitude at TP1, 1 kHz / 7 kHz | | |
-| Knock detected by the ECU (retard seen?) | | |
+| Knock amplitude at TP1, 1 kHz / 7 kHz | **Blocked:** Y1 arrived as a 6-pin part, won't fit the 4-pin footprint -- wrong part ordered, see `BOM.md`. U4 (AD9833) can't run without MCLK until a correct Y1 is in hand. | 2026-10-28 |
+| Knock detected by the ECU (retard seen?) | **Blocked**, same reason as above. | 2026-10-28 |
 | OLED controller (SSD1306 / SH1106) | | |
 | Current error, U1 / U3 (average %, from the calibration table) | | |
-| Anything that needed rework | (1) U6–U8: COM wired to NC, bodge wire pin 4→3 on each. (2) R10 1 k too weak for the ECU's injector stage (VW-12 stuck at 0.8 V, no pulses); added 220 Ω from VW-12 to J3 3V3. (3) VW-11 leakage 45 kΩ off, 374 kΩ after cleaning flux. See DESIGN.md. | 2026-10-28 |
+| Anything that needed rework | (1) U6–U8: COM wired to NC, bodge wire pin 4→3 on each. (2) R10 1 k too weak for the ECU's injector stage (VW-12 stuck at 0.8 V, no pulses); added 220 Ω from VW-12 to J3 3V3. (3) VW-11 leakage 45 kΩ off, 374 kΩ after cleaning flux. (4) Y1 ordered as a 6-pin part (BOM mislabeled a Renesas XLH73 part as IQD); the real 4-pin equivalent is IQD CFPS-73 (LFSPXO018077). See DESIGN.md / BOM.md. | 2026-10-28 |
 
 Once the answers are in, the firmware defaults (`CRANK_PPR_DEFAULT`,
 `CRANK_DUTY_DEFAULT` in `firmware/src/crank.h`) and the open-question notes in
