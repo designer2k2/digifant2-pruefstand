@@ -268,18 +268,18 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
 
 | Question | Result | Date |
 |---|---|---|
-| Hall pulses per crank revolution (expected 2, per DIZZY_FOUR_CYLINDER notes) | | |
-| Hall duty, % high (expected 50, per DIZZY_FOUR_CYLINDER notes) | | |
-| Reference edge (firmware uses VW-18 falling) | | |
-| Spark edge (`ign_fall_deg` or `ign_rise_deg`) | | |
+| Hall pulses per crank revolution (expected 2, per DIZZY_FOUR_CYLINDER notes) | 2 works: the ECU fires ignition (period = ref period) and injection (1 pulse/rev) at `crank ppr 2`. Not checked against a real distributor. | 2026-10-28 |
+| Hall duty, % high (expected 50, per DIZZY_FOUR_CYLINDER notes) | 50 works. 30 and 70 also run, but ignition dwell and edges shift strongly (see reference edge). | 2026-10-28 |
+| Reference edge (firmware uses VW-18 falling) | **Rising**, at least for the injector: `inj_fall_deg` = rising-edge angle + 1.3° (~0.25 ms) at duty 30/50/70 (127.3 / 91.3 / 55.3°). Ignition follows no single edge: dwell start 74.6° at 50 and 70 %, 15.1° at 30 %; spark-side 143.0 / 127.1 / 176.1°. Angles in the firmware are still measured from the falling edge. | 2026-10-28 |
+| Spark edge (`ign_fall_deg` or `ign_rise_deg`) | **Undetermined.** Low phase is not constant in time (13.5 ms at 850 rpm → 3.0 ms at 4000) but ~constant in angle (69–72°, 38–40 % of the period), so the output is angle-defined, probably dwell set by an external module. Both edges advance together: rise 143.4° (850) → 125.9° (3500), flat above 3500. Needs the knock-retard test (U4) to settle. | 2026-10-28 |
 | NTC pull-up in the ECU (V_open, R) — air / water | | |
-| ECU current at idle | | |
+| ECU current at idle | 0.53–0.56 A at 11.65 V (`ecu_a`); VW-17 reference `afm_ref_mv` ≈ 5.83 V. Sensors set to a warm idle, injector pulse 3.5–4.6 ms. | 2026-10-28 |
 | `dac air 3300` actual output | | |
 | Knock amplitude at TP1, 1 kHz / 7 kHz | | |
 | Knock detected by the ECU (retard seen?) | | |
 | OLED controller (SSD1306 / SH1106) | | |
 | Current error, U1 / U3 (average %, from the calibration table) | | |
-| Anything that needed rework | | |
+| Anything that needed rework | (1) U6–U8: COM wired to NC, bodge wire pin 4→3 on each. (2) R10 1 k too weak for the ECU's injector stage (VW-12 stuck at 0.8 V, no pulses); added 220 Ω from VW-12 to J3 3V3. (3) VW-11 leakage 45 kΩ off, 374 kΩ after cleaning flux. See DESIGN.md. | 2026-10-28 |
 
 Once the answers are in, the firmware defaults (`CRANK_PPR_DEFAULT`,
 `CRANK_DUTY_DEFAULT` in `firmware/src/crank.h`) and the open-question notes in
