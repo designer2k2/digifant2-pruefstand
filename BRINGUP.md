@@ -116,6 +116,9 @@ Scope on J0 VW-18 to GND:
 
 **Sensor DACs** (outputs are held at 0 V while the ECU is off, so `ecu on`
 first). Multimeter on the J0 terminals to GND, nothing else connected:
+> **Rev 1 boards:** U6/U7/U8 need a wire from pin 4 to pin 3 first, or VW-9,
+> VW-10 and VW-2 float (COM was wired to NC; see DESIGN.md). VW-21 is unaffected.
+
 - [ ] `dac air 1000` → VW-9 ≈ 1.000 V (within ~20 mV)
 - [ ] `dac water 2500` → VW-10 ≈ 2.500 V
 - [ ] `dac afm 1500` → VW-21 ≈ 1.500 V
@@ -219,6 +222,10 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
 - [ ] Set starting values for a warm idle: `dac water 800`, `dac air 1800`,
       `dac afm 1000`, `dac lambda 450`, `idle on`, then `rpm 850`. These are
       guesses; how DAC millivolts map to temperatures depends on question 4.
+> **Rev 1 boards:** if `inj_n` stays flat and VW-12 sits at about 0.8 V, R10
+> (1 k) is too weak for the ECU's injector stage. Solder a 220 Ω resistor from
+> J0 VW-12 to the J3 `3V3` pin (in parallel with R10), see DESIGN.md.
+
 - [ ] `capture` → `ign_n` and `inj_n` count up; `ign_period_us` ≈ the crank
       reference period (35294 µs at 850 rpm, 2 ppr)
 - [ ] Scope VW-25 (ignition) and VW-12 (injector) against VW-18 and compare

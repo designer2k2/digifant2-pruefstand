@@ -91,7 +91,7 @@ through a series resistor into the harness:
 
 **Sensor-fault simulation:** the two NTC channels and the lambda channel each pass
 a **TS5A3159A** SPDT analog switch (~1 Ω, SOT-23-6, U6–U8). GPIO high → COM–NO →
-sensor connected; GPIO low → COM–NC (open) → the ECU sees an **open sensor** and
+sensor connected; GPIO low → COM–NC (NC left open) → the ECU sees an **open sensor** and
 should set the corresponding fault code. R22–R24 pull the control lines up so all
 three read connected at power-on; C6 decouples the DAC and switches. Lambda's
 series R is **1 k** (not 220 Ω) so it looks less like an ideal voltage source to
@@ -109,12 +109,18 @@ in favour of VW-18.
 
 ### `edge_capture` — read the ECU's ignition & injector outputs
 The ECU's output pins are pulled up to the Pico's 3 V3 (**R8 10 k** on VW-25
-ignition, **R10 1 k** on VW-12 injector) with a **330 Ω** series resistor
+ignition, **R10 220 Ω** on VW-12 injector) with a **330 Ω** series resistor
 (R9 / R11) as an ESD / current guard into the GPIO. `GP14` = ignition,
-`GP15` = injector. R10's 1 k on the injector line is validated by the user's own
-bench notes: a 10 k pull-up was too weak for the ~2.4 ms idle injector pulse
-(didn't fully charge/discharge between cycles); even 2.2 k still showed some
-droop, so 1 k here has real margin.
+`GP15` = injector. R10 is **220 Ω** (Rev 1 had 1 k): the ECU's injector stage
+has to sink real current. The user's earlier bench notes showed 10 k and 2.2 k
+too weak for the ~2.4 ms idle pulse's edges, and 1 k looked fine on the line --
+but on the real ECU (2026-10-28 bring-up) a 1 k pull-up (3.3 mA) left VW-12
+sitting at **0.8 V** with no injector pulses at all (`inj_n` stuck), while the
+old 12 V test rig (1 k + LED, ~10 mA) showed a clean flicker. Adding 220 Ω in
+parallel (about 180 Ω, ~18 mA) made it inject at once: one pulse per crank
+revolution, ~3.5–3.9 ms at 850 rpm. 3.3 V / 220 Ω = 15 mA is well within the
+Pico's 3V3 rail. **Rev 1 boards:** solder a 220 Ω resistor from J0 VW-12 to the
++3V3 pin of J3 (or across R10).
 
 ### `knock_sim` — knock-sensor burst generator (U4)
 AD9833 DDS on SPI (`GP16` FSYNC / `GP18` SCLK / `GP19` SDATA). **Y1**, a real
@@ -342,6 +348,19 @@ own dedicated, iteratively-verified session, not a rushed pass, because:
 clearance holes, no threads cut into the board itself; add your own M3
 standoffs and screws (see `BOM.md`). No board change needed, they were
 already there.
+
+**Bug found at bring-up (2026-10-28): U6/U7/U8 wired COM to the wrong pin.**
+On the TS5A3159A (SOT-23-6) the pins are 1 NO, 2 GND, 3 NC, 4 **COM**, 5 V+, 6 IN.
+Rev 1 connected the ECU-side output (VW-9 / VW-10 / VW-2) to pin 3 -- **NC** --
+and left pin 4 (COM) open. With IN high the switch joins COM–NO, so the output
+sat on an open NC pin and floated: with ECU on, VW-9 read 0.3 V (expected 1.000
+V), VW-10 0.4 V (2.500 V), VW-2 0.1 V (0.450 V), while VW-21 (no switch) was
+exact. Confirmed by measuring 1.000 V on U6 pin 4. **The generator script is
+fixed** (`sw[4] += vw_net`); the PCB in `board/` is **not regenerated** and the
+fabricated Rev 1 board needs a bodge: a short wire from **pin 4 to pin 3** on
+each of U6, U7 and U8 (the pads are on opposite sides of the body). That puts
+COM on the VW net; with IN low, COM–NC joins the net to itself, so the output
+still floats (open-sensor test works as designed).
 
 **Silkscreen fixes (2026-10-08, from a real assembly report — PCB-level, so
 only on the *next* fab run, not retrofittable to a board already printed):**

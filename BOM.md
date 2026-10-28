@@ -49,9 +49,9 @@ against the current file rather than re-ordering blind.
 | Y1 | 1 | 25MHz SMD oscillator, 7×5mm, 3.3V, LVCMOS | IQD Frequency Products / XLH736025000000X | [972-XLH736025000000X](https://www.mouser.com/ProductDetail/IQD/XLH736025000000X) | Found by the user on Mouser — confirmed 7mm×5mm package and 3.135–3.465V supply range (covers 3.3V nominal), LVCMOS output. Different manufacturer than originally guessed (IQD, not EuroQuartz) but matches the footprint and electrical requirements. |
 | R8, R13, R21 | 3 | 10kΩ, 0805 | Yageo / RC0805FR-0710KL | [RC0805FR-0710KL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-0710KL) | Verified |
 | R6, R7, R14 | 3 | 4.7kΩ, 0805 | Yageo / RC0805FR-074K7L | [RC0805FR-074K7L](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-074K7L) | Verified |
-| R5, R10, R15, RPU1 | 4 | 1kΩ, 0805 | Yageo / RC0805FR-071KL | [RC0805FR-071KL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-071KL) | Verified |
+| R5, R15, RPU1 | 3 | 1kΩ, 0805 | Yageo / RC0805FR-071KL | [RC0805FR-071KL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-071KL) | Verified |
 | R16, R19, R22, R23, R24 | 5 | 100kΩ, 0805 | Yageo / RC0805FR-07100KL | [RC0805FR-07100KL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-07100KL) | Verified |
-| R2, R3, R4 | 3 | 220Ω, 0805 | Yageo / RC0805FR-07220RL | [RC0805FR-07220RL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-07220RL) | Verified |
+| R2, R3, R4, R10 | 4 | 220Ω, 0805 | Yageo / RC0805FR-07220RL | [RC0805FR-07220RL](https://www.mouser.com/ProductDetail/YAGEO/RC0805FR-07220RL) | Verified |
 | R20 | 1 | 20kΩ, 0805 | Yageo / RC0805FR-0720KL | [RC0805FR-0720KL](https://www.mouser.com/en/ProductDetail/YAGEO/RC0805FR-0720KL) | Verified — added late, was missing from the original pass entirely |
 | R9, R11, R17 | 3 | 330Ω, 0805 | Yageo / RC0805FR-07330RL | — | Pattern-matched (same verified RC0805 series) — confirm on mouser.com before ordering. **Never made it into `mouser_cart.csv` and so were missing from the actual order; added now.** RS Components alternative: RS 242-6990. |
 | R12 | 1 | 200Ω, 0805 | Yageo / RC0805FR-07200RL | — | Pattern-matched — confirm on mouser.com before ordering. **Also missing from the actual order; added to the cart now.** RS Components alternative: RS 242-6931 (MOQ ×100 on the listing checked). |

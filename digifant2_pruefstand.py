@@ -277,8 +277,10 @@ def dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2,
         sw["V+"] += vcc_3v3
         sw["GND"] += gnd
         sw[1] += mid       # NO -- COM<->NO when IN high (sensor connected)
-        sw[3] += vw_net    # COM -> ECU pin
-        # pin 4 (NC) left open -> COM floats = "sensor disconnected" when IN low
+        sw[4] += vw_net    # COM -> ECU pin (TS5A3159A SOT-23-6: 1 NO, 3 NC, 4 COM)
+        # pin 3 (NC) left open -> COM floats = "sensor disconnected" when IN low.
+        # (Rev 1 wired the ECU pin to pin 3 -- NC, not COM -- so the sim outputs
+        # floated; found on the bench, see DESIGN.md.)
         sw[6] += gp_conn   # IN
         rpu[1] += gp_conn
         rpu[2] += vcc_3v3
@@ -313,7 +315,10 @@ def edge_capture(vcc_3v3, gpio_ignition, gpio_injector, vw_pin25, vw_pin12):
     """Ignition/injector edge capture: pull-up to Pico's own 3V3, series ESD guard."""
     r8 = Component("Device:R", ref="R8", value="10k", footprint="Resistor_SMD:R_0805_2012Metric")
     r9 = Component("Device:R", ref="R9", value="330R", footprint="Resistor_SMD:R_0805_2012Metric")
-    r10 = Component("Device:R", ref="R10", value="1k", footprint="Resistor_SMD:R_0805_2012Metric")
+    # 220R (Rev 1: 1k): the ECU's injector stage only switches cleanly when it sinks
+    # real current. With 1k (3.3 mA) VW-12 sat at 0.8 V and the ECU never pulsed it;
+    # with ~180R (18 mA) it injects normally -- see DESIGN.md.
+    r10 = Component("Device:R", ref="R10", value="220R", footprint="Resistor_SMD:R_0805_2012Metric")
     r11 = Component("Device:R", ref="R11", value="330R", footprint="Resistor_SMD:R_0805_2012Metric")
 
     r8[1] += vcc_3v3
