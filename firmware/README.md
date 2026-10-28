@@ -42,6 +42,7 @@ so interrupt handlers never wait on flash-cache misses.
 | Knock DDS (`knock`, `burst`) | **real**, continuous or crank-synced bursts | AD9833 on SPI0 |
 | Ignition / injector capture (`capture`) | **real** | GP14 / GP15, crank reference on GP2 |
 | OLED + buttons | **real** | SSD1306 @ 0x3C on J3, SW1–SW3 on GP20–22 |
+| Status LED (colour by ECU / crank / trip state) | **real** | SK6812 D2 on GP10, PIO1 SM0 |
 
 Power-up state, set before any pin becomes an output: ECU **off**, idle switch
 **open**, all three sensors **connected**, crank stopped (VW-18 high), DAC

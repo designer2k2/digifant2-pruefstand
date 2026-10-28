@@ -212,7 +212,8 @@ remembering for any future scripted routing here:
 picked over WS2812B because its data threshold is in spec at 3.3 V — no level
 shifter, no 5 V rail, and it frees two GPIOs versus a plain 3-pin RGB LED.
 **R17 (330 Ω)** on the data line, **C4 (100 nF)** decoupling. Chain from `DOUT`
-to add more pixels. Colour meaning is up to firmware.
+to add more pixels. Firmware (`status_led.c`, PIO1) shows: dim white = ECU off,
+green = ECU on / crank stopped, blue = crank running, red = over-current trip.
 
 ### `throttle_switches` — idle-switch emulation
 **Corrected by the user's own HiL notes** ("F60 Leerlaufschalter Pin 6 Masse und

@@ -10,6 +10,7 @@
 #include "knock.h"
 #include "pico/stdlib.h"
 #include "sense.h"
+#include "status_led.h"
 #include "ui.h"
 
 static void poll_serial(void) {
@@ -49,6 +50,7 @@ int main(void) {
     knock_init();
     capture_init();
     ui_init();
+    status_led_init();
     stdio_init_all();
     watchdog_enable(WATCHDOG_MS, true);
 
@@ -59,5 +61,6 @@ int main(void) {
         dac_poll(now_ms);
         poll_serial();
         ui_poll();
+        status_led_poll(now_ms);
     }
 }

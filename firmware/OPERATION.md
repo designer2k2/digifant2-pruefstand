@@ -97,6 +97,17 @@ is drawn inverted. The **bottom four rows** are live readings:
 | `IGN 138.0-158.0 deg` | Ignition output: crank angle of the pulse's start and end, measured from the crank reference (see [Crank angles](#crank-angles-and-bursts)). With the crank stopped: `IGN low 3920 us`, the width of the last pulse. |
 | `INJ 2.45ms @ 62.5` | Injector open time, and the crank angle at which it opened. |
 
+## The status LED
+
+The RGB pixel (D2) shows the bench state at a glance, at low brightness:
+
+| Colour | Meaning |
+|---|---|
+| dim white | ECU off (safe) |
+| green | ECU on, crank stopped |
+| blue | ECU on, crank running (simulator active) |
+| red | over-current trip latched; clear with `ecu reset` |
+
 ## Using the buttons
 
 **MENU** steps to the next setting: RPM → ECU → IDLE → KN → AIR → WAT → AFM →
@@ -300,7 +311,6 @@ settled on the real bench ([`BRINGUP.md`](../BRINGUP.md), stage 6):
   of the 1 kHz level).
 - **Display:** assumes an SSD1306 OLED; SH1106-based 1.3″ modules need a
   driver change.
-- The status LED has no firmware yet.
 - No firmware has run on real hardware yet (September 2026).
 
 ## Regenerating the images

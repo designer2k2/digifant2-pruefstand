@@ -153,7 +153,9 @@ Unplug USB, fit the OLED, plug USB back in.
 - [ ] With the display unplugged while running, the buttons still work, and
       plugging it back in brings the screen back within 2 s
 
-The SK6812 status LED (D2) has no firmware driver yet; nothing to test there.
+The SK6812 status LED (D2) follows the bench state: dim white with the ECU
+off, green with the ECU on and the crank stopped, blue with the crank running,
+red after an over-current trip.
 
 ## Stage 5 — Dummy load: current reading and over-current trip
 

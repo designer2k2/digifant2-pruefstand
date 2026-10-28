@@ -31,9 +31,12 @@ add_executable(pruefstand
     src/oled.c
     src/ui.c
     src/ui_core.c
+    src/status_led.c
+    src/status_led_core.c
 )
 
 pico_generate_pio_header(pruefstand ${CMAKE_CURRENT_LIST_DIR}/src/crank.pio)
+pico_generate_pio_header(pruefstand ${CMAKE_CURRENT_LIST_DIR}/src/status_led.pio)
 
 target_compile_options(pruefstand PRIVATE -Wall -Wextra)
 

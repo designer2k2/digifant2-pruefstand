@@ -1,0 +1,15 @@
+; SK6812 / WS2812 data on GP10. Each TX FIFO word is one pixel, GRB in the top
+; 24 bits (autopull, shift left). 10 cycles per bit; with the state machine at
+; 8 MHz that is 800 kHz: a 1 is high for 7 cycles, a 0 for 2.
+
+.program status_led
+.side_set 1
+
+.wrap_target
+bitloop:
+    out x, 1       side 0 [2]
+    jmp !x do_zero side 1 [1]
+    jmp bitloop    side 1 [4]
+do_zero:
+    nop            side 0 [4]
+.wrap

@@ -51,6 +51,7 @@ run test_knock_codec   test/test_knock_codec.c src/knock_codec.c
 run test_knock_burst   test/test_knock_burst.c src/knock.c src/knock_codec.c "${SIM[@]}"
 run test_capture_core  test/test_capture_core.c src/capture_core.c
 run test_ecu           test/test_ecu.c src/ecu.c test/fake_board.c test/fake_sense.c
+run test_status_led  test/test_status_led.c src/status_led_core.c
 run test_ui            test/test_ui.c "${SIM[@]}" "${FAKES[@]}" src/ui_core.c src/gfx.c \
                        src/crank_timing.c src/dac_codec.c src/ecu.c src/knock.c src/knock_codec.c
 
