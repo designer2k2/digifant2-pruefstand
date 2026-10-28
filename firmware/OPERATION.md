@@ -301,9 +301,12 @@ settled on the real bench ([`BRINGUP.md`](../BRINGUP.md), stage 6):
 
 - **Hall waveform:** 2 pulses per crank revolution and 50 % duty are
   assumptions until measured on a real engine (`crank ppr`, `crank duty`).
-- **Reference and spark edge:** the firmware measures from the VW-18 falling
-  edge; which ignition edge is the spark (probably the end of the low phase)
-  is still to be confirmed.
+- **Reference edge:** the firmware measures from the VW-18 falling edge;
+  bring-up found the injector's reference is actually the rising edge
+  (ignition follows no single edge) -- see `BRINGUP.md`.
+- **Spark edge is settled:** `ign_rise_deg`. The low phase is dwell (coil
+  charging); the spark fires on the cutoff, the rising edge -- the ordinary
+  inductive-coil principle, also why a longer dwell gives a stronger spark.
 - **Sensor voltages are set at the DAC**, ahead of a 220 Ω (lambda 1 kΩ)
   series resistor; if the ECU has an internal pull-up on its NTC inputs, the
   voltage it sees is higher than the setting.

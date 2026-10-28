@@ -256,11 +256,17 @@ falling edge, so a pulse straddling a reference reads e.g. 170° → 200°, not
 170° → 20°. Interrupt latency adds a few µs; one crank degree at 6000 rpm is
 27.8 µs.
 
-**Two conventions still need confirming on the real ECU:** which VW-18 edge
-Digifant-2 uses as its reference (the falling edge is used here), and which
-ignition edge is the spark (probably the end of the low phase, i.e.
-`ign_rise_deg`). Both edges are reported, so nothing is lost either way, only
-the offset between them changes.
+**One convention still needs confirming on the real ECU:** which VW-18 edge
+Digifant-2 uses as its reference (the falling edge is used here; bring-up
+found the injector's reference is the rising edge, ignition follows no single
+edge -- see `BRINGUP.md`). **The spark edge is settled: `ign_rise_deg`.** The
+low phase is dwell (coil charging); the spark fires on the cutoff, i.e. the
+rising edge, by the ordinary inductive-coil principle -- a longer dwell gives
+a stronger spark, which is also why bring-up found the dwell held to a
+constant *angle* (69-72° across 850-4000 rpm) rather than a constant time: a
+fixed crank-angle window keeps spark energy more consistent across the rev
+range than a fixed dwell time would. Both edges are reported regardless, so
+nothing is lost either way.
 
 ## Standalone operation: OLED and buttons
 
