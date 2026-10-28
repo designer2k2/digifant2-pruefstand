@@ -39,9 +39,9 @@
         "other_text_thickness": 0.15,
         "other_text_upright": false,
         "pads": {
-          "drill": 0.8,
-          "height": 1.27,
-          "width": 1.27
+          "drill": 0.0,
+          "height": 0.6,
+          "width": 1.325
         },
         "silk_line_width": 0.15,
         "silk_text_italic": false,
@@ -774,7 +774,7 @@
       {
         "filename": "digifant2-pruefstand.kicad_sch",
         "name": "digifant2-pruefstand",
-        "uuid": "00000000-0000-0000-0000-000000000000"
+        "uuid": "5ed9f7fe-9bad-4449-b39f-cca1de882057"
       }
     ],
     "used_designators": "",
@@ -782,11 +782,11 @@
   },
   "sheets": [
     [
-      "77039b5c-404d-49fc-8010-93b58892e731",
-      ""
+      "5ed9f7fe-9bad-4449-b39f-cca1de882057",
+      "digifant2-pruefstand"
     ],
     [
-      "308cace1-a435-4613-8a9a-36fda53c3fda",
+      "50315ab2-e05c-44a2-aca4-601b7dd74228",
       "Digifant2_Pruefstand"
     ]
   ],

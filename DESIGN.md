@@ -119,7 +119,10 @@ sitting at **0.8 V** with no injector pulses at all (`inj_n` stuck), while the
 old 12 V test rig (1 k + LED, ~10 mA) showed a clean flicker. Adding 220 Ω in
 parallel (about 180 Ω, ~18 mA) made it inject at once: one pulse per crank
 revolution, ~3.5–3.9 ms at 850 rpm. 3.3 V / 220 Ω = 15 mA is well within the
-Pico's 3V3 rail. **Rev 1 boards:** solder a 220 Ω resistor from J0 VW-12 to the
+Pico's 3V3 rail. **Fixed directly in `board/digifant2-pruefstand.kicad_sch`**
+(R10's value, hand-edited, not a circuit-synth regeneration) -- still queued
+for the next fab run, revision not bumped yet pending more bring-up findings.
+**The already-fabricated board:** solder a 220 Ω resistor from J0 VW-12 to the
 +3V3 pin of J3 (or across R10).
 
 ### `knock_sim` — knock-sensor burst generator (U4)
@@ -356,12 +359,21 @@ Rev 1 connected the ECU-side output (VW-9 / VW-10 / VW-2) to pin 3 -- **NC** --
 and left pin 4 (COM) open. With IN high the switch joins COM–NO, so the output
 sat on an open NC pin and floated: with ECU on, VW-9 read 0.3 V (expected 1.000
 V), VW-10 0.4 V (2.500 V), VW-2 0.1 V (0.450 V), while VW-21 (no switch) was
-exact. Confirmed by measuring 1.000 V on U6 pin 4. **The generator script is
-fixed** (`sw[4] += vw_net`); the PCB in `board/` is **not regenerated** and the
-fabricated Rev 1 board needs a bodge: a short wire from **pin 4 to pin 3** on
-each of U6, U7 and U8 (the pads are on opposite sides of the body). That puts
-COM on the VW net; with IN low, COM–NC joins the net to itself, so the output
-still floats (open-sensor test works as designed).
+exact. Confirmed by measuring 1.000 V on U6 pin 4. The generator script is
+fixed (`sw[4] += vw_net`), and **`board/digifant2-pruefstand.kicad_sch` and
+`.kicad_pcb` now carry the same fix directly** (hand-edited in KiCad, same as
+every other post-generation layout change -- not a circuit-synth regeneration,
+which would discard the hand-routing). On the PCB this moved the net from pad
+3 to pad 4 on each of U6, U7 and U8: a short reroute, since the pads sit
+directly across from each other on the same row. Verified both ways: the
+schematic's ERC is unchanged (same 66 warnings, same categories, 0 errors)
+and the PCB's DRC with schematic-parity is unchanged too (112 violations,
+same categories/counts as before the fix; 0 unconnected items). Revision not
+bumped yet -- more bring-up findings are still coming in before the next fab
+run. **The already-fabricated board** still needs the bodge: a short wire from
+**pin 4 to pin 3** on each of U6, U7 and U8 (the pads are on opposite sides of
+the body). That puts COM on the VW net; with IN low, COM–NC joins the net to
+itself, so the output still floats (open-sensor test works as designed).
 
 **Silkscreen fixes (2026-10-08, from a real assembly report — PCB-level, so
 only on the *next* fab run, not retrofittable to a board already printed):**

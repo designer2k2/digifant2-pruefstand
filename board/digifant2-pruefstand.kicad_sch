@@ -1,29 +1,59 @@
-(kicad_sch (version 20211123) (generator eeschema)
-
-  (uuid 5ed9f7fe-9bad-4449-b39f-cca1de882057)
-
-  (paper "A2")
-
-  (lib_symbols
-  )
-
-  (sheet (at 25.4 25.4) (size 50.8 25.4)
-    (stroke (width 0.1524) (type solid) (color 0 0 0 0))
-    (fill (color 0 0 0 0.0000))
-    (uuid 50315ab2-e05c-44a2-aca4-601b7dd74228)
-    (property "Sheet name" "Digifant2_Pruefstand" (id 0) (at 25.4 24.6884 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheet file" "Digifant2_Pruefstand.kicad_sch" (id 1) (at 25.4 51.2846 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-  )
-
-  (sheet_instances
-    (path "/" (page "1"))
-    (path "/50315ab2-e05c-44a2-aca4-601b7dd74228" (page "2"))
-  )
-
-  (symbol_instances
-  )
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "5ed9f7fe-9bad-4449-b39f-cca1de882057")
+	(paper "A2")
+	(lib_symbols)
+	(sheet
+		(at 25.4 25.4)
+		(size 50.8 25.4)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "50315ab2-e05c-44a2-aca4-601b7dd74228")
+		(property "Sheetname" "Digifant2_Pruefstand"
+			(at 25.4 24.6884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Digifant2_Pruefstand.kicad_sch"
+			(at 25.4 51.2846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "digifant2-pruefstand"
+				(path "/5ed9f7fe-9bad-4449-b39f-cca1de882057"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
 )
