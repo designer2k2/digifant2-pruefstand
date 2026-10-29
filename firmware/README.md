@@ -152,7 +152,7 @@ before `dac` values can be mapped to temperatures.
 
 | `read` field | Chip | Measures |
 |---|---|---|
-| `ecu_a` | U1 @ 0x40, RS1 0.020 Ω | total ECU current, 0.125 mA steps, up to 4.09 A |
+| `ecu_a` | U1 @ 0x40, RS1 0.020 Ω (0.0296 Ω effective, see DESIGN.md) | total ECU current, 0.125 mA steps, up to 4.09 A |
 | `ecu_v` | U1 VBUS | `+12V_ECU`, upstream of the Q2 switch (~0.1 V above VW-14) |
 | `valve_a` | U3 @ 0x41, RS2 0.033 Ω | idle-valve current, 0.076 mA steps, up to 2.48 A |
 | `valve_v` | U3 VBUS | `+12V_ECU_SW`, the valve feed |

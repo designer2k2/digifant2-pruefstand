@@ -207,8 +207,11 @@ itself only 0.5–1.5 % accurate, so errors inside the meter's own tolerance
 are noise, not something to correct. Worth correcting: an error that is
 **consistent** across the three loads (same sign, similar size) and clearly
 larger than the meter's tolerance. Note the per-sensor average; the firmware
-uses the nominal 0.020 Ω / 0.033 Ω and has no correction factor yet, which
-would be a small addition once these numbers exist.
+uses 0.033 Ω for U3 and, for U1, an *effective* 0.0296 Ω (not RS1's 0.020 Ω):
+U1's IN- sense trace picks up part of the power trace's drop, found with a
+meter in the + lead (see DESIGN.md "Pending changes"). Your table below should
+now show U1 close to 0 %; a clear remaining error means the 0.0296 Ω single
+point was off or the error isn't linear.
 
 - [ ] Calibration table filled in; `ecu off`, remove the load and the VW-23 jumper
 
@@ -284,7 +287,7 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
 | Knock amplitude at TP1, 1 kHz / 7 kHz | **Blocked:** Y1 arrived as a 6-pin part, won't fit the 4-pin footprint -- wrong part ordered, see `BOM.md`. U4 (AD9833) can't run without MCLK until a correct Y1 is in hand. | 2026-10-28 |
 | Knock detected by the ECU (retard seen?) | **Blocked**, same reason as above. | 2026-10-28 |
 | OLED controller (SSD1306 / SH1106) | | |
-| Current error, U1 / U3 (average %, from the calibration table) | | |
+| Current error, U1 / U3 (average %, from the calibration table) | U1 before correction: +48 % (0.542 A vs 0.367 A BM869S in the + lead, 7.32 mV across RS1 = 0.366 A). Firmware now uses 0.0296 Ω effective for U1; one point only, linearity not yet checked. U3 not measured yet. | 2026-10-29 |
 | Anything that needed rework | (1) U6–U8: COM wired to NC, bodge wire pin 4→3 on each. (2) R10 1 k too weak for the ECU's injector stage (VW-12 stuck at 0.8 V, no pulses); added 220 Ω from VW-12 to J3 3V3. (3) VW-11 leakage 45 kΩ off, 374 kΩ after cleaning flux. (4) Y1 ordered as a 6-pin part (BOM mislabeled a Renesas XLH73 part as IQD); the real 4-pin equivalent is IQD CFPS-73 (LFSPXO018077). See DESIGN.md / BOM.md. | 2026-10-28 |
 
 Once the answers are in, the firmware defaults (`CRANK_PPR_DEFAULT`,

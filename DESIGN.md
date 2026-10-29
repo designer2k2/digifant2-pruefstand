@@ -534,3 +534,26 @@ pull-up / polarity option), not just different firmware on this board.
 - ~~AD9833 `COMP` / `CAP_2V5` decoupling caps~~ — added (C7, C8), fully routed;
   C8's GND connection (previously a short unrouted ratsnest line) got picked
   up for free by the Freerouting pass used for the RS2 fix above.
+
+## Pending changes for the next board revision
+
+Collected during bring-up; the already-fabricated board lives with firmware
+workarounds or bodges. Fixes already applied to the live schematic/PCB (U6–U8
+COM pin, R10 = 220 Ω) are described above and are not repeated here.
+
+- **U1 IN− sense line is not Kelvin (found 2026-10-29).** U1's `+12V_ECU` sense
+  trace (0.2 mm) joins the 0.6 mm power trace at about (71.03, 20.00), ~29 mm
+  of power copper downstream of RS1 pad 2, so U1 also sees that trace's IR
+  drop: 7.32 mV across RS1 at 0.366 A (meter in the + lead: 0.367 A), but U1
+  read 0.542 A, i.e. 48 % high (≈ 0.0296 Ω effective instead of 0.020 Ω).
+  Route IN− (and VBUS) as its own trace straight to RS1 pad 2. The IN+ side is
+  fine: it ends on RS1 pad 1 and carries no current. **Workaround on the
+  board you have:** `sense.c` divides by 0.0296 Ω (`RS1_EFFECTIVE_OHM`) for U1,
+  from one measured point; linearity still to be checked with the Stage 5
+  dummy loads. Remove the workaround once the layout is fixed.
+- **Check U3 (RS2) for the same flaw:** compare its IN+/IN− taps with RS2's
+  pads in the layout, and in Stage 5 compare `valve_a` with the meter.
+- **Over-current trip scale:** the trip limit acts on the U1 reading, which was
+  1.48 × the true current, so before the workaround it fired at about 0.68 ×
+  the set value in real current (e.g. 2.5 A default ≈ 1.7 A true). With the
+  workaround the set value is the true current again.

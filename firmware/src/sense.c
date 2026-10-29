@@ -15,7 +15,13 @@ typedef struct {
 
 // U3's IN+ is on the ECU side of RS2 (VW-23), so valve current reads negative;
 // flip it so current through the valve is positive (DESIGN.md "idle_valve").
-static ina_t ina_ecu = {I2C_ADDR_INA_ECU, 0.020f, 1.0f, false};     // RS1
+// RS1 is 0.020 R, but U1's IN- sense trace taps the 0.6 mm power trace ~29 mm
+// downstream of the shunt instead of its pad, so U1 also sees part of that
+// trace's IR drop. Measured 2026-10-29: 7.32 mV across RS1 (0.366 A), BM869S in
+// the + lead 0.367 A, U1 read 0.542 A -> 0.0296 R effective. Single point, not
+// yet checked for linearity; remove once the layout is fixed (DESIGN.md).
+#define RS1_EFFECTIVE_OHM 0.0296f
+static ina_t ina_ecu = {I2C_ADDR_INA_ECU, RS1_EFFECTIVE_OHM, 1.0f, false};  // RS1
 static ina_t ina_valve = {I2C_ADDR_INA_VALVE, 0.033f, -1.0f, false};  // RS2
 
 static bool read_reg(uint8_t addr, uint8_t reg, uint16_t *out) {
