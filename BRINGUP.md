@@ -291,7 +291,19 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
 | Knock detected by the ECU (retard seen?) | **Blocked**, same reason as above. | 2026-10-28 |
 | OLED controller (SSD1306 / SH1106) | | |
 | Current error, U1 / U3 (average %, from the calibration table) | U1 before correction: +48 % (0.542 A vs 0.367 A BM869S in the + lead, 7.32 mV across RS1 = 0.366 A). Firmware now uses 0.0296 Ω effective for U1; one point only, linearity not yet checked. U3 not measured yet. | 2026-10-29 |
+| ECU reaction to lambda (VW-2) at warm idle | **None detectable.** Steps to 100, 300, 700 and 900 mV, the sensor opened, a 5 min lean hold at 100 mV and a 150 / 750 mV square wave at 2 Hz for 2 min: injector time stayed within ±1.2 µs (≤ 0.05 %) of the 2622.8 µs baseline, spark within ±0.03°, current unchanged, all inside the noise of two sham steps (sham \|t\| ≤ 1.0, lambda \|t\| ≤ 2.3 before correcting for 30 comparisons; the 5 min and switching tests t = −1.3 and −1.7, no trend). Closed-loop lambda control is not active in this condition (850 rpm, idle contact closed, coolant 1200 mV). Opening the lambda input changes the ECU current by +1.2 mA only (the DAC's load). Other conditions (load, speed, time since start) are untested. | 2026-10-29 |
+| ECU reaction to intake-air temperature (VW-9) | Injector time +3.1 % (500 mV), +4.4 % (3000 mV) and +6.0 % (sensor open) against the 1800 mV baseline, within 1 s and fully reversible; spark and current unchanged. Rising in both directions from 1800 mV is not monotonic: either a fault substitution at the extremes or a map minimum near 1.8 V. Needs a denser sweep (1000 to 2600 mV). | 2026-10-29 |
+| ECU reaction to an open coolant sensor (VW-10) | Injector time +32.6 %, spark 6.8° earlier (142.8° to 136.0°), within 1 s, fully reversible. The 3300 mV point of the earlier sweep gave the same spark angle (135.9°) but a larger fuel change, so an open input is handled as its own condition, not as the coldest reading. | 2026-10-29 |
+| ECU reaction to the idle contact (VW-11 open) at 850 rpm | Injector time +61.8 % (2622 to 4241 µs) with a 13 s time constant, spark 0.6° later, ECU current −11.8 mA; fully reversible. | 2026-10-29 |
 | Anything that needed rework | (1) U6–U8: COM wired to NC, bodge wire pin 4→3 on each. (2) R10 1 k too weak for the ECU's injector stage (VW-12 stuck at 0.8 V, no pulses); added 220 Ω from VW-12 to J3 3V3. (3) VW-11 leakage 45 kΩ off, 374 kΩ after cleaning flux. (4) Y1 ordered as a 6-pin part (BOM mislabeled a Renesas XLH73 part as IQD); the real 4-pin equivalent is IQD CFPS-73 (LFSPXO018077). See DESIGN.md / BOM.md. | 2026-10-28 |
+
+**Idle step tests (2026-10-29).** Baseline: 850 rpm, idle contact closed, airflow 1000 mV,
+coolant 1200 mV, air 1800 mV, lambda 450 mV, 150 s settling (injector time 2622.8 ± 1.7 µs,
+spark 142.78 ± 0.14°, current 0.3703 A, n = 40). Twelve tests in a seeded random order, each
+20 s before, 60 s with one input moved and 45 s after returning to baseline, logged at 1 Hz;
+two of the twelve were sham steps (no change) as the null. A response counts only when it is
+far outside the sham steps (Welch t of the last 20 s of the step against the last 15 s before
+it; shams gave \|t\| ≤ 1.0) and reverses on return. Scripts and data are not in the repo.
 
 Once the answers are in, the firmware defaults (`CRANK_PPR_DEFAULT`,
 `CRANK_DUTY_DEFAULT` in `firmware/src/crank.h`) and the open-question notes in
