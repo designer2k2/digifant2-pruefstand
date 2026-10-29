@@ -47,8 +47,8 @@ int main(void) {
     uint32_t peak = dac_get_mv(DAC_AIR);
     check("a quarter period later it is at the peak (850 mV)", peak >= 848 && peak <= 852);
     run_ms(500);
-    uint32_t trough = dac_get_mv(DAC_AIR);
-    check("three quarters in it is at the trough (50 mV)", trough >= 48 && trough <= 52);
+    uint32_t low_mv = dac_get_mv(DAC_AIR);
+    check("three quarters in it is at the lowest point (50 mV)", low_mv >= 48 && low_mv <= 52);
     check("the first tick (phase 0) was the first scheduled tick, 5 ms in", wave_t0_us(DAC_AIR) == 5000);
 
     // Writes only when the millivolt value changes.

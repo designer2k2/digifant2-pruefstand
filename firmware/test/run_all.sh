@@ -63,7 +63,7 @@ run test_ui            test/test_ui.c "${SIM[@]}" "${FAKES[@]}" src/ui_core.c sr
 printf '%-22s ' "command parser"
 gcc "${CFLAGS[@]}" -o "$OUT/bench-sim" test/host_main.c "${SIM[@]}" "${FAKES[@]}" \
     src/cmd.c src/crank_timing.c src/dac_codec.c src/ecu.c src/knock.c src/knock_codec.c \
-    src/wave.c src/wave_core.c
+    src/wave.c src/wave_core.c -lm
 expected='OK ecu=on
 OK rpm=850
 ERR rpm must be 0..8000
