@@ -546,13 +546,32 @@ COM pin, R10 = 220 Ω) are described above and are not repeated here.
   of power copper downstream of RS1 pad 2, so U1 also sees that trace's IR
   drop: 7.32 mV across RS1 at 0.366 A (meter in the + lead: 0.367 A), but U1
   read 0.542 A, i.e. 48 % high (≈ 0.0296 Ω effective instead of 0.020 Ω).
-  Route IN− (and VBUS) as its own trace straight to RS1 pad 2. The IN+ side is
-  fine: it ends on RS1 pad 1 and carries no current. **Workaround on the
-  board you have:** `sense.c` divides by 0.0296 Ω (`RS1_EFFECTIVE_OHM`) for U1,
-  from one measured point; linearity still to be checked with the Stage 5
-  dummy loads. Remove the workaround once the layout is fixed.
-- **Check U3 (RS2) for the same flaw:** compare its IN+/IN− taps with RS2's
-  pads in the layout, and in Stage 5 compare `valve_a` with the meter.
+  **Layout now fixed (hand-edited in `board/*.kicad_pcb`, 2026-10-29):** IN−/VBUS
+  runs as its own 0.2 mm trace from U1 pins 8/9 to RS1 pad 2 (46.52, 14.95),
+  alongside the IN+ trace, and the old tap onto the power trace is removed.
+  The IN+ side was always fine: it ends on RS1 pad 1 and carries no current.
+  **Workaround on the board you have:** `sense.c` divides by 0.0296 Ω
+  (`RS1_EFFECTIVE_OHM`) for U1, from one measured point; linearity still to be
+  checked with the Stage 5 dummy loads. Remove the workaround on a board built
+  from the fixed layout.
+- **U3 (RS2) has the same flaw on its IN+ side (checked 2026-10-29, not yet
+  fixed).** IN− (`VALVE_RETURN_SENSE`) is fine: it leaves RS2 pad 1 and
+  dead-ends at U3 pin 9, so it carries no current. IN+ (`VW_PIN23_VALVE_RETURN`)
+  is not: U3 pin 10 is fed from a via at (80.90, 32.13) on the 0.6 mm return
+  trace to J0 VW-23, about **17.8 mm of power copper downstream of RS2 pad 2**
+  (two vias on the way), and all of the valve current crosses that stretch.
+  That is roughly 30 squares of 0.6 mm copper, about 14.5 mΩ against RS2's
+  33 mΩ if the copper is 1 oz. U1's equivalent stretch measured about 0.42 of
+  its textbook value, so expect **`valve_a` to read roughly 20 % to 45 % high**.
+  To confirm: Stage 5 with a dummy load on J2 and the meter in the + lead, or
+  the millivolts across RS2 against `valve_a`. Fix for the layout: give
+  IN+ its own trace straight from RS2 pad 2 (64.26, 34.95) to U3 pin 10. Until
+  then correct U3 in firmware the same way as U1 once the measurement exists.
+  VBUS on U3 (the switched rail, for the voltage reading only) carries no
+  current, so its long thin route is harmless.
+- **C9 / C10:** C9 (U1's 3V3 decoupling cap) was moved next to U3 during the U1
+  reroute and now sits beside C10. Accepted for this board. U1's supply pin has
+  no cap closer than 11 mm.
 - **Over-current trip scale:** the trip limit acts on the U1 reading, which was
   1.48 × the true current, so before the workaround it fired at about 0.68 ×
   the set value in real current (e.g. 2.5 A default ≈ 1.7 A true). With the

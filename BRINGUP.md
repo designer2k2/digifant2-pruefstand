@@ -211,7 +211,10 @@ uses 0.033 Ω for U3 and, for U1, an *effective* 0.0296 Ω (not RS1's 0.020 Ω):
 U1's IN- sense trace picks up part of the power trace's drop, found with a
 meter in the + lead (see DESIGN.md "Pending changes"). Your table below should
 now show U1 close to 0 %; a clear remaining error means the 0.0296 Ω single
-point was off or the error isn't linear.
+point was off or the error isn't linear. **Expect U3 to read about 20–45 %
+high** (its IN+ sense tap sits 17.8 mm downstream of RS2, see DESIGN.md
+"Pending changes"); that is a prediction to confirm here, and the data point
+for a firmware correction.
 
 - [ ] Calibration table filled in; `ecu off`, remove the load and the VW-23 jumper
 
