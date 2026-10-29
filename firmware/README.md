@@ -43,6 +43,8 @@ so interrupt handlers never wait on flash-cache misses.
 | Ignition / injector capture (`capture`) | **real** | GP14 / GP15, crank reference on GP2 |
 | OLED + buttons | **real** | SSD1306 @ 0x3C on J3, SW1–SW3 on GP20–22 |
 | Status LED (colour by ECU / crank / trip state) | **real** | SK6812 D2 on GP10, PIO1 SM0 |
+| Waveform generator (`wave`): sine / triangle / square / ramp, lambda sensor model, closed-loop lambda | **real** | the four DAC channels, 200 Hz tick |
+| Pulse log (`log`): every ECU pulse with its timestamp | **real** | capture interrupt, two 1024-entry rings |
 
 Power-up state, set before any pin becomes an output: ECU **off**, idle switch
 **open**, all three sensors **connected**, crank stopped (VW-18 high), DAC
@@ -303,13 +305,14 @@ font is the Adafruit GFX 5×7 font (BSD, see `NOTICE`).
 
 ASCII over USB CDC (baud rate is ignored). One command per line (`\n` or `\r\n`),
 case-insensitive. Every command gets exactly one reply line: `OK ...` with
-`key=value` fields, or `ERR <reason>`. No echo. Numbers are plain decimal
+`key=value` fields, or `ERR <reason>`. The one exception is `log read`, whose header
+announces `lines=N` and is followed by N data lines (`bench.py` has `Bench.block()` for it). No echo. Numbers are plain decimal
 digits (no sign). `bench.py` drops any unread input before sending a command,
 so a reply that arrives after a timeout isn't mistaken for the next answer.
 
 | Command | Reply |
 |---|---|
-| `ping` | `OK pong fw=0.9.0` |
+| `ping` | `OK pong fw=0.10.0` |
 | `help` | `OK <usage of every command>` |
 | `status` | `OK fw=… boot=power/watchdog ecu=on/off ecu_fault=none/overcurrent ecu_trip_ma=… idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=… burst=on/off burst_start_deg=… burst_len_deg=… burst_every=…` |
 | `read` | `OK afm_ref_mv=… ecu_v=… ecu_a=… valve_v=… valve_a=…` (`na` if not available) |
@@ -323,6 +326,48 @@ so a reply that arrives after a timeout isn't mistaken for the next answer.
 | `dac air\|water\|afm\|lambda <mV>` | `OK dac_<name>=…` (ranges per channel, see above) |
 | `knock off\|<1..20000 Hz>` | `OK knock_hz=…` |
 | `burst <start_deg> <len_deg> [every]` / `burst off` | `OK burst=on burst_start_deg=… …` / `OK burst=off` |
+| `wave` | `OK wave_<air/water/afm/lambda>=off\|sine\|tri\|square\|ramp\|lam\|loop` with that wave's parameters |
+| `wave <ch> sine\|tri\|square <Hz> <amp_mV> <offset_mV> [duty%]` | `OK wave_<ch>=… t0_us=…`; Hz is decimal (0.05..10), the wave covers `offset ± amp` |
+| `wave <ch> ramp <from_mV> <to_mV> <seconds>` | one-shot ramp, then holds `to` |
+| `wave lambda lam <Hz> <amp> <offset>` | lambda `offset ± amp` (decimals, e.g. `1.5 0.03 1.000`) through the sensor curve |
+| `wave lambda loop <lambda0> <delay_ms> [ref_us]` | closed-loop emulation, see below |
+| `wave off [<ch>]` | stop one or all waves |
+| `log start` / `log stop` / `log status` | pulse log control; `start` clears both rings |
+| `log read ign\|inj [n]` | `OK log_<name>_n=… pending=… dropped=… lines=…`, then one `t_us low_us` line per pulse (oldest first, removed once read; n ≤ 200) |
+
+## Waveform generator and pulse log
+
+**`wave`** drives a DAC channel from a 200 Hz tick (`wave.c`, maths in
+`wave_core.c`). It writes the DAC only when the millivolt value changes
+(about 0.1 ms per write on the 400 kHz bus), never while the ECU is off (the
+channel stays parked at 0 V; the wave keeps its phase and carries on when the
+ECU returns), and it ends when anything else writes the channel (`dac`, the
+buttons). Phase comes from the tick count, so a stalled main loop catches up
+without drifting; a stall of more than 100 ms restarts the schedule.
+
+- `sine`, `tri`, `square` give `offset ± amp` mV, 0.05 to 10 Hz. `ramp` is a one-shot
+  from one voltage to another over 0.1 to 3600 s.
+- `lam` takes lambda in decimals: `lambda(t) = offset + amp·sin(2πft)` goes through a
+  narrowband zirconia sensor curve, `V = 450 mV + 450 mV · tanh((1 − λ) / 0.015)`
+  (about 450 mV at λ = 1, above 0.8 V at λ ≤ 0.97, below 0.1 V at λ ≥ 1.03), then a first-order
+  lag of 100 ms. Both constants are typical values, not measured on this ECU.
+- `loop` is closed-loop emulation of the engine: `lambda = lambda0 · ref / T_inj(t − delay)`,
+  where `T_inj` is the injector open time the ECU is producing, `ref` is its mean over the
+  first second (or `ref_us` if given) and `delay` stands for the transport time from the
+  injector to the sensor. More fuel than the reference reads rich after the delay. If the
+  ECU has a lambda control loop it can now regulate against this model. During the learning
+  second the output sits at 450 mV. Injector dead time is not modelled.
+- Only the lambda channel can run `lam` and `loop`, and it is capped at 1200 mV: a real
+  sensor never exceeds about 1.1 V, and the ECU input's rating is not known.
+
+**`log`** records every completed ECU pulse (start of the low phase, low time) into two
+1024-entry rings filled from the capture interrupt. The reader empties them with
+`log read`; a full ring drops the newest pulses and counts them (`dropped`). The injector
+fires once per revolution, so there are `rpm/60` entries per second (14 at 850 rpm): enough to
+see a modulation up to about a third of that. `host/examples/lambda_sweep.py` uses it.
+
+The OLED frame is sent as eight 128-byte pages, one per main-loop pass (about 3 ms each),
+instead of one 23 ms block, so the display never stalls the generator.
 
 ## Testing without hardware
 

@@ -2,6 +2,7 @@
 #include "dac.h"
 
 static uint32_t setpoint_mv[DAC_COUNT];
+unsigned long fake_dac_writes;  // successful dac_set_mv calls
 
 void dac_init(void) {}
 
@@ -9,6 +10,7 @@ dac_result_t dac_set_mv(dac_channel_t ch, uint32_t mv) {
     uint8_t frame[3];
     if (!dac_encode(ch, mv, frame)) return DAC_OUT_OF_RANGE;
     setpoint_mv[ch] = mv;
+    fake_dac_writes++;
     return DAC_OK;
 }
 

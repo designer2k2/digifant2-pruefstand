@@ -258,6 +258,44 @@ Leave each step a moment to settle (`--settle`, default 1.5 s): the ECU needs
 a few revolutions to react, and the current readings are averaged over
 ~0.14 s.
 
+### Waves: a sensor that moves
+
+`wave` turns a DAC channel into a small function generator, running on the Pico itself:
+
+```text
+bench> wave lambda lam 1.5 0.03 1.000     lambda 1.00 +- 0.03 at 1.5 Hz, through the sensor curve
+bench> wave afm sine 0.5 300 1200         airflow signal 900..1500 mV at 0.5 Hz
+bench> wave water ramp 3000 800 120       coolant from cold to warm over 2 minutes
+bench> wave lambda loop 1.0 500           closed loop: lambda follows the ECU's own injector time
+bench> wave                               what is running
+bench> wave off                           stop everything
+```
+
+A wave stops when you write the channel yourself (`dac`, the buttons) and pauses, without
+losing its place, while the ECU is off. `wave lambda lam` is the one to use for lambda: a
+steady voltage, or a plain sine, is not what a working sensor delivers; it switches between
+lean and rich. The details and limits are in the [firmware reference](README.md#waveform-generator-and-pulse-log).
+
+### Pulse log: every injector pulse
+
+`capture` shows only the latest pulse, so polling it once a second cannot see anything that
+changes faster than half a hertz. `log start` records every ECU pulse with its timestamp
+until you read it out with `log read inj` (or `ign`):
+
+```text
+bench> log start
+OK log=on
+bench> log read inj 3
+OK log_inj_n=3 pending=57 dropped=0 lines=3
+3501190412 2618
+3501261012 2616
+3501331598 2621
+```
+
+[`host/examples/lambda_sweep.py`](../host/examples/lambda_sweep.py) uses both: it drives lambda at a list
+of frequencies, fits the injector time's response at each one, and reports amplitude, phase and
+a z-score. `--selftest` checks the fit without hardware.
+
 ## Crank angles and bursts
 
 ![Timing of the crank signal, ignition, injector and knock bursts](docs/screens/timing.png)

@@ -14,6 +14,8 @@ static btn_t btn_menu, btn_minus, btn_plus;
 static uint8_t fb[GFX_FB_SIZE];
 static bool oled_ok;
 static uint32_t next_refresh_ms, next_retry_ms;
+static int flush_page = -1;  // next page of the frame in flight, -1 = none
+static bool render_pending;
 
 void ui_init(void) { oled_ok = oled_init(); }
 
@@ -47,8 +49,17 @@ void ui_poll(void) {
         if (!oled_ok) return;
         changed = true;
     }
-    if (!changed && (int32_t)(now - next_refresh_ms) < 0) return;
+    if (changed) render_pending = true;
+    // A frame goes out one page per pass (about 3 ms each) so the main loop is
+    // never held for the ~23 ms a whole frame takes.
+    if (flush_page >= 0) {
+        oled_ok = oled_flush_page(fb, flush_page);
+        flush_page = oled_ok && flush_page + 1 < GFX_ROWS ? flush_page + 1 : -1;
+        return;
+    }
+    if (!render_pending && (int32_t)(now - next_refresh_ms) < 0) return;
+    render_pending = false;
     next_refresh_ms = now + REFRESH_MS;
     ui_render(&ui, fb);
-    oled_ok = oled_flush(fb);
+    flush_page = 0;
 }

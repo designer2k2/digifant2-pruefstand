@@ -13,8 +13,9 @@
 #include "ecu.h"
 #include "knock.h"
 #include "sense.h"
+#include "wave.h"
 
-#define MAX_ARGS 4
+#define MAX_ARGS 6
 
 typedef void (*cmd_handler_t)(int argc, char **argv);
 
@@ -40,6 +41,35 @@ static bool parse_uint(const char *s, uint32_t *out) {
         if (v > UINT32_MAX) return false;
     }
     *out = (uint32_t)v;
+    return true;
+}
+
+// "1", "1.5", "0.03" -> value * 1000. Up to three decimals; no sign.
+static bool parse_milli(const char *s, uint32_t *out) {
+    uint64_t whole = 0, frac = 0;
+    int digits = 0;
+    bool dot = false, any = false;
+    for (; *s; s++) {
+        if (*s == '.') {
+            if (dot) return false;
+            dot = true;
+            continue;
+        }
+        if (!isdigit((unsigned char)*s)) return false;
+        any = true;
+        unsigned d = (unsigned)(*s - '0');
+        if (!dot) {
+            whole = whole * 10 + d;
+            if (whole > UINT32_MAX / 1000) return false;
+        } else {
+            if (digits == 3) return false;
+            frac = frac * 10 + d;
+            digits++;
+        }
+    }
+    if (!any) return false;
+    for (; digits < 3; digits++) frac *= 10;
+    *out = (uint32_t)(whole * 1000 + frac);
     return true;
 }
 
@@ -87,6 +117,12 @@ static void cmd_status(int argc, char **argv) {
     printf(" dac_i2c=%s knock_hz=%lu burst=%s burst_start_deg=%lu burst_len_deg=%lu burst_every=%lu",
            dac_i2c_ok() ? "ok" : "err", (unsigned long)knock_get_hz(), on_off(b.enabled),
            (unsigned long)b.start_deg, (unsigned long)b.len_deg, (unsigned long)b.every);
+    for (int ch = 0; ch < DAC_COUNT; ch++) {
+        if (wave_active((dac_channel_t)ch)) {
+            printf(" wave_%s=%s", dac_channel_name((dac_channel_t)ch),
+                   wave_shape_name(wave_get((dac_channel_t)ch).shape));
+        }
+    }
     printf("\n");
 }
 
@@ -200,6 +236,7 @@ static void cmd_dac(int argc, char **argv) {
         printf("ERR dac not responding on i2c\n");
         return;
     }
+    wave_stop(ch);  // an explicit value ends any wave on that channel
     printf("OK dac_%s=%lu\n", dac_channel_name(ch), (unsigned long)mv);
 }
 
@@ -260,6 +297,144 @@ static void cmd_capture(int argc, char **argv) {
     printf("\n");
 }
 
+
+static void print_milli(uint32_t v) {
+    printf("%lu.%03lu", (unsigned long)(v / 1000), (unsigned long)(v % 1000));
+}
+
+static void print_wave_detail(dac_channel_t ch, const wave_cfg_t *c) {
+    const char *n = dac_channel_name(ch);
+    switch (c->shape) {
+    case WAVE_SINE:
+    case WAVE_TRIANGLE:
+    case WAVE_SQUARE:
+        printf(" %s_freq_hz=", n);
+        print_milli(c->freq_mhz);
+        printf(" %s_amp_mv=%lu %s_offset_mv=%lu", n, (unsigned long)c->amp, n, (unsigned long)c->offset);
+        if (c->shape == WAVE_SQUARE) printf(" %s_duty=%lu", n, (unsigned long)c->duty_pct);
+        break;
+    case WAVE_RAMP:
+        printf(" %s_from_mv=%lu %s_to_mv=%lu %s_seconds=", n, (unsigned long)c->from_mv, n,
+               (unsigned long)c->to_mv, n);
+        print_milli(c->ramp_ms);
+        break;
+    case WAVE_LAMBDA:
+        printf(" %s_freq_hz=", n);
+        print_milli(c->freq_mhz);
+        printf(" %s_amp=", n);
+        print_milli(c->amp);
+        printf(" %s_offset=", n);
+        print_milli(c->offset);
+        break;
+    case WAVE_LOOP:
+        printf(" %s_lambda0=", n);
+        print_milli(c->offset);
+        printf(" %s_delay_ms=%lu %s_ref_us=%lu", n, (unsigned long)c->delay_ms, n, (unsigned long)c->ref_us);
+        break;
+    default: break;
+    }
+}
+
+#define WAVE_USAGE \
+    "ERR usage: wave [off [<ch>]] | <ch> sine|tri|square <Hz> <amp_mV> <offset_mV> [duty%%] | " \
+    "<ch> ramp <from_mV> <to_mV> <seconds> | lambda lam <Hz> <amp> <offset> | " \
+    "lambda loop <lambda0> <delay_ms> [ref_us]\n"
+
+static void cmd_wave(int argc, char **argv) {
+    if (argc == 1) {
+        printf("OK");
+        for (int ch = 0; ch < DAC_COUNT; ch++) {
+            wave_cfg_t c = wave_get((dac_channel_t)ch);
+            printf(" wave_%s=%s", dac_channel_name((dac_channel_t)ch), wave_shape_name(c.shape));
+            print_wave_detail((dac_channel_t)ch, &c);
+        }
+        printf("\n");
+        return;
+    }
+    if (strcmp(argv[1], "off") == 0) {
+        if (argc == 2) {
+            wave_stop_all();
+            printf("OK wave=off\n");
+            return;
+        }
+        dac_channel_t och;
+        if (argc != 3 || !dac_channel_from_name(argv[2], &och)) { printf(WAVE_USAGE); return; }
+        wave_stop(och);
+        printf("OK wave_%s=off\n", dac_channel_name(och));
+        return;
+    }
+    dac_channel_t ch;
+    if (argc < 5 || !dac_channel_from_name(argv[1], &ch)) { printf(WAVE_USAGE); return; }
+    const char *shape = argv[2];
+    wave_cfg_t c = {0};
+    c.duty_pct = 50;
+    bool ok = false;
+    if (strcmp(shape, "sine") == 0 || strcmp(shape, "tri") == 0 || strcmp(shape, "triangle") == 0 ||
+        strcmp(shape, "square") == 0) {
+        c.shape = shape[0] == 's' && shape[1] == 'i' ? WAVE_SINE : shape[0] == 't' ? WAVE_TRIANGLE : WAVE_SQUARE;
+        ok = argc >= 6 && argc <= (c.shape == WAVE_SQUARE ? 7 : 6) && parse_milli(argv[3], &c.freq_mhz) &&
+             parse_uint(argv[4], &c.amp) && parse_uint(argv[5], &c.offset) &&
+             (argc < 7 || parse_uint(argv[6], &c.duty_pct));
+    } else if (strcmp(shape, "ramp") == 0) {
+        c.shape = WAVE_RAMP;
+        ok = argc == 6 && parse_uint(argv[3], &c.from_mv) && parse_uint(argv[4], &c.to_mv) &&
+             parse_milli(argv[5], &c.ramp_ms);
+    } else if (strcmp(shape, "lam") == 0) {
+        c.shape = WAVE_LAMBDA;
+        ok = argc == 6 && parse_milli(argv[3], &c.freq_mhz) && parse_milli(argv[4], &c.amp) &&
+             parse_milli(argv[5], &c.offset);
+    } else if (strcmp(shape, "loop") == 0) {
+        c.shape = WAVE_LOOP;
+        ok = (argc == 5 || argc == 6) && parse_milli(argv[3], &c.offset) &&
+             parse_uint(argv[4], &c.delay_ms) && (argc < 6 || parse_uint(argv[5], &c.ref_us));
+    }
+    if (!ok) { printf(WAVE_USAGE); return; }
+    const char *why = wave_start(ch, &c);
+    if (why) { printf("ERR %s\n", why); return; }
+    printf("OK wave_%s=%s t0_us=%lu\n", dac_channel_name(ch), wave_shape_name(c.shape),
+           (unsigned long)wave_t0_us(ch));
+}
+
+#define LOG_READ_MAX 200
+
+static void cmd_log(int argc, char **argv) {
+    if (strcmp(argv[1], "start") == 0 && argc == 2) {
+        capture_log_start();
+        printf("OK log=on\n");
+    } else if (strcmp(argv[1], "stop") == 0 && argc == 2) {
+        capture_log_stop();
+        printf("OK log=off\n");
+    } else if (strcmp(argv[1], "status") == 0 && argc == 2) {
+        printf("OK log=%s", on_off(capture_log_running()));
+        for (int ch = 0; ch < CAP_COUNT; ch++) {
+            const char *n = capture_name((cap_channel_t)ch);
+            printf(" %s_pending=%lu %s_dropped=%lu", n, (unsigned long)capture_log_pending((cap_channel_t)ch),
+                   n, (unsigned long)capture_log_dropped((cap_channel_t)ch));
+        }
+        printf("\n");
+    } else if (strcmp(argv[1], "read") == 0 && (argc == 3 || argc == 4)) {
+        cap_channel_t ch;
+        if (strcmp(argv[2], "ign") == 0) ch = CAP_IGN;
+        else if (strcmp(argv[2], "inj") == 0) ch = CAP_INJ;
+        else { printf("ERR expected ign|inj\n"); return; }
+        uint32_t n = 100;
+        if (argc == 4 && (!parse_uint(argv[3], &n) || n == 0 || n > LOG_READ_MAX)) {
+            printf("ERR n must be 1..%d\n", LOG_READ_MAX);
+            return;
+        }
+        pulse_rec_t buf[LOG_READ_MAX];
+        uint32_t got = capture_log_read(ch, buf, n);
+        printf("OK log_%s_n=%lu pending=%lu dropped=%lu lines=%lu\n", capture_name(ch), (unsigned long)got,
+               (unsigned long)capture_log_pending(ch), (unsigned long)capture_log_dropped(ch),
+               (unsigned long)got);
+        for (uint32_t i = 0; i < got; i++) {
+            printf("%lu %lu\n", (unsigned long)buf[i].t_us, (unsigned long)buf[i].low_us);
+        }
+    } else {
+        printf("ERR usage: log start|stop|status | log read ign|inj [n]\n");
+    }
+}
+
 static const cmd_t commands[] = {
     {"ping",    0, 0, cmd_ping,     "ping"},
     {"help",    0, 0, cmd_help,     "help"},
@@ -274,6 +449,8 @@ static const cmd_t commands[] = {
     {"dac",     2, 2, cmd_dac,      "dac air|water|afm|lambda <mV>"},
     {"knock",   1, 1, cmd_knock,    "knock off|<hz>"},
     {"burst",   1, 3, cmd_burst,    "burst off|<start_deg> <len_deg> [every]"},
+    {"wave",    0, 6, cmd_wave,     "wave [off [ch]|<ch> sine|tri|square|ramp|lam|loop ...]"},
+    {"log",     1, 3, cmd_log,      "log start|stop|status|read ign|inj [n]"},
 };
 
 #define NUM_COMMANDS (sizeof commands / sizeof commands[0])

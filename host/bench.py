@@ -67,6 +67,26 @@ class Bench:
     def cmd(self, command):
         return parse_reply(self.raw(command))
 
+    def raw_block(self, command):
+        """For replies that announce `lines=N`: the header and the N lines after it."""
+        header = self.raw(command)
+        n = 0
+        for tok in header.split():
+            if tok.startswith("lines="):
+                n = int(tok[6:])
+        body = []
+        for _ in range(n):
+            line = self.ser.readline().decode(errors="replace").strip()
+            if not line:
+                raise BenchError(f"reply to {command!r} stopped after {len(body)} of {n} lines")
+            body.append(line)
+        return header, body
+
+    def block(self, command):
+        """Like cmd(), for multi-line replies: (fields of the header, list of body lines)."""
+        header, body = self.raw_block(command)
+        return parse_reply(header), body
+
     def close(self):
         self.ser.close()
 
@@ -93,11 +113,13 @@ def main():
             failed = False
             for c in args.commands:
                 try:
-                    line = bench.raw(c)
+                    line, body = bench.raw_block(c)
                 except BenchError as e:
                     print(f"error: {e}", file=sys.stderr)
                     sys.exit(1)
                 print(line)
+                for extra in body:
+                    print(extra)
                 failed |= line.startswith("ERR")
             sys.exit(1 if failed else 0)
 
@@ -110,7 +132,8 @@ def main():
                 return
             if c.strip():
                 try:
-                    print(bench.raw(c))
+                    line, body = bench.raw_block(c)
+                    print("\n".join([line] + body))
                 except BenchError as e:
                     print(f"error: {e}")
 

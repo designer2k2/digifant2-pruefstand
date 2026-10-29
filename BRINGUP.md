@@ -52,7 +52,7 @@ Catches a dead Pico or a bad cable before soldering.
    tab.
 2. Hold BOOTSEL, plug in USB, copy `pruefstand.uf2` onto the `RPI-RP2` drive.
 
-- [ ] `python3 host/bench.py ping` → `OK pong fw=0.9.0`
+- [ ] `python3 host/bench.py ping` → `OK pong fw=0.10.0`
 - [ ] `status` → `boot=power ecu=off …`; `dac_i2c=err` is expected here (no DAC on a bare Pico)
 
 ## Stage 1 — Visual and continuity, no power
@@ -73,7 +73,7 @@ The Pico runs from USB alone and powers all the logic (INA226s, DAC, AD9833
 and switches run on +3V3), so everything on the I²C bus can be checked
 without any 12 V risk.
 
-- [ ] Pico enumerates, `ping` → `OK pong fw=0.9.0`
+- [ ] Pico enumerates, `ping` → `OK pong fw=0.10.0`
 - [ ] `status` → `dac_i2c=ok` (MCP4728 answers at 0x60)
 - [ ] `read` → `ecu_v` and `valve_v` are **numbers**, not `na` (both INA226s
       answer), both ≈ 0 V; `afm_ref_mv` ≈ 0

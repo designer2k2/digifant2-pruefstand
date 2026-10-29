@@ -10,6 +10,9 @@
 #define EDGES (GPIO_IRQ_EDGE_FALL | GPIO_IRQ_EDGE_RISE)
 
 static cap_state_t state;
+static pulse_log_t logs[CAP_COUNT];
+static uint32_t logged_count[CAP_COUNT];  // pulses already logged, per channel
+static volatile bool log_on;
 
 static uint32_t to_cap_events(uint32_t gpio_events) {
     return (gpio_events & GPIO_IRQ_EDGE_FALL ? CAP_EV_FALL : 0) |
@@ -32,9 +35,16 @@ static void edge_isr(void) {
 
     const uint32_t ev[CAP_COUNT] = {to_cap_events(ign_ev), to_cap_events(inj_ev)};
     const bool high[CAP_COUNT] = {gpio_get(PIN_IGN_CAPTURE), gpio_get(PIN_INJ_CAPTURE)};
-    if (cap_on_irq(&state, now, ref_ev != 0, ev, high)) {
-        knock_on_crank_ref((uint32_t)now, state.ref_period_us);
+    bool is_ref = cap_on_irq(&state, now, ref_ev != 0, ev, high);
+    if (log_on) {
+        for (int ch = 0; ch < CAP_COUNT; ch++) {
+            const cap_chan_state_t *c = &state.ch[ch];
+            if (c->count == logged_count[ch]) continue;
+            logged_count[ch] = c->count;
+            pulse_log_push(&logs[ch], (uint32_t)(c->last_end_t - c->low_us), c->low_us);
+        }
     }
+    if (is_ref) knock_on_crank_ref((uint32_t)now, state.ref_period_us);
 }
 
 void capture_init(void) {
@@ -56,3 +66,22 @@ cap_result_t capture_get(cap_channel_t ch, uint32_t ppr) {
 }
 
 const char *capture_name(cap_channel_t ch) { return ch == CAP_IGN ? "ign" : "inj"; }
+
+void capture_log_start(void) {
+    uint32_t irq_state = save_and_disable_interrupts();
+    for (int ch = 0; ch < CAP_COUNT; ch++) {
+        pulse_log_clear(&logs[ch]);
+        logged_count[ch] = state.ch[ch].count;
+    }
+    log_on = true;
+    restore_interrupts(irq_state);
+}
+
+void capture_log_stop(void) { log_on = false; }
+bool capture_log_running(void) { return log_on; }
+
+uint32_t capture_log_read(cap_channel_t ch, pulse_rec_t *out, uint32_t max) {
+    return pulse_log_pop(&logs[ch], out, max);
+}
+uint32_t capture_log_pending(cap_channel_t ch) { return pulse_log_pending(&logs[ch]); }
+uint32_t capture_log_dropped(cap_channel_t ch) { return logs[ch].dropped; }

@@ -20,7 +20,8 @@ cd "$FW"
 
 CFLAGS=(-std=c11 -Wall -Wextra -Werror -Isrc)
 SIM=(-Itest/fake_sdk test/fake_sdk/sim.c)
-FAKES=(test/fake_board.c test/fake_crank.c test/fake_dac.c test/fake_sense.c test/fake_capture.c)
+FAKES=(test/fake_board.c test/fake_crank.c test/fake_dac.c test/fake_sense.c test/fake_capture.c
+       src/pulse_log.c)
 failed=0
 
 skip() {
@@ -51,6 +52,9 @@ run test_knock_codec   test/test_knock_codec.c src/knock_codec.c
 run test_knock_burst   test/test_knock_burst.c src/knock.c src/knock_codec.c "${SIM[@]}"
 run test_capture_core  test/test_capture_core.c src/capture_core.c
 run test_ecu           test/test_ecu.c src/ecu.c test/fake_board.c test/fake_sense.c
+run test_wave_core     test/test_wave_core.c src/wave_core.c
+run test_pulse_log     test/test_pulse_log.c src/pulse_log.c
+run test_wave          test/test_wave.c src/wave.c src/wave_core.c src/dac_codec.c test/fake_dac.c                        test/fake_capture.c src/pulse_log.c test/fake_crank.c src/crank_timing.c
 run test_status_led  test/test_status_led.c src/status_led_core.c
 run test_ui            test/test_ui.c "${SIM[@]}" "${FAKES[@]}" src/ui_core.c src/gfx.c \
                        src/crank_timing.c src/dac_codec.c src/ecu.c src/knock.c src/knock_codec.c
@@ -58,13 +62,20 @@ run test_ui            test/test_ui.c "${SIM[@]}" "${FAKES[@]}" src/ui_core.c sr
 # Command parser on the PC, fed the same way the Pico is.
 printf '%-22s ' "command parser"
 gcc "${CFLAGS[@]}" -o "$OUT/bench-sim" test/host_main.c "${SIM[@]}" "${FAKES[@]}" \
-    src/cmd.c src/crank_timing.c src/dac_codec.c src/ecu.c src/knock.c src/knock_codec.c
+    src/cmd.c src/crank_timing.c src/dac_codec.c src/ecu.c src/knock.c src/knock_codec.c \
+    src/wave.c src/wave_core.c
 expected='OK ecu=on
 OK rpm=850
 ERR rpm must be 0..8000
 OK ecu_trip_ma=3000
-ERR unknown command '"'"'bogus'"'"', try help'
-got="$(printf 'ECU on\nrpm 850\nrpm -1\necu trip 3000\nbogus\n' | "$OUT/bench-sim")"
+ERR unknown command '"'"'bogus'"'"', try help
+OK wave_lambda=lam t0_us=0
+ERR freq must be 0.05..10 Hz
+OK wave=off
+OK log=on
+OK log_inj_n=0 pending=0 dropped=0 lines=0'
+got="$(printf 'ECU on\nrpm 850\nrpm -1\necu trip 3000\nbogus\nwave lambda lam 1.5 0.03 1.000\nwave air sine 20 100 500\nwave off\nlog start\nlog read inj\n' | "$OUT/bench-sim" | tr -d '\r')"
+expected="$(printf '%s' "$expected" | tr -d '\r')"
 if [ "$got" = "$expected" ]; then echo "ok"; else
     echo "FAILED"; diff <(echo "$expected") <(echo "$got") || true; failed=1
 fi
@@ -92,6 +103,15 @@ if command -v socat >/dev/null; then
     fi
 else
     skip "no socat"
+fi
+
+# The lambda-sweep fit recovers a known signal from synthetic data.
+printf '%-22s ' "lambda_sweep selftest"
+PY="$(command -v python3 || command -v python || true)"
+if [ -n "$PY" ] && "$PY" "$REPO/host/examples/lambda_sweep.py" --selftest >"$OUT/sweep_selftest.log" 2>&1; then
+    echo "ok"
+else
+    echo "FAILED"; cat "$OUT/sweep_selftest.log" 2>/dev/null; failed=1
 fi
 
 # The OPERATION.md screen renderer still builds against the UI code and runs.

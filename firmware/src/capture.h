@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "pulse_log.h"
+
 // ECU outputs read back by the bench. Both are low-side switches pulled up to
 // 3V3, so a pulse is the LOW phase (injector open / probably ignition dwell).
 typedef enum { CAP_IGN, CAP_INJ, CAP_COUNT } cap_channel_t;
@@ -22,6 +24,15 @@ typedef struct {
 } cap_result_t;
 
 void capture_init(void);
+
+// Pulse log: every completed ECU pulse (start time, low width) while running.
+// Records are read out, and removed, with capture_log_read().
+void capture_log_start(void);  // clears both logs, then records
+void capture_log_stop(void);
+bool capture_log_running(void);
+uint32_t capture_log_read(cap_channel_t ch, pulse_rec_t *out, uint32_t max);
+uint32_t capture_log_pending(cap_channel_t ch);
+uint32_t capture_log_dropped(cap_channel_t ch);
 cap_result_t capture_get(cap_channel_t ch, uint32_t ppr);
 const char *capture_name(cap_channel_t ch);
 

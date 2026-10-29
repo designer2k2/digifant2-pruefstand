@@ -12,6 +12,7 @@
 #include "sense.h"
 #include "status_led.h"
 #include "ui.h"
+#include "wave.h"
 
 static void poll_serial(void) {
     static char line[CMD_LINE_MAX];
@@ -59,6 +60,7 @@ int main(void) {
         uint32_t now_ms = to_ms_since_boot(get_absolute_time());
         ecu_poll(now_ms);
         dac_poll(now_ms);
+        wave_poll(time_us_64());
         poll_serial();
         ui_poll();
         status_led_poll(now_ms);

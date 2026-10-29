@@ -40,6 +40,16 @@ bool oled_init(void) {
     return commands(init, sizeof init);
 }
 
+bool oled_flush_page(const uint8_t *fb, int page) {
+    const uint8_t window[] = {0x21, 0, GFX_WIDTH - 1, 0x22, (uint8_t)page, (uint8_t)page};
+    if (!commands(window, sizeof window)) return false;
+    uint8_t buf[GFX_WIDTH + 1];
+    buf[0] = CTRL_DATA;
+    for (int i = 0; i < GFX_WIDTH; i++) buf[i + 1] = fb[page * GFX_WIDTH + i];
+    return i2c_write_timeout_us(I2C_PORT, I2C_ADDR_OLED, buf, sizeof buf, false, TIMEOUT_US) ==
+           (int)sizeof buf;
+}
+
 bool oled_flush(const uint8_t *fb) {
     static const uint8_t window[] = {0x21, 0, GFX_WIDTH - 1, 0x22, 0, GFX_ROWS - 1};
     if (!commands(window, sizeof window)) return false;

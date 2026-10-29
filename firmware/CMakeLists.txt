@@ -33,6 +33,9 @@ add_executable(pruefstand
     src/ui_core.c
     src/status_led.c
     src/status_led_core.c
+    src/wave.c
+    src/wave_core.c
+    src/pulse_log.c
 )
 
 pico_generate_pio_header(pruefstand ${CMAKE_CURRENT_LIST_DIR}/src/crank.pio)
