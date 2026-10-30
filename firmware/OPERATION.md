@@ -365,12 +365,22 @@ settled on the real bench ([`BRINGUP.md`](../BRINGUP.md), stage 6):
   Even with the curve in hand, nothing is usable as a temperature mapping
   until the pull-up is measured too -- it's the step in the middle, between
   "pin voltage" and "equivalent sensor resistance." Until then, treat
-  `AIR`/`WAT` as DAC-pin voltage knobs the ECU visibly reacts to (bring-up
-  already confirmed both affect injector time and spark timing), not as
-  calibrated temperature controls. Lambda's series R is 1 kΩ rather than
-  220 Ω specifically to look less like an ideal voltage source to the ECU's
-  O₂ input, but the same open-pull-up caveat applies there too if the ECU
-  biases that input.
+  `AIR`/`WAT` as DAC-pin voltage knobs the ECU visibly, strongly reacts to,
+  not as calibrated temperature controls. Randomised step tests against a
+  warm-idle baseline (`BRINGUP_REPORT.html`) found real, repeatable, fast
+  responses, well outside the sham-step noise floor: coolant sensor forced
+  open, +32.6 % fuel and the spark 6.8° earlier within a second; air
+  temperature to 500 mV, +3.1 % fuel; to 3000 mV, +4.4 %; sensor open,
+  +6.0 % -- all against an 1800 mV baseline. **Fuel rises in both
+  directions** from that baseline, so the response isn't a simple monotonic
+  curve there -- either the ECU substitutes a fixed value once the input is
+  far enough out of range, or 1800 mV sits near a map minimum; three points
+  can't tell which, and it's a real complication for ever turning a voltage
+  into a temperature, on top of the two missing pieces above. Lambda's
+  series R is 1 kΩ rather than 220 Ω specifically to look less like an ideal
+  voltage source to the ECU's O₂ input, but the same open-pull-up caveat
+  applies there too if the ECU biases that input -- moot for now, since the
+  same report found lambda has no detectable effect at warm idle at all.
 - **Knock amplitude is fixed** and falls with frequency (about 75 % at 7 kHz
   of the 1 kHz level).
 - **Display:** assumes an SSD1306 OLED; SH1106-based 1.3″ modules need a
