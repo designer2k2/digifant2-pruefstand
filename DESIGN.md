@@ -138,11 +138,17 @@ needed to turn that into a real °C value:
    ground, 9 = intake air temperature, 10 = coolant temperature -- exactly
    VW-2/6/9/10 as used throughout this design.
 
-2. **The ECU's internal pull-up resistance** -- still missing. A vehicle
-   wiring diagram (including this one) only shows external wiring, never
-   what's inside the ECU box, so this genuinely can't come from
-   documentation; it needs the bench measurement already described in
-   `BRINGUP.md` stage 6, question 4, which hasn't been run yet.
+2. **The ECU's internal pull-up resistance** -- still missing confirmation.
+   A vehicle wiring diagram (including the one above) only shows external
+   wiring, never what's inside the ECU box, so this genuinely can't come
+   from documentation; it needs the bench measurement already described in
+   `BRINGUP.md` stage 6, question 4, which hasn't been run yet. There is now
+   a **candidate value from an old internal schematic of unconfirmed
+   provenance: 8.25 kΩ to 5 V**, with an 18.2 kΩ + 0.22 µF anti-alias filter
+   (τ = 4.0 ms) between that node and an ADC0809CCN channel -- high-impedance
+   enough that it doesn't add to the DC loading, so 8.25 kΩ would be the
+   whole story if the schematic is right. The bench measurement in
+   `BRINGUP.md` is the cross-check.
 
 Even with the curve in hand, nothing is usable as a temperature mapping
 until that second measurement exists -- it's the step in the middle, between

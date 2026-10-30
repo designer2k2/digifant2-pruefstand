@@ -267,6 +267,22 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
    GND: ~5 V means the ECU has a pull-up. Then `sensor water conn` with
    `dac water 1000` and measure VW-10 again (V₁):
    pull-up R ≈ (V_open − V₁) × 220 Ω ÷ (V₁ − 1.000 V). Same for VW-9 (air).
+   **Candidate value, from an old schematic of unconfirmed provenance:
+   8.25 kΩ to 5 V**, then 18.2 kΩ in series into an ADC0809CCN channel with
+   0.22 µF to ground after that series resistor. The ADC0809's analog
+   inputs are high-impedance, so in steady state no current flows through
+   the 18.2 kΩ either way -- the 18.2 kΩ/0.22 µF pair is just an anti-alias
+   filter ahead of the ADC (τ = 4.0 ms, settled within 20 ms), not part of
+   the DC loading. If the schematic is right, the sensor pin's actual pull-up
+   is simply the 8.25 kΩ on its own. This bench measurement is the cross-check:
+   if the computed R lands near 8.25 kΩ, that confirms both the schematic and
+   the method; if not, something's off (wrong ADC channel traced, schematic
+   error, or a different ECU revision). One side effect if 8.25 kΩ holds up:
+   a 4 ms analog filter can't explain the coolant step response's
+   tens-of-seconds settling time seen in `BRINGUP_REPORT.html` -- that's
+   almost certainly a smoothing filter in the ECU's own firmware on the
+   coolant channel specifically, not anything on this board or in this
+   analog network.
    Once this R is known, the real NTC resistance-vs-temperature curve is in
    `DESIGN.md` ("dac_analog_sim") -- that completes the chain from a `dac`
    setpoint to an actual °C value.
