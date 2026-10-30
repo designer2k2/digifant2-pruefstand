@@ -116,6 +116,36 @@ NTC's ~190-5800 Ω swing. Fault injection (open sensor) needs a true open
 regardless of which part drives the channel -- hence the TS5A3159A switch
 bolted on per channel either way.
 
+**R2/R3 at 220 Ω also isn't arbitrary -- it's sized to the MCP4728's own
+short-circuit rating.** From the datasheet (DS22187E, "Analog Output"
+table): short-circuit current I_SC is 15 mA typical / 24 mA max at
+V_DD = 5 V, all V_OUT grounded, rated for infinite duration -- i.e. safe to
+leave shorted indefinitely, not just a brief transient. Absolute maximum
+current at the output pins is ±25 mA. At this project's 3.3 V rail,
+`3.3V / 220Ω = 15.0 mA` -- exactly the typical I_SC figure. A dead short on
+one of these harness lines (fault, probe slip, a problem on the ECU side)
+draws precisely the datasheet's "typical, indefinitely safe" current, not
+an edge case near the limit.
+
+That sets a real ceiling on lowering this resistor for more simulated-range
+headroom (the hot-end floor is `R_fake = Rs`, worked out further down):
+`Rs` and worst-case short current trade off directly --
+
+| `Rs` | 3.3V / `Rs` | vs. datasheet |
+|---|---|---|
+| 220 Ω (current) | 15.0 mA | = typical I_SC |
+| 190 Ω (the curve's 100 °C point) | 17.4 mA | comfortably under max |
+| 150 Ω | 22.0 mA | under max, little margin |
+| 137 Ω | 24.0 mA | = max I_SC |
+| 132 Ω | 25.0 mA | = absolute maximum -- the hard limit |
+| below 132 Ω | over 25 mA | **exceeds the absolute maximum -- real damage risk** |
+
+So roughly **150-190 Ω** is the defensible range for a future revision
+wanting more hot-end headroom (see the worked floor-temperature reasoning
+above) without leaving the datasheet's safe margin -- anything near or
+below 132 Ω is out, regardless of how useful a wider simulated range would
+be.
+
 | DAC out | R | VW pin | simulates | disconnect |
 |---------|---|--------|-----------|-----------|
 | VOUTA | R2 220 Ω | VW-9 | intake-air temperature (NTC) | U6, GP8 |
@@ -222,7 +252,10 @@ is simulatable with a known, correctable mapping -- covering ordinary
 warm-up and warm-idle testing -- with only the last few degrees toward a
 fully-open-sensor reading out of reach of the DAC alone, and the cold end
 unconfirmed below 0 °C purely for lack of curve data there, not an
-electrical limit.
+electrical limit. That ~95 °C hot-end floor is `Rs` itself (at `Vdac = 0`
+the node is just a plain two-resistor divider between `Rs` and the
+pull-up) -- see the R2/R3-vs-MCP4728-I_SC trade-off above for what, if
+anything, that's worth lowering `Rs` for.
 
 **Worked example, and a discrepancy it turned up:** `dac water 1200` -- the
 coolant baseline used throughout the lambda bring-up tests
