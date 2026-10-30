@@ -148,9 +148,9 @@ firing: the `IGN` and `INJ` rows now show pulse timing and crank angles.
 
 ![Warm idle at 850 rpm](docs/screens/04_idle_850.png)
 
-How millivolts map to temperatures depends on the ECU's input circuit and is
-still to be calibrated on the real bench ([`BRINGUP.md`](../BRINGUP.md),
-stage 6).
+**These millivolt values don't correspond to any known temperature yet** --
+see [Known limits](#known-limits-and-open-assumptions) for why (two separate
+things are still missing, not just an offset to calibrate out).
 
 ### Example: simulating a cold engine
 
@@ -345,9 +345,32 @@ settled on the real bench ([`BRINGUP.md`](../BRINGUP.md), stage 6):
 - **Spark edge is settled:** `ign_rise_deg`. The low phase is dwell (coil
   charging); the spark fires on the cutoff, the rising edge -- the ordinary
   inductive-coil principle, also why a longer dwell gives a stronger spark.
-- **Sensor voltages are set at the DAC**, ahead of a 220 Ω (lambda 1 kΩ)
-  series resistor; if the ECU has an internal pull-up on its NTC inputs, the
-  voltage it sees is higher than the setting.
+- **`AIR`/`WAT` (IAT/CLT) setpoints don't correspond to any known temperature
+  yet -- this is unresolved, not just uncalibrated.** The real sensors are
+  NTC thermistors; the DAC can't reproduce that by itself. R2/R3 (220 Ω) feed
+  the DAC's voltage into VW-9/VW-10, the same node the ECU's own internal
+  pull-up (if it has one) also drives -- so the pin ends up at a divider
+  between the two drivers, not at the DAC's setpoint. Two things are needed
+  before a given millivolt value means a specific °C:
+  1. **The real NTC's resistance-vs-temperature curve** -- now sourced, from
+     VW's own *Digifant I / Digifant II ProTraining* manual (see
+     `DESIGN.md`, "dac_analog_sim"). Approximate (read from a scanned graph),
+     but real: 2500 Ω at 20 °C down to 190 Ω at 100 °C.
+  2. **The ECU's internal pull-up resistance.** Still missing -- a vehicle
+     wiring diagram only ever shows external wiring, never what's inside the
+     ECU box, so this can't come from documentation. `BRINGUP.md` stage 6,
+     question 4 has the bench measurement procedure; it hasn't been run yet,
+     so the result row is still blank.
+
+  Even with the curve in hand, nothing is usable as a temperature mapping
+  until the pull-up is measured too -- it's the step in the middle, between
+  "pin voltage" and "equivalent sensor resistance." Until then, treat
+  `AIR`/`WAT` as DAC-pin voltage knobs the ECU visibly reacts to (bring-up
+  already confirmed both affect injector time and spark timing), not as
+  calibrated temperature controls. Lambda's series R is 1 kΩ rather than
+  220 Ω specifically to look less like an ideal voltage source to the ECU's
+  O₂ input, but the same open-pull-up caveat applies there too if the ECU
+  biases that input.
 - **Knock amplitude is fixed** and falls with frequency (about 75 % at 7 kHz
   of the 1 kHz level).
 - **Display:** assumes an SSD1306 OLED; SH1106-based 1.3″ modules need a

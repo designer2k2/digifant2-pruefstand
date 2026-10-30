@@ -98,6 +98,56 @@ series R is **1 k** (not 220 Ω) so it looks less like an ideal voltage source t
 the ECU's O₂ input. Set MCP4728 channel D to the internal 2.048 V reference for
 fine resolution in the 0–1 V lambda window.
 
+**A DAC millivolt setpoint on `AIR`/`WAT` is not yet a known temperature**
+(see `firmware/OPERATION.md`, "Known limits"): the DAC drives into the same
+node the ECU's own internal pull-up (if it has one) also drives, so the pin
+sits at a divider between the two, not at the setpoint. Two things are
+needed to turn that into a real °C value:
+
+1. **The real sensor's resistance-vs-temperature curve** -- found 2026-10-30
+   in VW's own *Digifant I / Digifant II ProTraining* manual (a factory
+   service-training document covering the 2H, among other Digifant
+   applications). Both the coolant temperature sensor and the intake air
+   temperature sensor are plain 2-terminal NTC resistors, and **the manual
+   uses the identical graph for both** -- same part family, not just a
+   similar shape. Read from that graph (a scanned curve, so ±15-20 %, not a
+   digital table) and cross-checked against independently-found forum
+   figures that turn out to be citing the same document:
+
+   | T (°C) | R (Ω), approx |
+   |---|---|
+   | 0 | 5800 |
+   | 10 | 3800 |
+   | 20 | 2500 |
+   | 30 | 1700 |
+   | 40 | 1200 |
+   | 50 | 900 |
+   | 60 | 650 |
+   | 70 | 470 |
+   | 80 | 340 |
+   | 90 | 250 |
+   | 100 | 190 |
+
+   No standalone VW/Bosch part number is given for either sensor in this
+   manual; the intake air sensor is described as built into the airflow
+   sensor housing, so it may not be independently orderable at all.
+
+   The same manual's wiring diagram is also a strong independent check on
+   this project's whole VW-pin map, sourced completely separately from the
+   user's own HiL notes: ECU terminal 2 = oxygen sensor, 6 = shared sensor
+   ground, 9 = intake air temperature, 10 = coolant temperature -- exactly
+   VW-2/6/9/10 as used throughout this design.
+
+2. **The ECU's internal pull-up resistance** -- still missing. A vehicle
+   wiring diagram (including this one) only shows external wiring, never
+   what's inside the ECU box, so this genuinely can't come from
+   documentation; it needs the bench measurement already described in
+   `BRINGUP.md` stage 6, question 4, which hasn't been run yet.
+
+Even with the curve in hand, nothing is usable as a temperature mapping
+until that second measurement exists -- it's the step in the middle, between
+"pin voltage" and "equivalent sensor resistance."
+
 ### `crank_driver` — crank / Hall signal (Q1)
 Open-drain 2N7002 with **RG1 (100 Ω)** gate resistor and **RPU1 (1 k)** pull-up to
 the switched 12 V rail. Pico `GP2` toggles it → a clean 12 V square wave on VW-18

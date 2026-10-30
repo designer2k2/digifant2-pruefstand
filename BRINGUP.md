@@ -267,6 +267,9 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
    GND: ~5 V means the ECU has a pull-up. Then `sensor water conn` with
    `dac water 1000` and measure VW-10 again (V₁):
    pull-up R ≈ (V_open − V₁) × 220 Ω ÷ (V₁ − 1.000 V). Same for VW-9 (air).
+   Once this R is known, the real NTC resistance-vs-temperature curve is in
+   `DESIGN.md` ("dac_analog_sim") -- that completes the chain from a `dac`
+   setpoint to an actual °C value.
 5. **Knock input.** Wire TP1 → VW-4 and TP2 → VW-5. At `rpm 3000`,
    `knock 7000`, `burst 10 30`, compare the spark angle (from question 3)
    with `burst off`: if the ECU's knock control reacts, the spark retards
