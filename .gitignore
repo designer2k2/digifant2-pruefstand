@@ -25,3 +25,7 @@ logs/
 # InteractiveHtmlBom: cloned source (not vendored) -- the generated
 # board/bom_output/*.html IS committed, so repo visitors get a clickable BOM
 /.ibom-src/
+
+# Scanned/reverse-engineered third-party ECU schematics (unknown copyright
+# status) -- reference only, never to be committed.
+/oldschematics/
