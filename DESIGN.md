@@ -168,6 +168,42 @@ Even with the curve in hand, nothing is usable as a temperature mapping
 until that second measurement exists -- it's the step in the middle, between
 "pin voltage" and "equivalent sensor resistance."
 
+**If the 8.25 kΩ candidate holds**, R2/R3 (220 Ω) and it form an ordinary
+two-source divider on the VW-9/VW-10 node (the 18.2 kΩ + 0.22 µF stage still
+doesn't enter, same reasoning as above):
+
+```
+Vnode = Vdac * G1/(G1+G2) + 5V * G2/(G1+G2),  G1 = 1/220 Ω, G2 = 1/8.25 kΩ
+      ≈ 0.974 * Vdac + 0.130 V
+```
+
+i.e. a small, fully invertible 2.6 % gain error plus a ~130 mV floor --
+not an unknown arbitrary split. `Vdac = (Vnode_target - 0.130 V) / 0.974`
+would turn a target node voltage straight back into a DAC setpoint.
+Combined with the R-T curve above, that's the full chain from a target °C
+to the DAC code that reproduces it -- *if* both the curve and the pull-up
+are correct for this specific ECU, neither of which is bench-confirmed yet.
+
+It also sets the simulatable range, given the MCP4728's AIR/WAT ceiling of
+3300 mV (`dac_codec.c`, VDD-capped) and 0 mV floor:
+
+- **Vdac = 0 -> Vnode = 0.130 V -> R ~= 220 Ω -> ~95 °C.** The DAC can't go
+  negative, so this is the hottest the sensor can be made to look -- about
+  95-100 °C on the curve above, not the full range an open sensor at 100 °C+
+  would otherwise reach. (A genuinely open/dead-short sensor is still
+  handled separately, by the TS5A3159A fault switch, not by this divider.)
+- **Vdac = 3300 mV -> Vnode ~= 3.344 V -> R ~= 16.7 kΩ**, which is colder
+  than the coldest point actually read off the manual's graph (5800 Ω at
+  0 °C) -- so the cold end has headroom past 0 °C, just not a calibrated
+  number to put on it from the data in hand.
+
+So, candidate pull-up and curve both holding: **roughly 0 °C up to ~95 °C**
+is simulatable with a known, correctable mapping -- covering ordinary
+warm-up and warm-idle testing -- with only the last few degrees toward a
+fully-open-sensor reading out of reach of the DAC alone, and the cold end
+unconfirmed below 0 °C purely for lack of curve data there, not an
+electrical limit.
+
 ### `crank_driver` — crank / Hall signal (Q1)
 Open-drain 2N7002 with **RG1 (100 Ω)** gate resistor and **RPU1 (1 k)** pull-up to
 the switched 12 V rail. Pico `GP2` toggles it → a clean 12 V square wave on VW-18

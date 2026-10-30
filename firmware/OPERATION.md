@@ -360,7 +360,17 @@ settled on the real bench ([`BRINGUP.md`](../BRINGUP.md), stage 6):
      wiring diagram only ever shows external wiring, never what's inside the
      ECU box, so this can't come from documentation. `BRINGUP.md` stage 6,
      question 4 has the bench measurement procedure; it hasn't been run yet,
-     so the result row is still blank.
+     so the result row is still blank. There's now a **candidate value from
+     an old schematic of unconfirmed provenance: 8.25 kΩ to 5 V** -- if it
+     holds, R2/R3 (220 Ω) and it form a known, invertible divider:
+     `Vnode ~= 0.974 * Vdac + 0.130 V`, i.e. a small 2.6 % gain error plus a
+     ~130 mV floor rather than an unknown split. Against the DAC's 0-3300 mV
+     range that would put roughly **0-95 °C** within reach with a correctable
+     mapping -- the top few degrees toward a fully-open reading are past the
+     DAC's 0 V floor, and the cold end has headroom past 0 °C that just
+     isn't backed by curve data yet. See `DESIGN.md`, "dac_analog_sim", for
+     the full derivation. Still contingent on both the curve and the
+     pull-up being correct for this specific ECU.
 
   Even with the curve in hand, nothing is usable as a temperature mapping
   until the pull-up is measured too -- it's the step in the middle, between
