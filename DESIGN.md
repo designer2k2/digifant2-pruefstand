@@ -204,6 +204,18 @@ fully-open-sensor reading out of reach of the DAC alone, and the cold end
 unconfirmed below 0 °C purely for lack of curve data there, not an
 electrical limit.
 
+**Worked example, and a discrepancy it turned up:** `dac water 1200` -- the
+coolant baseline used throughout the lambda bring-up tests
+(`BRINGUP_REPORT.html`) -- maps to `Vnode ~= 1.299 V`, `R ~= 2.89 kΩ`, which
+interpolates to **~17 °C** on the curve above. That reads as a cold/ambient
+engine, not the "right warm-idle range" the report inferred from matching
+injector pulse width to the user's own distributor notes alone. The two
+readings disagree if the pull-up candidate and curve both hold -- worth a
+retest of the lambda loop nearer `dac water 65-70` (the voltage ~80-90 °C
+would actually need), since a cold-engine open loop is an entirely ordinary
+reason for an ECU to show no lambda response, and would mean this was never
+really a warm-idle lambda test at all.
+
 ### `crank_driver` — crank / Hall signal (Q1)
 Open-drain 2N7002 with **RG1 (100 Ω)** gate resistor and **RPU1 (1 k)** pull-up to
 the switched 12 V rail. Pico `GP2` toggles it → a clean 12 V square wave on VW-18

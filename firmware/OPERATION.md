@@ -391,6 +391,15 @@ settled on the real bench ([`BRINGUP.md`](../BRINGUP.md), stage 6):
   voltage source to the ECU's O₂ input, but the same open-pull-up caveat
   applies there too if the ECU biases that input -- moot for now, since the
   same report found lambda has no detectable effect at warm idle at all.
+  **That "warm idle" label itself is now in question**: the lambda tests'
+  coolant baseline, `dac water 1200`, works out to ~17 °C on the divider and
+  curve above -- a cold engine, not a warm one -- if the pull-up candidate
+  holds. A real 80-90 °C warm engine would need `dac water` around 65-70,
+  never tried. A cold-engine open loop is an ordinary reason for an ECU to
+  show no lambda response, independent of anything on this board; see
+  `BRINGUP.md`, results table, and `DESIGN.md`, "dac_analog_sim", for the
+  numbers, and a retest nearer `dac water 65-70` once the pull-up is
+  confirmed.
 - **Knock amplitude is fixed** and falls with frequency (about 75 % at 7 kHz
   of the 1 kHz level).
 - **Display:** assumes an SSD1306 OLED; SH1106-based 1.3″ modules need a
