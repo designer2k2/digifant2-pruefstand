@@ -96,6 +96,26 @@ while the ECU drives the real valve (`BRINGUP.md` question 6) should.
 MCP4728, 4-channel 12-bit I²C DAC, address **0x60**, `~LDAC` low. Each output goes
 through a series resistor into the harness:
 
+**Why a DAC+series-R rather than a digital rheostat for the two NTC channels**
+(a design choice from the original circuit-synth generation, predating any
+work in this repo's history, so this is inferred reasoning, not a recovered
+rationale): a true variable resistance in place of the NTC would have
+sidestepped the whole ECU-pull-up question this design turned out to have
+(see below) -- whatever the ECU's internal pull-up is, a resistor substitute
+reproduces its divider automatically, no bench measurement needed. A voltage
+source through a series R, by contrast, actively fights that pull-up, which
+is exactly the two-driver divider math worked out further down. Probably
+worth it anyway: AFM and lambda are voltage-output sensors by nature, not
+resistive, so a DAC is needed for those two channels regardless -- one
+4-channel chip covering all four channels uniformly is simpler than mixing
+digipots and a DAC. The waveform/closed-loop generator (`wave.c`,
+`wave_core.c`) also needs a channel it can rewrite every 5 ms reacting to
+live injector pulses; a digipot capable of that is no simpler, and typically
+has far fewer steps (often 8-bit) and a narrower, less linear range than an
+NTC's ~190-5800 Ω swing. Fault injection (open sensor) needs a true open
+regardless of which part drives the channel -- hence the TS5A3159A switch
+bolted on per channel either way.
+
 | DAC out | R | VW pin | simulates | disconnect |
 |---------|---|--------|-----------|-----------|
 | VOUTA | R2 220 Ω | VW-9 | intake-air temperature (NTC) | U6, GP8 |
