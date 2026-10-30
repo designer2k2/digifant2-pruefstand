@@ -78,6 +78,20 @@ already had a routed path to J0) and IN− moved to the valve-side node
 way, and keeping IN+ where it was avoided re-routing a long existing run.
 **C10 (100 nF)** bypasses `VS`, same reasoning and placement approach as U1's C9.
 
+**Worth confirming before trusting `valve_a` at face value** -- an old
+reverse-engineered schematic (unconfirmed provenance, and this reading is
+less certain than the knock one above) separately labels the ECU's two
+valve pins "idle valve output" and "idle valve flyback", with what look
+like two actively-driven transistor paths rather than one switch plus a
+passive diode. Two readings are possible: (a) a genuinely bidirectional
+drive, in which case current could return a way RS2's single series tap
+doesn't fully capture; or (b) a conventional single PWM'd low-side switch
+with an *active* (transistor-based, not just a diode) flyback/recirculation
+clamp for efficiency, in which case RS2 still sees the whole picture same
+as designed, just with a steeper turn-off than a passive diode would give.
+The schematic alone doesn't settle which -- scoping both VW-22 and VW-23
+while the ECU drives the real valve (`BRINGUP.md` question 6) should.
+
 ### `dac_analog_sim` — sensor spoofing (U2)
 MCP4728, 4-channel 12-bit I²C DAC, address **0x60**, `~LDAC` low. Each output goes
 through a series resistor into the harness:
@@ -199,6 +213,22 @@ shorted a different existing net, so two small bare test pads (same
 fit where the bulkier connector wouldn't. AD9833 `COMP` and `CAP_2V5` are
 decoupling-only pins; each gets its own **100 nF cap to AGND (C7, C8)**, per
 ADI's recommended application circuit.
+
+**How the real ECU likely detects knock** -- from an old reverse-engineered
+schematic of unconfirmed provenance, so treat this as a working theory to
+test, not a confirmed fact. The knock input appears to go through a
+two-stage active bandpass filter, then a precision rectifier (op-amp +
+diode pair), then a long-time-constant integrator (~40 ms) whose output
+feeds the ECU's own ADC -- so the actual "knocking or not" decision looks
+like it's made in software on a digitised energy value, not by an analog
+threshold trip. There also seems to be a gating signal around the
+integrator, consistent with only integrating during a specific crank-angle
+window rather than continuously. **If that's right, `burst start_deg` /
+`len_deg` timing likely matters a lot** once U4 is running -- a burst that
+lands outside whatever window the ECU gates on may never register, no
+matter how correct its frequency or amplitude is. Worth keeping in mind
+when `BRINGUP.md` question 5 is finally reachable, rather than assuming any
+burst timing will do.
 
 ### `operator_ui` — local controls
 **J3**, a 4-pin header, carries `GND / +3V3 / SCL / SDA` for an I²C OLED

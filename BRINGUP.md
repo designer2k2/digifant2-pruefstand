@@ -291,9 +291,20 @@ ground pins (VW-6/13/19), and no short between `+12V SW` and ground.
    with `burst off`: if the ECU's knock control reacts, the spark retards
    (moves later). No change can also mean the amplitude is too low or the
    window/frequency is wrong; try other `burst` angles and `knock` 5000–9000.
+   **If nothing responds at all, try sweeping `burst start_deg` before
+   assuming frequency/amplitude is wrong** -- DESIGN.md ("knock_sim") has a
+   theory, from an old schematic, that the ECU gates its knock integrator to
+   a specific crank-angle window rather than listening continuously; a burst
+   landing outside that window might never register regardless of tone.
 6. **Idle valve.** Plug the valve into J2, raise the supply limit to 3 A.
    `read` `valve_a` should follow what the ECU does, e.g. more current with a
-   cold engine (`dac water 3000`) than warm (`dac water 800`).
+   cold engine (`dac water 3000`) than warm (`dac water 800`). **While
+   you're at it, scope VW-22 and VW-23 together.** DESIGN.md ("idle_valve")
+   flags an open question from an old schematic: the ECU's valve drive might
+   be genuinely bidirectional rather than the single-low-side-switch design
+   this board assumes, which would affect whether RS2 is seeing the whole
+   current picture. Both wires toggling actively (not just one switched,
+   one held at +12V) would confirm it's worth a closer look.
 
 ## Results
 
