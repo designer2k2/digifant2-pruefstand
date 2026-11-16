@@ -95,9 +95,10 @@ def ecu_power_switch(rail_in, rail_out, gnd, gp_enable):
 
 def status_led(vcc_3v3, gnd, gp_data):
     """Single addressable RGB pixel (SK6812, 5050 SMD) on ONE GPIO, driven by the
-    Pico's PIO. SK6812 runs straight off 3V3 (VIH = 0.7*VDD ~= 2.3V, so the 3V3
-    GPIO is in spec -- no level shifter, no separate 5V rail, and 2 GPIOs freed vs
-    a plain 3-pin RGB LED). Chain from D2's DOUT to add more pixels later.
+    Pico's PIO. D2 is supplied from 3V3, so its data threshold (VIH = 0.7*VDD
+    ~= 2.3V) is met by the 3V3 GPIO -- no level shifter, no separate 5V rail, and
+    2 GPIOs freed vs a plain 3-pin RGB LED. The supply itself is below the
+    SK6812's rated 3.5V minimum; it works on the built board (REVIEW F17). Chain from D2's DOUT to add more pixels later.
     Firmware picks the meaning, e.g. green = idle / blue = sim running / red = fault."""
     d2 = Component("LED:SK6812", ref="D2", value="SK6812",
                     footprint="LED_SMD:LED_SK6812_PLCC4_5.0x5.0mm_P3.2mm")
@@ -287,7 +288,7 @@ def dac_analog_sim(vcc_3v3, gnd, sda, scl, vw_pin9, vw_pin10, vw_pin21, vw_pin2,
 
 
 def crank_driver(gpio_crank, gnd, ecu_12v, vw_pin18):
-    """Q1 open-drain crank/Hallgeber signal driver, RPU1 pull-up to +12V_ECU.
+    """Q1 open-drain crank/Hallgeber signal driver, RPU1 pull-up to +12V_ECU_SW.
     VW-18 confirmed (not VW-8) by the user's own working HiL notes: the crank
     square wave needs >=8-10V amplitude (5V is not enough) -- consistent with
     pulling up to the switched 12V rail here, not a 3.3/5V logic level."""

@@ -187,7 +187,7 @@ and no GPIO is used in a way the RP2350 does not support (V).
 
 ### F09 — Timing that depends on interrupts and the main loop
 
-- [ ] Done
+- [x] Done in code (interrupt priority raised, `log read` printed in chunks); the before/after jitter log on the bench is still open, and the crank-speed latency and PIO capture are unchanged
 - **Priority:** Should fix
 - **Evidence:** V
 - **Files:** `firmware/src/capture.c:27-58`, `firmware/src/knock.c:52-88`, `firmware/src/crank.c:48-49`, `firmware/src/wave.c:97-107`, `firmware/src/main.c:58-67`, `firmware/src/ui.c:53-58`
@@ -277,7 +277,7 @@ and no GPIO is used in a way the RP2350 does not support (V).
 
 ### F14 — I2C bus recovery runs only at boot
 
-- [ ] Done
+- [x] Done (bus checked every 250 ms and recovered when SDA or SCL is held low; OLED timeout 10 ms); the SDA-short bench test is still open
 - **Priority:** Should fix
 - **Evidence:** V
 - **Files:** `firmware/src/board.c:37-60, 83-86`, `firmware/src/sense.c:27-38`, `firmware/src/dac.c:15-20`, `firmware/src/oled.c:10`
@@ -293,7 +293,7 @@ and no GPIO is used in a way the RP2350 does not support (V).
 
 ### F15 — The checked-in netlist is stale
 
-- [ ] Done
+- [x] Done (regenerated from the current schematic with kicad-cli)
 - **Priority:** Should fix
 - **Evidence:** V
 - **Files:** `board/digifant2-pruefstand.net`
@@ -313,7 +313,7 @@ and no GPIO is used in a way the RP2350 does not support (V).
 
 ### F16 — RP2350 notes and stale RP2040 comments
 
-- [ ] Done
+- [x] Done
 - **Priority:** Nice to have
 - **Evidence:** V
 - **Files:** `firmware/src/board.c:29-30`, `digifant2_pruefstand.py:96-101, 289-293, 541-549`
@@ -345,7 +345,7 @@ and no GPIO is used in a way the RP2350 does not support (V).
 
 ### F18 — ADC_VREF and RUN tied directly to 3V3
 
-- [ ] Done
+- [x] Done in firmware (16-sample average); ADC_VREF / RUN wiring is rev-B work
 - **Priority:** Nice to have
 - **Evidence:** V
 - **Files:** `digifant2_pruefstand.py:557-562`, `firmware/src/board.c:118-122`

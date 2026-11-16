@@ -17,6 +17,7 @@ typedef struct {
 } knock_burst_t;
 
 void knock_init(void);
+unsigned knock_alarm_num(void);  // hardware alarm used for burst timing
 bool knock_set_hz(uint32_t hz);  // 0 = off (AD9833 held in reset, VOUT at midscale)
 uint32_t knock_get_hz(void);
 bool knock_set_burst(uint32_t start_deg, uint32_t len_deg, uint32_t every);

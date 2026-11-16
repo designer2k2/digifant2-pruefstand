@@ -6,9 +6,12 @@
 #include "crank.h"
 #include "dac.h"
 #include "ecu.h"
+#include "hardware/irq.h"
+#include "hardware/timer.h"
 #include "hardware/watchdog.h"
 #include "knock.h"
 #include "pico/stdlib.h"
+#include "pins.h"
 #include "sense.h"
 #include "status_led.h"
 #include "ui.h"
@@ -18,6 +21,10 @@ static void poll_serial(void) {
     static char line[CMD_LINE_MAX];
     static size_t len;
     static bool overflow;
+
+    // A multi-line reply is still going out: leave the next command in the
+    // USB buffer until it is done.
+    if (cmd_busy()) return;
 
     int c;
     while ((c = getchar_timeout_us(0)) != PICO_ERROR_TIMEOUT) {
@@ -30,6 +37,7 @@ static void poll_serial(void) {
             }
             len = 0;
             overflow = false;
+            if (cmd_busy()) return;
         } else if (len < CMD_LINE_MAX - 1) {
             line[len++] = (char)c;
         } else {
@@ -50,6 +58,8 @@ int main(void) {
     sense_init();
     knock_init();
     capture_init();
+    irq_set_priority(IO_IRQ_BANK0, TIMING_IRQ_PRIORITY);
+    irq_set_priority(hardware_alarm_get_irq_num(knock_alarm_num()), TIMING_IRQ_PRIORITY);
     ui_init();
     status_led_init();
     stdio_init_all();
@@ -58,9 +68,11 @@ int main(void) {
     while (true) {
         watchdog_update();
         uint32_t now_ms = to_ms_since_boot(get_absolute_time());
+        board_i2c_poll(now_ms);
         ecu_poll(now_ms);
         dac_poll(now_ms);
         wave_poll(time_us_64());
+        cmd_poll();
         poll_serial();
         ui_poll();
         status_led_poll(now_ms);

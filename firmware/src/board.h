@@ -6,6 +6,9 @@
 typedef enum { SENSOR_AIR, SENSOR_WATER, SENSOR_LAMBDA, SENSOR_COUNT } sensor_t;
 
 void board_init(void);
+// Main loop: frees the I2C bus if a chip is holding SDA or SCL low (a transfer
+// cut short by a glitch or by plugging the display in while running).
+void board_i2c_poll(uint32_t now_ms);
 
 void board_set_ecu_power(bool on);
 bool board_get_ecu_power(void);

@@ -1,6 +1,17 @@
 #pragma once
 
 // GPIO map, see DESIGN.md "GPIO map".
+//
+// RP2350-E9: an input with the internal pull-down enabled can latch at ~2.2 V.
+// No input here uses one (buttons pull up, capture pins have external pull-ups,
+// the ADC pin has its digital input off). Keep it that way: for a pull-down use
+// an external resistor of 8.2k or less.
+
+// Interrupt priority of the capture GPIO interrupt and the knock burst alarm,
+// above the SDK default (0x80) that USB runs at, so a USB interrupt can't delay
+// an edge timestamp or a burst edge. Both must stay on the SAME priority:
+// knock_on_crank_ref() (GPIO) and the alarm handler share state without locks.
+#define TIMING_IRQ_PRIORITY 0x40
 
 // Q1 is an open-drain pull-down: GP2 high pulls VW-18 low (inverted).
 #define PIN_CRANK           2

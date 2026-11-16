@@ -145,8 +145,12 @@ static void cmd_ecu(int argc, char **argv) {
     bool on;
     if (!parse_on_off(argv[1], &on)) { printf("ERR usage: ecu on|off|reset|trip <mA>\n"); return; }
     if (!ecu_set_power(on)) {
-        printf("ERR ecu tripped at %lu mA, send 'ecu reset' first\n",
-               (unsigned long)ecu_trip_reading_ma());
+        if (ecu_sense_lost()) {
+            printf("ERR ecu switched off, current sensor U1 not answering, send 'ecu reset' first\n");
+        } else {
+            printf("ERR ecu tripped at %lu mA, send 'ecu reset' first\n",
+                   (unsigned long)ecu_trip_reading_ma());
+        }
         return;
     }
     printf("OK ecu=%s\n", on_off(on));
@@ -396,6 +400,20 @@ static void cmd_wave(int argc, char **argv) {
 }
 
 #define LOG_READ_MAX 200
+#define LOG_LINES_PER_POLL 10
+
+// Records of a `log read` still to be printed, see cmd_poll().
+static pulse_rec_t log_out[LOG_READ_MAX];
+static uint32_t log_out_n, log_out_next;
+
+bool cmd_busy(void) { return log_out_next < log_out_n; }
+
+void cmd_poll(void) {
+    for (int i = 0; i < LOG_LINES_PER_POLL && log_out_next < log_out_n; i++, log_out_next++) {
+        printf("%lu %lu\n", (unsigned long)log_out[log_out_next].t_us,
+               (unsigned long)log_out[log_out_next].low_us);
+    }
+}
 
 static void cmd_log(int argc, char **argv) {
     if (strcmp(argv[1], "start") == 0 && argc == 2) {
@@ -422,14 +440,12 @@ static void cmd_log(int argc, char **argv) {
             printf("ERR n must be 1..%d\n", LOG_READ_MAX);
             return;
         }
-        pulse_rec_t buf[LOG_READ_MAX];
-        uint32_t got = capture_log_read(ch, buf, n);
+        uint32_t got = capture_log_read(ch, log_out, n);
         printf("OK log_%s_n=%lu pending=%lu dropped=%lu lines=%lu\n", capture_name(ch), (unsigned long)got,
                (unsigned long)capture_log_pending(ch), (unsigned long)capture_log_dropped(ch),
                (unsigned long)got);
-        for (uint32_t i = 0; i < got; i++) {
-            printf("%lu %lu\n", (unsigned long)buf[i].t_us, (unsigned long)buf[i].low_us);
-        }
+        log_out_n = got;  // the data lines follow from cmd_poll()
+        log_out_next = 0;
     } else {
         printf("ERR usage: log start|stop|status | log read ign|inj [n]\n");
     }

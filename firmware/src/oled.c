@@ -7,7 +7,8 @@
 
 #define CTRL_COMMANDS 0x00
 #define CTRL_DATA 0x40
-#define TIMEOUT_US 50000
+#define TIMEOUT_US 10000        // commands and one page (~3 ms)
+#define FRAME_TIMEOUT_US 50000  // a whole frame (~23 ms)
 
 static bool commands(const uint8_t *cmds, size_t n) {
     uint8_t buf[32];
@@ -56,6 +57,6 @@ bool oled_flush(const uint8_t *fb) {
     static uint8_t buf[GFX_FB_SIZE + 1];
     buf[0] = CTRL_DATA;
     for (int i = 0; i < GFX_FB_SIZE; i++) buf[i + 1] = fb[i];
-    return i2c_write_timeout_us(I2C_PORT, I2C_ADDR_OLED, buf, sizeof buf, false, TIMEOUT_US) ==
+    return i2c_write_timeout_us(I2C_PORT, I2C_ADDR_OLED, buf, sizeof buf, false, FRAME_TIMEOUT_US) ==
            (int)sizeof buf;
 }

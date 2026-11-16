@@ -62,6 +62,27 @@ static void i2c_bus_recover(void) {
     sleep_us(5);
 }
 
+static void i2c_start(void) {
+    i2c_bus_recover();
+    i2c_init(I2C_PORT, 400 * 1000);
+    gpio_set_function(PIN_I2C_SDA, GPIO_FUNC_I2C);
+    gpio_set_function(PIN_I2C_SCL, GPIO_FUNC_I2C);
+}
+
+// All transfers are blocking calls from the main loop, so here the bus is idle
+// and both lines must read high. The drivers then notice on their own that
+// their chip needs setting up again (dac.c, sense.c, ui.c).
+#define I2C_CHECK_MS 250
+
+void board_i2c_poll(uint32_t now_ms) {
+    static uint32_t next_check_ms;
+    if ((int32_t)(now_ms - next_check_ms) < 0) return;
+    next_check_ms = now_ms + I2C_CHECK_MS;
+    if (gpio_get(PIN_I2C_SDA) && gpio_get(PIN_I2C_SCL)) return;
+    i2c_deinit(I2C_PORT);
+    i2c_start();
+}
+
 static void button_init(uint pin) {
     gpio_init(pin);
     gpio_set_dir(pin, GPIO_IN);
@@ -83,10 +104,7 @@ void board_init(void) {
     button_init(PIN_BTN_MINUS);
     button_init(PIN_BTN_PLUS);
 
-    i2c_bus_recover();
-    i2c_init(I2C_PORT, 400 * 1000);
-    gpio_set_function(PIN_I2C_SDA, GPIO_FUNC_I2C);
-    gpio_set_function(PIN_I2C_SCL, GPIO_FUNC_I2C);
+    i2c_start();
 
     adc_init();
     adc_gpio_init(PIN_AFM_REF_ADC);
@@ -119,7 +137,9 @@ bool board_sensor_from_name(const char *name, sensor_t *out) {
 }
 
 uint32_t board_read_afm_ref_mv(void) {
+    // 16 conversions (2 us each) averaged: ADC_VREF is the unfiltered 3V3 rail.
     adc_select_input(AFM_REF_ADC_INPUT);
-    uint32_t raw = adc_read();
-    return raw * 3300u * AFM_REF_DIVIDER / 4095u;
+    uint32_t sum = 0;
+    for (int i = 0; i < 16; i++) sum += adc_read();
+    return sum * 3300u * AFM_REF_DIVIDER / (4095u * 16u);
 }

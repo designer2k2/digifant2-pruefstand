@@ -104,6 +104,8 @@ void knock_init(void) {
     write_word(WORD_RESET);
 }
 
+unsigned knock_alarm_num(void) { return alarm_num; }
+
 // Brings the chip in line with hz_setpoint, the burst mode and whether the ECU
 // is powered. In burst mode the frequency is loaded but the chip stays in
 // reset until a burst starts.
