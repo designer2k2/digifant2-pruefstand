@@ -69,7 +69,7 @@ and no GPIO is used in a way the RP2350 does not support (V).
 
 ### F03 — Capture inputs have no over-voltage clamp
 
-- [ ] Done
+- [x] Done (code warnings only; rev-B R9/R11 + BAT54S clamp and the scope check are still open hardware work)
 - **Priority:** Critical
 - **Evidence:** V (circuit), A (the ECU's high level on these pins)
 - **Files:** `digifant2_pruefstand.py:314-332` (R8 to R11), `firmware/src/board.c:29-35`

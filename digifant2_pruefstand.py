@@ -312,7 +312,13 @@ def crank_driver(gpio_crank, gnd, ecu_12v, vw_pin18):
 
 
 def edge_capture(vcc_3v3, gpio_ignition, gpio_injector, vw_pin25, vw_pin12):
-    """Ignition/injector edge capture: pull-up to Pico's own 3V3, series ESD guard."""
+    """Ignition/injector edge capture: pull-up to Pico's own 3V3, series ESD guard.
+
+    WARNING (REVIEW F03): there is NO over-voltage clamp here. R9/R11 (330R) are
+    the only protection, and RP2350 pins tolerate 5 V, not 12 V. Never fit a 12 V
+    pull-up on VW-12 / VW-25; scope both pins (high level <= 3.6 V) before any
+    pull-up change. Rev B: R9/R11 -> 10k plus a BAT54S clamp (3V3/GND) per GPIO.
+    Keep R10 (220R to 3V3) -- the injector stage needs the load current."""
     r8 = Component("Device:R", ref="R8", value="10k", footprint="Resistor_SMD:R_0805_2012Metric")
     r9 = Component("Device:R", ref="R9", value="330R", footprint="Resistor_SMD:R_0805_2012Metric")
     # 220R (Rev 1: 1k): the ECU's injector stage only switches cleanly when it sinks

@@ -26,8 +26,11 @@ static void output_init(uint pin, bool level) {
     gpio_set_dir(pin, GPIO_OUT);
 }
 
-// ECU outputs are pulled up externally (10k / 1k); the RP2040's default
-// ~50k pull-down would drag the ignition input's high level to ~2.7 V.
+// ECU outputs are pulled up externally (10k / 220R); the default ~50k
+// pull-down would drag the ignition input's high level to ~2.7 V.
+// WARNING (REVIEW F03): these pins have no over-voltage clamp, only a 330R
+// series resistor, and tolerate 5 V, not 12 V. Never fit a 12 V pull-up on
+// VW-12 / VW-25; scope the pins (<= 3.6 V) before changing any pull-up.
 static void capture_input_init(uint pin) {
     gpio_init(pin);
     gpio_set_dir(pin, GPIO_IN);
