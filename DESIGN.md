@@ -202,13 +202,13 @@ needed to turn that into a real °C value:
    ground, 9 = intake air temperature, 10 = coolant temperature -- exactly
    VW-2/6/9/10 as used throughout this design.
 
-2. **The ECU's internal pull-up resistance** -- still missing confirmation.
+2. **The ECU's internal pull-up resistance** -- **confirmed 2026-11-02: 8.25 kΩ to 5 V**, on both inputs (ohmmeter, ECU unpowered, VW-17 to VW-9 and VW-17 to VW-10 each read 8.25 kΩ; the builder's measurement).
    A vehicle wiring diagram (including the one above) only shows external
    wiring, never what's inside the ECU box, so this genuinely can't come
    from documentation; it needs the bench measurement already described in
-   `BRINGUP.md` stage 6, question 4, which hasn't been run yet. There is now
-   a **candidate value from an old internal schematic of unconfirmed
-   provenance: 8.25 kΩ to 5 V**, with an 18.2 kΩ + 0.22 µF anti-alias filter
+   `BRINGUP.md` stage 6, question 4, which was run on 2026-11-02 (below). It matches a
+   value from an old internal schematic of unconfirmed
+   provenance: **8.25 kΩ to 5 V**, with an 18.2 kΩ + 0.22 µF anti-alias filter
    (τ = 4.0 ms) between that node and an ADC0809CCN channel -- high-impedance
    enough that it doesn't add to the DC loading, so 8.25 kΩ would be the
    whole story if the schematic is right. The bench measurement in
@@ -218,7 +218,7 @@ Even with the curve in hand, nothing is usable as a temperature mapping
 until that second measurement exists -- it's the step in the middle, between
 "pin voltage" and "equivalent sensor resistance."
 
-**If the 8.25 kΩ candidate holds**, R2/R3 (220 Ω) and it form an ordinary
+**With the 8.25 kΩ pull-up confirmed**, R2/R3 (220 Ω) and it form an ordinary
 two-source divider on the VW-9/VW-10 node (the 18.2 kΩ + 0.22 µF stage still
 doesn't enter, same reasoning as above):
 
