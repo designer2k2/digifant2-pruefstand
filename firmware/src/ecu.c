@@ -9,6 +9,8 @@ static uint32_t trip_ma = ECU_TRIP_MA_DEFAULT;
 static bool tripped;
 static uint32_t trip_reading_ma;
 static uint32_t over_count;
+static uint32_t invalid_count;
+static bool sense_lost;
 static uint32_t next_poll_ms;
 
 // Inputs are only driven while the ECU is powered: switch on first, then the
@@ -26,6 +28,7 @@ bool ecu_set_power(bool on) {
     }
     if (tripped) return false;
     over_count = 0;
+    invalid_count = 0;
     board_set_ecu_power(true);
     dac_set_output_enabled(true);
     knock_set_output_enabled(true);
@@ -39,7 +42,16 @@ void ecu_poll(uint32_t now_ms) {
     next_poll_ms = now_ms + ECU_POLL_MS;
 
     ina_reading_t r = sense_read_ecu();
-    if (!r.valid) return;
+    if (!r.valid) {
+        if (++invalid_count >= ECU_SENSE_LOST_SAMPLES) {
+            power_off();
+            tripped = true;
+            sense_lost = true;
+            trip_reading_ma = 0;
+        }
+        return;
+    }
+    invalid_count = 0;
     uint32_t ma = r.current_a > 0 ? (uint32_t)(r.current_a * 1000.0f) : 0;
     if (ma <= trip_ma && !r.full_scale) {
         over_count = 0;
@@ -59,10 +71,13 @@ bool ecu_set_trip_ma(uint32_t ma) {
 
 uint32_t ecu_get_trip_ma(void) { return trip_ma; }
 bool ecu_tripped(void) { return tripped; }
+bool ecu_sense_lost(void) { return sense_lost; }
 uint32_t ecu_trip_reading_ma(void) { return trip_reading_ma; }
 
 void ecu_reset_fault(void) {
     tripped = false;
+    sense_lost = false;
     trip_reading_ma = 0;
     over_count = 0;
+    invalid_count = 0;
 }

@@ -50,7 +50,7 @@ and no GPIO is used in a way the RP2350 does not support (V).
 
 ### F02 — No trip when U1 does not answer
 
-- [ ] Done
+- [x] Done
 - **Priority:** Critical
 - **Evidence:** V
 - **Files:** `firmware/src/ecu.c:41-42`, `firmware/src/ecu.h:9-13`

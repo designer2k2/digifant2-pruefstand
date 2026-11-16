@@ -10,6 +10,7 @@
 
 extern float fake_ecu_current_a;
 extern bool fake_ecu_full_scale;
+extern bool fake_ecu_invalid;
 
 static int failures;
 static bool dac_on, knock_on;
@@ -85,6 +86,20 @@ int main(void) {
     for (int i = 0; i < ECU_TRIP_SAMPLES; i++) ecu_poll(t += ECU_POLL_MS);
     check("full-scale reading trips below the limit", !board_get_ecu_power() && ecu_tripped());
     fake_ecu_full_scale = false;
+
+    // U1 not answering: off after ECU_SENSE_LOST_SAMPLES, latched until reset.
+    ecu_reset_fault();
+    ecu_set_power(true);
+    fake_ecu_invalid = true;
+    for (int i = 0; i < ECU_SENSE_LOST_SAMPLES - 1; i++) ecu_poll(t += ECU_POLL_MS);
+    check("sense lost: still on before the count", board_get_ecu_power());
+    ecu_poll(t += ECU_POLL_MS);
+    check("sense lost: off, latched, outputs parked",
+          !board_get_ecu_power() && ecu_sense_lost() && ecu_tripped() && !dac_on && !knock_on);
+    fake_ecu_invalid = false;
+    check("sense lost: ecu on refused until reset", !ecu_set_power(true));
+    ecu_reset_fault();
+    check("sense lost: reset clears it", !ecu_sense_lost() && ecu_set_power(true));
 
     printf(failures ? "\n%d FAILED\n" : "\nall passed\n", failures);
     return failures ? 1 : 0;

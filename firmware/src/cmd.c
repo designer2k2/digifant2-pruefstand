@@ -101,7 +101,7 @@ static void cmd_status(int argc, char **argv) {
     printf("OK fw=%s boot=%s ecu=%s ecu_fault=%s ecu_trip_ma=%lu idle=%s rpm=%lu crank_ppr=%lu "
            "crank_duty=%lu",
            FW_VERSION, boot_reason, on_off(ecu_get_power()),
-           ecu_tripped() ? "overcurrent" : "none", (unsigned long)ecu_get_trip_ma(),
+           ecu_sense_lost() ? "sense_lost" : ecu_tripped() ? "overcurrent" : "none", (unsigned long)ecu_get_trip_ma(),
            on_off(board_get_idle_switch()),
            (unsigned long)crank_get_rpm(), (unsigned long)crank_get_ppr(),
            (unsigned long)crank_get_duty());

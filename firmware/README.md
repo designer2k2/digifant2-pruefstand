@@ -314,7 +314,7 @@ so a reply that arrives after a timeout isn't mistaken for the next answer.
 |---|---|
 | `ping` | `OK pong fw=0.10.0` |
 | `help` | `OK <usage of every command>` |
-| `status` | `OK fw=… boot=power/watchdog ecu=on/off ecu_fault=none/overcurrent ecu_trip_ma=… idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=… burst=on/off burst_start_deg=… burst_len_deg=… burst_every=…` |
+| `status` | `OK fw=… boot=power/watchdog ecu=on/off ecu_fault=none/overcurrent/sense_lost ecu_trip_ma=… idle=on/off rpm=… crank_ppr=… crank_duty=… sensor_<air/water/lambda>=conn/open dac_<air/water/afm/lambda>=<mV> dac_i2c=ok/err knock_hz=… burst=on/off burst_start_deg=… burst_len_deg=… burst_every=…` |
 | `read` | `OK afm_ref_mv=… ecu_v=… ecu_a=… valve_v=… valve_a=…` (`na` if not available) |
 | `capture` | `OK ign_n=… ign_glitch=… ign_period_us=… ign_low_us=… ign_fall_deg=… ign_rise_deg=… inj_…` (same fields for `inj_`) |
 | `ecu on\|off` | `OK ecu=…`, or `ERR ecu tripped …` while a fault is latched |
