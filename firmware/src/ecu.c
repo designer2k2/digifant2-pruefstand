@@ -41,7 +41,7 @@ void ecu_poll(uint32_t now_ms) {
     ina_reading_t r = sense_read_ecu();
     if (!r.valid) return;
     uint32_t ma = r.current_a > 0 ? (uint32_t)(r.current_a * 1000.0f) : 0;
-    if (ma <= trip_ma) {
+    if (ma <= trip_ma && !r.full_scale) {
         over_count = 0;
         return;
     }
@@ -52,7 +52,7 @@ void ecu_poll(uint32_t now_ms) {
 }
 
 bool ecu_set_trip_ma(uint32_t ma) {
-    if (ma < ECU_TRIP_MA_MIN || ma > ECU_TRIP_MA_MAX) return false;
+    if (ma < ECU_TRIP_MA_MIN || ma > (uint32_t)ECU_TRIP_MA_MAX) return false;
     trip_ma = ma;
     return true;
 }

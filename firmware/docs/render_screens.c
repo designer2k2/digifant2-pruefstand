@@ -64,8 +64,8 @@ int main(int argc, char **argv) {
     out_dir = argc > 1 ? argv[1] : ".";
 
     // 12 V connected, no ECU yet: U1 sees the supply, the switched rail is off.
-    ecu_reading = (ina_reading_t){true, 11.72f, 0.0f};
-    valve_reading = (ina_reading_t){true, 0.0f, 0.0f};
+    ecu_reading = (ina_reading_t){true, 11.72f, 0.0f, false};
+    valve_reading = (ina_reading_t){true, 0.0f, 0.0f, false};
     ui.selected = UI_RPM;
     scene("01_power_up");
 
@@ -73,8 +73,8 @@ int main(int argc, char **argv) {
     scene("02_menu_ecu");
 
     press(+1, 1);
-    ecu_reading = (ina_reading_t){true, 11.63f, 0.412f};
-    valve_reading = (ina_reading_t){true, 11.61f, 0.0f};
+    ecu_reading = (ina_reading_t){true, 11.63f, 0.412f, false};
+    valve_reading = (ina_reading_t){true, 11.61f, 0.0f, false};
     scene("03_ecu_on");
 
     // Warm idle: sensors set, crank at 850 rpm, ECU firing.
@@ -84,8 +84,8 @@ int main(int argc, char **argv) {
     dac_set_mv(DAC_LAMBDA, 450);
     menu_to(UI_RPM);
     press(+1, 17);
-    ecu_reading = (ina_reading_t){true, 11.58f, 0.468f};
-    valve_reading = (ina_reading_t){true, 11.55f, 0.874f};
+    ecu_reading = (ina_reading_t){true, 11.58f, 0.468f, false};
+    valve_reading = (ina_reading_t){true, 11.55f, 0.874f, false};
     cap[CAP_IGN] = (cap_result_t){.valid = true, .count = 512, .period_us = 35294,
                                   .low_us = 3920, .have_angle = true,
                                   .fall_deg = 138.0f, .rise_deg = 158.0f};
@@ -108,10 +108,10 @@ int main(int argc, char **argv) {
 
     // Over-current trip.
     menu_to(UI_ECU);
-    ecu_reading = (ina_reading_t){true, 11.40f, 3.1f};
+    ecu_reading = (ina_reading_t){true, 11.40f, 3.1f, false};
     for (uint32_t t = 1; t <= ECU_TRIP_SAMPLES; t++) ecu_poll(t * ECU_POLL_MS);
-    ecu_reading = (ina_reading_t){true, 11.73f, 0.0f};
-    valve_reading = (ina_reading_t){true, 0.0f, 0.0f};
+    ecu_reading = (ina_reading_t){true, 11.73f, 0.0f, false};
+    valve_reading = (ina_reading_t){true, 0.0f, 0.0f, false};
     cap[CAP_IGN] = (cap_result_t){0};
     cap[CAP_INJ] = (cap_result_t){0};
     scene("07_trip");
@@ -121,8 +121,8 @@ int main(int argc, char **argv) {
     press(+1, 1);
     menu_to(UI_RPM);
     press(-1, 17);
-    ecu_reading = (ina_reading_t){true, 11.60f, 0.431f};
-    valve_reading = (ina_reading_t){false, 0, 0};
+    ecu_reading = (ina_reading_t){true, 11.60f, 0.431f, false};
+    valve_reading = (ina_reading_t){false, 0, 0, false};
     cap[CAP_IGN] = (cap_result_t){.valid = true, .count = 3, .low_us = 3920};
     cap[CAP_INJ] = (cap_result_t){.valid = true, .count = 1, .low_us = 6100};
     scene("08_crank_stopped");

@@ -3,10 +3,22 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+// RS1 is 0.020 R, but U1's IN- sense trace taps the 0.6 mm power trace ~29 mm
+// downstream of the shunt instead of its pad, so U1 also sees part of that
+// trace's IR drop. Measured 2026-10-29: 7.32 mV across RS1 (0.366 A), BM869S in
+// the + lead 0.367 A, U1 read 0.542 A -> 0.0296 R effective. Single point, not
+// yet checked for linearity; remove once the layout is fixed (DESIGN.md).
+#define RS1_EFFECTIVE_OHM 0.0296f
+
+// INA226 shunt input range is +-81.92 mV; at/above this raw count the reading
+// is clamped at full scale and the real current may be higher.
+#define INA226_SHUNT_FULL_SCALE_RAW 0x7F00
+
 typedef struct {
     bool valid;
     float bus_v;
     float current_a;
+    bool full_scale;  // shunt input at or near its limit: current_a is a lower bound
 } ina_reading_t;
 
 void sense_init(void);

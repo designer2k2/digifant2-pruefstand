@@ -9,6 +9,7 @@
 #include "knock.h"
 
 extern float fake_ecu_current_a;
+extern bool fake_ecu_full_scale;
 
 static int failures;
 static bool dac_on, knock_on;
@@ -29,10 +30,12 @@ void knock_set_output_enabled(bool e) {
 }
 
 int main(void) {
-    check("default trip 2500 mA", ecu_get_trip_ma() == ECU_TRIP_MA_DEFAULT);
-    check("trip limits 100..4000 mA",
-          !ecu_set_trip_ma(99) && !ecu_set_trip_ma(4001) && ecu_set_trip_ma(4000) &&
-              ecu_set_trip_ma(ECU_TRIP_MA_DEFAULT));
+    check("default trip within the derived maximum",
+          ecu_get_trip_ma() == ECU_TRIP_MA_DEFAULT && ECU_TRIP_MA_DEFAULT <= ECU_TRIP_MA_MAX);
+    check("derived maximum is ~2490 mA", ECU_TRIP_MA_MAX == 2490);
+    check("trip limits 100..derived max; 3000 refused",
+          !ecu_set_trip_ma(99) && !ecu_set_trip_ma(ECU_TRIP_MA_MAX + 1) && !ecu_set_trip_ma(3000) &&
+              ecu_set_trip_ma(ECU_TRIP_MA_MAX) && ecu_set_trip_ma(ECU_TRIP_MA_DEFAULT));
 
     check("ecu on", ecu_set_power(true) && board_get_ecu_power());
     check("on: DAC and knock outputs released, only after the rail is up",
@@ -72,6 +75,16 @@ int main(void) {
     fake_ecu_current_a = 3.0f;
     for (int i = 0; i < 5; i++) ecu_poll(t += ECU_POLL_MS);
     check("no trip while the ECU is off", !ecu_tripped());
+
+    // Full-scale shunt reading trips even though the clamped current is below the limit.
+    ecu_reset_fault();
+    ecu_set_trip_ma(ECU_TRIP_MA_MAX);
+    ecu_set_power(true);
+    fake_ecu_current_a = 2.0f;
+    fake_ecu_full_scale = true;
+    for (int i = 0; i < ECU_TRIP_SAMPLES; i++) ecu_poll(t += ECU_POLL_MS);
+    check("full-scale reading trips below the limit", !board_get_ecu_power() && ecu_tripped());
+    fake_ecu_full_scale = false;
 
     printf(failures ? "\n%d FAILED\n" : "\nall passed\n", failures);
     return failures ? 1 : 0;

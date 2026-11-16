@@ -219,7 +219,7 @@ decimal. The most used ones:
 | `status` | All settings in one line. |
 | `read` | ECU and valve current/voltage, VW-17 reference. |
 | `capture` | Ignition and injector pulse timing and angles. |
-| `ecu on` / `ecu off` / `ecu reset` / `ecu trip <mA>` | ECU power, trip acknowledge, trip current (100–4000 mA). |
+| `ecu on` / `ecu off` / `ecu reset` / `ecu trip <mA>` | ECU power, trip acknowledge, trip current (100–2490 mA). |
 | `rpm <0..8000>` | Engine speed; 0 stops the crank signal. |
 | `crank ppr <n>` / `crank duty <pct>` | Hall pulses per crank revolution (default 2) and % high (default 50). |
 | `dac air\|water\|afm\|lambda <mV>` | Sensor voltages. |

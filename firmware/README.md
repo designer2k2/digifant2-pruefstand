@@ -63,7 +63,7 @@ every 150 ms (one new INA226 result each time); two results in a row above the
 trip current switch the ECU off and latch a fault: `status` shows
 `ecu_fault=overcurrent`, `ecu on` is refused, and the OLED shows `ECU TRIP`
 until `ecu reset` (or − on the ECU menu item). `ecu trip <mA>` sets the limit,
-100–4000 mA, default **2500 mA** (ECU ~0.6 A plus a cold idle valve ~1.8 A,
+100–2490 mA (derived from U1's range), default **2400 mA** (ECU ~0.6 A plus a cold idle valve ~1.8 A,
 below F1's 3 A).
 
 U1 averages over ~141 ms, so this catches a harness short or a failing ECU
@@ -318,7 +318,7 @@ so a reply that arrives after a timeout isn't mistaken for the next answer.
 | `read` | `OK afm_ref_mv=… ecu_v=… ecu_a=… valve_v=… valve_a=…` (`na` if not available) |
 | `capture` | `OK ign_n=… ign_glitch=… ign_period_us=… ign_low_us=… ign_fall_deg=… ign_rise_deg=… inj_…` (same fields for `inj_`) |
 | `ecu on\|off` | `OK ecu=…`, or `ERR ecu tripped …` while a fault is latched |
-| `ecu reset` / `ecu trip <100..4000 mA>` | `OK ecu_fault=none` / `OK ecu_trip_ma=…` |
+| `ecu reset` / `ecu trip <100..2490 mA>` | `OK ecu_fault=none` / `OK ecu_trip_ma=…` |
 | `idle on\|off` | `OK idle=…` |
 | `sensor air\|water\|lambda conn\|open` | `OK sensor_<name>=…` |
 | `rpm <0..8000>` | `OK rpm=…` (very low rpm at 1 ppr and extreme duty can exceed the 32-bit phase counter and is rejected) |

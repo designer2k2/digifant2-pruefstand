@@ -67,7 +67,7 @@ gcc "${CFLAGS[@]}" -o "$OUT/bench-sim" test/host_main.c "${SIM[@]}" "${FAKES[@]}
 expected='OK ecu=on
 OK rpm=850
 ERR rpm must be 0..8000
-OK ecu_trip_ma=3000
+ERR trip must be 100..2490 mA
 ERR unknown command '"'"'bogus'"'"', try help
 OK wave_lambda=lam t0_us=0
 ERR freq must be 0.05..10 Hz

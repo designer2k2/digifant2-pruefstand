@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "sense.h"
+
 // ECU power with an over-current trip on U1 (DESIGN.md "ecu_power_switch").
 // Everything that switches the ECU goes through here, never board.c directly.
 //
@@ -11,9 +13,11 @@
 // ~141 ms, so this protects against a harness short or a failing ECU, not
 // short spikes (F1 still covers those). If U1 isn't answering there is no
 // trip; `read` then shows ecu_a=na.
-#define ECU_TRIP_MA_DEFAULT 2500  // ECU ~0.6 A + cold idle valve ~1.8 A, under F1's 3 A
+// A shunt reading at or near U1's full scale trips regardless of the limit.
+#define ECU_TRIP_MA_DEFAULT 2400  // ECU ~0.6 A + cold idle valve ~1.8 A, under F1's 3 A
 #define ECU_TRIP_MA_MIN 100
-#define ECU_TRIP_MA_MAX 4000      // U1's range is 4.09 A
+// 90 % of U1's +-81.92 mV range across the effective shunt (81.92 mV / ohm = mA), ~2490
+#define ECU_TRIP_MA_MAX ((int)(81.92f / RS1_EFFECTIVE_OHM * 0.9f))
 #define ECU_POLL_MS 150           // one new U1 result per poll
 #define ECU_TRIP_SAMPLES 2
 
